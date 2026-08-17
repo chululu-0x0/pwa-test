@@ -49,14 +49,13 @@
     );
 
 
-    /* ========================================
+    /* ================================
        基本
-    ======================================== */
+    ================================ */
 
     * {
       box-sizing: border-box;
     }
-
 
     html,
     body {
@@ -65,7 +64,6 @@
 
       background: #f6cbd8;
     }
-
 
     body {
       color: #51464a;
@@ -84,7 +82,6 @@
       -webkit-touch-callout: none;
     }
 
-
     input,
     textarea {
       -webkit-user-select: text;
@@ -92,7 +89,6 @@
 
       -webkit-touch-callout: default;
     }
-
 
     button,
     input {
@@ -102,7 +98,6 @@
         BlinkMacSystemFont,
         sans-serif;
     }
-
 
     button {
       -webkit-tap-highlight-color: transparent;
@@ -114,7 +109,6 @@
 
       touch-action: manipulation;
     }
-
 
     .app {
       width: 100%;
@@ -135,15 +129,13 @@
     }
 
 
-
-    /* ========================================
+    /* ================================
        ヘッダー
-    ======================================== */
+    ================================ */
 
     header {
       padding-bottom: 20px;
     }
-
 
     .app-title {
       color: white;
@@ -160,7 +152,6 @@
       opacity: 0.88;
     }
 
-
     .big-date {
       margin-top: 5px;
 
@@ -171,7 +162,6 @@
 
       line-height: 1.25;
     }
-
 
     .date-sub {
       margin-top: 3px;
@@ -189,10 +179,77 @@
     }
 
 
+    /* ================================
+       バッジ許可
+    ================================ */
 
-    /* ========================================
+    .badge-permission {
+      margin-top: 16px;
+
+      padding:
+        11px 12px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.29
+        );
+
+      border-radius: 16px;
+
+      color: white;
+    }
+
+    .badge-permission[hidden] {
+      display: none;
+    }
+
+    .badge-permission-button {
+      width: 100%;
+
+      border: none;
+      border-radius: 999px;
+
+      padding:
+        10px 12px;
+
+      background: white;
+      color: #d46f8d;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      transition:
+        transform 0.15s ease;
+    }
+
+    .badge-permission-button:active {
+      transform: scale(0.96);
+    }
+
+    .badge-permission-text {
+      margin-top: 7px;
+
+      text-align: center;
+
+      font-size: 10px;
+      line-height: 1.5;
+
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          0.91
+        );
+    }
+
+
+    /* ================================
        固定タブ
-    ======================================== */
+    ================================ */
 
     .tabs-sticky {
       position: sticky;
@@ -226,7 +283,6 @@
         blur(14px);
     }
 
-
     .tabs {
       display: grid;
 
@@ -237,14 +293,14 @@
       gap: 6px;
     }
 
-
     .tab-button {
       min-width: 0;
 
       border: none;
       border-radius: 999px;
 
-      padding: 10px 5px;
+      padding:
+        10px 5px;
 
       background:
         rgba(
@@ -265,7 +321,6 @@
         color 0.2s ease;
     }
 
-
     .tab-button.active {
       background: white;
       color: #d67391;
@@ -280,11 +335,9 @@
         );
     }
 
-
     .tab-button:active {
       transform: scale(0.93);
     }
-
 
     .tab-add-button {
       width: 44px;
@@ -313,16 +366,14 @@
         transform 0.15s ease;
     }
 
-
     .tab-add-button:active {
       transform: scale(0.86);
     }
 
 
-
-    /* ========================================
+    /* ================================
        習慣一覧
-    ======================================== */
+    ================================ */
 
     .habit-list {
       display: flex;
@@ -332,7 +383,6 @@
 
       min-height: 100px;
     }
-
 
     .empty {
       padding: 50px 20px;
@@ -352,10 +402,9 @@
     }
 
 
-
-    /* ========================================
-       習慣カード
-    ======================================== */
+    /* ================================
+       カード
+    ================================ */
 
     .habit-card {
       position: relative;
@@ -378,7 +427,6 @@
         );
     }
 
-
     .habit-card.new-card {
       animation:
         cardDrop
@@ -390,7 +438,6 @@
           1
         );
     }
-
 
     @keyframes cardDrop {
 
@@ -423,13 +470,11 @@
       }
     }
 
-
     .habit-card.completed-pop {
       animation:
         completedPop
         0.45s ease;
     }
-
 
     @keyframes completedPop {
 
@@ -451,10 +496,9 @@
     }
 
 
-
-    /* ========================================
+    /* ================================
        カード上部
-    ======================================== */
+    ================================ */
 
     .habit-top {
       display: flex;
@@ -462,12 +506,6 @@
 
       gap: 9px;
     }
-
-
-
-    /* ========================================
-       並び替えハンドル
-    ======================================== */
 
     .drag-handle {
       width: 33px;
@@ -497,12 +535,6 @@
       -webkit-touch-callout: none;
     }
 
-
-
-    /* ========================================
-       アイコン
-    ======================================== */
-
     .habit-icon-button {
       width: 46px;
       height: 46px;
@@ -526,22 +558,14 @@
         transform 0.15s ease;
     }
 
-
     .habit-icon-button:active {
       transform: scale(0.88);
     }
-
-
-
-    /* ========================================
-       タイトル
-    ======================================== */
 
     .habit-title-area {
       min-width: 0;
       flex: 1;
     }
-
 
     .habit-name {
       font-size: 18px;
@@ -549,7 +573,6 @@
 
       word-break: break-word;
     }
-
 
     .habit-category {
       margin-top: 2px;
@@ -565,10 +588,9 @@
     }
 
 
-
-    /* ========================================
+    /* ================================
        TODAY
-    ======================================== */
+    ================================ */
 
     .today-badge {
       flex-shrink: 0;
@@ -599,7 +621,6 @@
         transform 0.2s ease;
     }
 
-
     .today-badge.visible {
       opacity: 1;
       visibility: visible;
@@ -610,7 +631,6 @@
 
       touch-action: none;
     }
-
 
     .today-badge.today-pop {
       animation:
@@ -623,7 +643,6 @@
           1
         );
     }
-
 
     @keyframes todayPicon {
 
@@ -658,14 +677,12 @@
       }
     }
 
-
     .today-badge.clearing {
       animation:
         todayClear
         0.24s ease
         forwards;
     }
-
 
     @keyframes todayClear {
 
@@ -688,10 +705,9 @@
     }
 
 
-
-    /* ========================================
+    /* ================================
        進捗
-    ======================================== */
+    ================================ */
 
     .progress-info {
       margin-top: 15px;
@@ -700,7 +716,6 @@
       justify-content: space-between;
       align-items: center;
     }
-
 
     .done {
       color: #d97796;
@@ -718,11 +733,9 @@
         opacity 0.25s ease;
     }
 
-
     .done.visible {
       opacity: 1;
     }
-
 
     .count {
       color: #8d7f84;
@@ -734,7 +747,6 @@
       font-size: 13px;
       font-weight: 700;
     }
-
 
     .progress-bg {
       width: 100%;
@@ -748,7 +760,6 @@
 
       border-radius: 999px;
     }
-
 
     .progress-bar {
       width: 0;
@@ -775,10 +786,9 @@
     }
 
 
-
-    /* ========================================
+    /* ================================
        ＋ −
-    ======================================== */
+    ================================ */
 
     .habit-actions {
       margin-top: 13px;
@@ -788,7 +798,6 @@
 
       gap: 8px;
     }
-
 
     .round-button {
       width: 44px;
@@ -810,24 +819,20 @@
       font-weight: 700;
     }
 
-
     .round-button.plus {
       background: #ee9fb6;
       color: white;
     }
 
-
     .round-button:active {
       transform: scale(0.82);
     }
-
 
     .round-button.button-pop {
       animation:
         buttonPop
         0.32s ease;
     }
-
 
     @keyframes buttonPop {
 
@@ -849,10 +854,9 @@
     }
 
 
-
-    /* ========================================
+    /* ================================
        並び替え
-    ======================================== */
+    ================================ */
 
     .drag-placeholder {
       flex-shrink: 0;
@@ -876,7 +880,6 @@
           0.47
         );
     }
-
 
     .habit-card.dragging {
       position: fixed;
@@ -903,7 +906,6 @@
       transition: none;
     }
 
-
     .habit-card.landing {
       animation:
         dragLanding
@@ -915,7 +917,6 @@
           1
         );
     }
-
 
     @keyframes dragLanding {
 
@@ -937,10 +938,9 @@
     }
 
 
-
-    /* ========================================
-       共通オーバーレイ
-    ======================================== */
+    /* ================================
+       オーバーレイ
+    ================================ */
 
     .sheet-overlay {
       position: fixed;
@@ -983,17 +983,15 @@
         visibility 0.24s ease;
     }
 
-
     .sheet-overlay.open {
       opacity: 1;
       visibility: visible;
     }
 
 
-
-    /* ========================================
+    /* ================================
        編集パネル
-    ======================================== */
+    ================================ */
 
     .editor-sheet {
       width: 100%;
@@ -1041,14 +1039,12 @@
         );
     }
 
-
     .sheet-overlay.open
     .editor-sheet {
       transform:
         translateY(0)
         scale(1);
     }
-
 
     .sheet-handle {
       width: 42px;
@@ -1063,7 +1059,6 @@
       background: #eadde1;
     }
 
-
     .editor-header {
       display: flex;
       justify-content: space-between;
@@ -1074,14 +1069,12 @@
       margin-bottom: 16px;
     }
 
-
     .editor-title {
       margin: 0;
 
       font-size: 21px;
       font-weight: 700;
     }
-
 
     .editor-close {
       width: 36px;
@@ -1095,7 +1088,6 @@
 
       font-size: 18px;
     }
-
 
     .field-label {
       display: block;
@@ -1113,7 +1105,6 @@
       font-size: 11px;
       font-weight: 700;
     }
-
 
     #editorHabitName {
       width: 100%;
@@ -1133,10 +1124,9 @@
     }
 
 
-
-    /* ========================================
-       アイコン選択
-    ======================================== */
+    /* ================================
+       アイコン
+    ================================ */
 
     .icon-grid {
       display: grid;
@@ -1146,7 +1136,6 @@
 
       gap: 7px;
     }
-
 
     .icon-choice {
       aspect-ratio: 1;
@@ -1167,7 +1156,6 @@
         border-color 0.15s ease;
     }
 
-
     .icon-choice.selected {
       background: white;
 
@@ -1177,10 +1165,9 @@
     }
 
 
-
-    /* ========================================
+    /* ================================
        カテゴリー
-    ======================================== */
+    ================================ */
 
     .category-choice {
       display: grid;
@@ -1190,7 +1177,6 @@
 
       gap: 7px;
     }
-
 
     .category-button,
     .reset-option {
@@ -1212,7 +1198,6 @@
         color 0.15s ease;
     }
 
-
     .category-button.selected,
     .reset-option.selected {
       background: #f5bfd0;
@@ -1220,10 +1205,9 @@
     }
 
 
-
-    /* ========================================
+    /* ================================
        目標回数
-    ======================================== */
+    ================================ */
 
     .goal-picker-button {
       width: 100%;
@@ -1245,19 +1229,12 @@
       font-weight: 700;
     }
 
-
     .goal-picker-value {
       color: #d77492;
 
       font-size: 18px;
       font-weight: 800;
     }
-
-
-
-    /* ========================================
-       バーリセット
-    ======================================== */
 
     .reset-selector {
       display: grid;
@@ -1269,10 +1246,9 @@
     }
 
 
-
-    /* ========================================
-       保存・削除
-    ======================================== */
+    /* ================================
+       保存 / 削除
+    ================================ */
 
     .editor-save-button {
       width: 100%;
@@ -1294,11 +1270,9 @@
         transform 0.15s ease;
     }
 
-
     .editor-save-button:active {
       transform: scale(0.96);
     }
-
 
     .editor-delete-button {
       width: 100%;
@@ -1316,21 +1290,18 @@
       font-weight: 700;
     }
 
-
     .editor-delete-button.hidden {
       display: none;
     }
 
 
-
-    /* ========================================
-       回数ルーレット
-    ======================================== */
+    /* ================================
+       ルーレット
+    ================================ */
 
     #goalPickerOverlay {
       z-index: 1300;
     }
-
 
     .picker-sheet {
       width: 100%;
@@ -1365,14 +1336,12 @@
         );
     }
 
-
     .sheet-overlay.open
     .picker-sheet {
       transform:
         translateY(0)
         scale(1);
     }
-
 
     .picker-header {
       display: flex;
@@ -1381,7 +1350,6 @@
 
       margin-bottom: 8px;
     }
-
 
     .picker-header button {
       border: none;
@@ -1395,17 +1363,14 @@
       font-weight: 800;
     }
 
-
     .picker-header button.cancel {
       color: #aa9ba0;
     }
-
 
     .picker-title {
       font-size: 14px;
       font-weight: 800;
     }
-
 
     .wheel-container {
       position: relative;
@@ -1425,7 +1390,6 @@
           #fff7f9
         );
     }
-
 
     .picker-wheel {
       height: 260px;
@@ -1447,11 +1411,9 @@
       touch-action: pan-y;
     }
 
-
     .picker-wheel::-webkit-scrollbar {
       display: none;
     }
-
 
     .wheel-item {
       height: 52px;
@@ -1475,7 +1437,6 @@
         opacity 0.18s;
     }
 
-
     .wheel-item.selected {
       color: #dc7896;
 
@@ -1486,7 +1447,6 @@
 
       transform: scale(1.08);
     }
-
 
     .wheel-highlight {
       position: absolute;
@@ -1514,7 +1474,6 @@
           0.12
         );
     }
-
 
     .wheel-unit {
       position: absolute;
@@ -1545,9 +1504,9 @@
 
 <main class="app">
 
-  <!-- ========================================
+  <!-- ================================
        ヘッダー
-  ======================================== -->
+  ================================= -->
 
   <header>
 
@@ -1565,12 +1524,38 @@
       id="dateSub"
     ></div>
 
+
+    <!-- バッジ許可 -->
+
+    <div
+      class="badge-permission"
+      id="badgePermissionPanel"
+      hidden
+    >
+
+      <button
+        class="badge-permission-button"
+        id="badgePermissionButton"
+        onclick="requestBadgePermission()"
+      >
+        🔔 ホーム画面バッジを有効にする
+      </button>
+
+      <div
+        class="badge-permission-text"
+        id="badgePermissionText"
+      >
+        アイコンの数字に、今日まだできていない習慣数を表示します。
+      </div>
+
+    </div>
+
   </header>
 
 
-  <!-- ========================================
+  <!-- ================================
        タブ
-  ======================================== -->
+  ================================= -->
 
   <div class="tabs-sticky">
 
@@ -1621,9 +1606,9 @@
   </div>
 
 
-  <!-- ========================================
+  <!-- ================================
        習慣一覧
-  ======================================== -->
+  ================================= -->
 
   <section
     class="habit-list"
@@ -1633,9 +1618,9 @@
 </main>
 
 
-<!-- ==========================================
+<!-- ==================================
      習慣追加・編集
-========================================== -->
+=================================== -->
 
 <div
   class="sheet-overlay"
@@ -1802,9 +1787,9 @@
 </div>
 
 
-<!-- ==========================================
+<!-- ==================================
      回数ルーレット
-========================================== -->
+=================================== -->
 
 <div
   class="sheet-overlay"
@@ -1860,34 +1845,21 @@
 
 <script>
 
-  /* ========================================
+  /* ================================
      基本
-  ======================================== */
+  ================================ */
 
   const STORAGE_KEY =
     "habitTrackerData";
 
-
   const MAX_GOAL =
     30;
-
 
   const WHEEL_ITEM_HEIGHT =
     52;
 
-
-  /*
-    並び替え設定
-
-    25%重なったら交換確定。
-
-    交換直後に逆方向へ
-    少し指が揺れただけでは戻さない。
-  */
-
   const SWAP_OVERLAP_RATIO =
     0.25;
-
 
   const REVERSE_UNLOCK_DISTANCE =
     46;
@@ -1918,10 +1890,8 @@
   let currentTab =
     "all";
 
-
   let newHabitId =
     null;
-
 
   let todayPopId =
     null;
@@ -1932,18 +1902,14 @@
   let editingHabitId =
     null;
 
-
   let editorIcon =
     "🌷";
-
 
   let editorCategory =
     "daily";
 
-
   let editorGoal =
     1;
-
 
   let editorBarReset =
     "four";
@@ -1953,7 +1919,6 @@
 
   let pendingGoal =
     1;
-
 
   let wheelFrame =
     null;
@@ -1965,17 +1930,14 @@
     null;
 
 
-
-  /* ========================================
+  /* ================================
      データ
-  ======================================== */
+  ================================ */
 
   function createInitialData() {
 
     return {
-
       habits: []
-
     };
   }
 
@@ -1983,7 +1945,6 @@
   function loadData() {
 
     const saved =
-
       localStorage.getItem(
         STORAGE_KEY
       );
@@ -1998,18 +1959,15 @@
     try {
 
       const parsed =
-
         JSON.parse(
           saved
         );
 
 
       if (
-
         !Array.isArray(
           parsed.habits
         )
-
       ) {
 
         return createInitialData();
@@ -2044,25 +2002,19 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      ID
-  ======================================== */
+  ================================ */
 
   function createId() {
 
     if (
-
       window.crypto
-
       &&
-
       crypto.randomUUID
-
     ) {
 
       return crypto.randomUUID();
-
     }
 
 
@@ -2080,10 +2032,9 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      日付
-  ======================================== */
+  ================================ */
 
   function renderDate() {
 
@@ -2102,13 +2053,8 @@
           "ja-JP",
 
           {
-
-            month:
-              "long",
-
-            day:
-              "numeric"
-
+            month: "long",
+            day: "numeric"
           }
 
         );
@@ -2125,23 +2071,17 @@
           "ja-JP",
 
           {
-
-            year:
-              "numeric",
-
-            weekday:
-              "long"
-
+            year: "numeric",
+            weekday: "long"
           }
 
         );
   }
 
 
-
-  /* ========================================
+  /* ================================
      日付境界
-  ======================================== */
+  ================================ */
 
   function getPeriodKey(
     resetHour
@@ -2213,15 +2153,10 @@
 
 
     start.setHours(
-
       resetHour,
-
       0,
-
       0,
-
       0
-
     );
 
 
@@ -2230,11 +2165,7 @@
     ) {
 
       start.setDate(
-
-        start.getDate()
-        -
-        1
-
+        start.getDate() - 1
       );
     }
 
@@ -2243,13 +2174,12 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      TODAY
 
      日常・創作 → 0:00
      ゲーム   → 4:00
-  ======================================== */
+  ================================ */
 
   function getTodayResetHour(
     habit
@@ -2301,10 +2231,247 @@
   }
 
 
+  /* ==================================
+     ホーム画面バッジ
+  ================================== */
 
-  /* ========================================
+  /*
+    TODAYがまだ付いていない
+    習慣の総数
+  */
+
+  function getRemainingTodayCount() {
+
+    return data.habits.filter(
+      habit =>
+        !isDoneToday(
+          habit
+        )
+    ).length;
+  }
+
+
+  /*
+    iPhoneホーム画面の
+    アイコンバッジを更新
+  */
+
+  async function updateAppBadge() {
+
+    if (
+      !(
+        "setAppBadge"
+        in navigator
+      )
+    ) {
+
+      return;
+    }
+
+
+    const remaining =
+      getRemainingTodayCount();
+
+
+    try {
+
+      if (
+        remaining > 0
+      ) {
+
+        await navigator
+          .setAppBadge(
+            remaining
+          );
+
+      } else {
+
+        if (
+          "clearAppBadge"
+          in navigator
+        ) {
+
+          await navigator
+            .clearAppBadge();
+
+        } else {
+
+          await navigator
+            .setAppBadge(
+              0
+            );
+        }
+      }
+
+    } catch (error) {
+
+      console.log(
+        "Badge:",
+        error
+      );
+    }
+  }
+
+
+  /*
+    バッジ許可欄の表示
+  */
+
+  function refreshBadgePermissionUI() {
+
+    const panel =
+      document.getElementById(
+        "badgePermissionPanel"
+      );
+
+
+    const button =
+      document.getElementById(
+        "badgePermissionButton"
+      );
+
+
+    const text =
+      document.getElementById(
+        "badgePermissionText"
+      );
+
+
+    /*
+      通常Safariなど
+      Badging API非対応なら
+      何も表示しない
+    */
+
+    if (
+      !(
+        "setAppBadge"
+        in navigator
+      )
+      ||
+      !(
+        "Notification"
+        in window
+      )
+    ) {
+
+      panel.hidden =
+        true;
+
+      return;
+    }
+
+
+    /*
+      許可済みなら
+      ボタン自体が不要
+    */
+
+    if (
+      Notification.permission
+      === "granted"
+    ) {
+
+      panel.hidden =
+        true;
+
+      return;
+    }
+
+
+    panel.hidden =
+      false;
+
+
+    /*
+      一度拒否されている場合
+    */
+
+    if (
+      Notification.permission
+      === "denied"
+    ) {
+
+      button.hidden =
+        true;
+
+
+      text.textContent =
+        "バッジを使うには、iPhoneの設定からHABITSの通知を許可してね。";
+
+
+      return;
+    }
+
+
+    /*
+      まだ未選択
+    */
+
+    button.hidden =
+      false;
+
+
+    text.textContent =
+      "アイコンの数字に、今日まだできていない習慣数を表示します。";
+  }
+
+
+  /*
+    ユーザーがボタンを押した時だけ
+    通知許可を要求
+  */
+
+  async function requestBadgePermission() {
+
+    if (
+      !(
+        "Notification"
+        in window
+      )
+      ||
+      !(
+        "setAppBadge"
+        in navigator
+      )
+    ) {
+
+      return;
+    }
+
+
+    try {
+
+      const permission =
+
+        await Notification
+          .requestPermission();
+
+
+      refreshBadgePermissionUI();
+
+
+      if (
+        permission
+        === "granted"
+      ) {
+
+        await updateAppBadge();
+      }
+
+    } catch (error) {
+
+      console.log(
+        "Notification permission:",
+        error
+      );
+    }
+  }
+
+
+  /* ================================
      バーリセット
-  ======================================== */
+  ================================ */
 
   function getBarPeriodKey(
     habit
@@ -2345,7 +2512,6 @@
     data.habits.forEach(
       habit => {
 
-
         if (
           habit.barReset
           === "none"
@@ -2369,10 +2535,8 @@
           habit.barResetKey =
             currentKey;
 
-
           changed =
             true;
-
 
           return;
         }
@@ -2411,17 +2575,17 @@
   }
 
 
-
-  /* ========================================
-     カテゴリー
-  ======================================== */
+  /* ================================
+     カテゴリー名
+  ================================ */
 
   function getCategoryName(
     category
   ) {
 
     if (
-      category === "creative"
+      category
+      === "creative"
     ) {
 
       return "創作";
@@ -2429,7 +2593,8 @@
 
 
     if (
-      category === "game"
+      category
+      === "game"
     ) {
 
       return "ゲーム";
@@ -2440,10 +2605,9 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      タブ
-  ======================================== */
+  ================================ */
 
   function changeTab(
     tab
@@ -2488,10 +2652,9 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      描画
-  ======================================== */
+  ================================ */
 
   function render(
     progressAnimation = null
@@ -2508,6 +2671,10 @@
     checkBarResets();
 
     renderDate();
+
+    refreshBadgePermissionUI();
+
+    updateAppBadge();
 
 
     const list =
@@ -2526,9 +2693,9 @@
       data.habits.filter(
         habit => {
 
-
           if (
-            currentTab === "all"
+            currentTab
+            === "all"
           ) {
 
             return true;
@@ -2536,10 +2703,8 @@
 
 
           return (
-
             habit.category
             === currentTab
-
           );
 
         }
@@ -2547,7 +2712,8 @@
 
 
     if (
-      visibleHabits.length === 0
+      visibleHabits.length
+      === 0
     ) {
 
       list.innerHTML =
@@ -2569,7 +2735,6 @@
 
     visibleHabits.forEach(
       habit => {
-
 
         const percent =
 
@@ -2604,14 +2769,10 @@
 
 
         if (
-
           progressAnimation
-
           &&
-
           progressAnimation.id
           === habit.id
-
         ) {
 
           initialPercent =
@@ -2635,7 +2796,8 @@
 
 
         if (
-          habit.id === newHabitId
+          habit.id
+          === newHabitId
         ) {
 
           card.classList
@@ -2703,7 +2865,8 @@
                   : ""
                 }
                 ${
-                  todayPopId === habit.id
+                  todayPopId
+                  === habit.id
                   ? "today-pop"
                   : ""
                 }
@@ -2797,25 +2960,23 @@
 
 
         setupTodayLongPress(
-
           card,
-
           habit.id
-
         );
 
 
         setupLongPressDrag(
-
           card,
-
           habit.id
-
         );
 
       }
     );
 
+
+    /*
+      バーアニメーション
+    */
 
     if (
       progressAnimation
@@ -2843,9 +3004,7 @@
                 bar.style.width =
 
                   progressAnimation.to
-
                   +
-
                   "%";
               }
 
@@ -2856,6 +3015,10 @@
       );
     }
 
+
+    /*
+      新規カード
+    */
 
     if (
       newHabitId
@@ -2869,7 +3032,8 @@
         () => {
 
           if (
-            newHabitId === id
+            newHabitId
+            === id
           ) {
 
             newHabitId =
@@ -2881,6 +3045,10 @@
       );
     }
 
+
+    /*
+      TODAYピコン
+    */
 
     if (
       todayPopId
@@ -2894,7 +3062,8 @@
         () => {
 
           if (
-            todayPopId === id
+            todayPopId
+            === id
           ) {
 
             todayPopId =
@@ -2909,10 +3078,9 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      ＋
-  ======================================== */
+  ================================ */
 
   function increaseHabit(
     id,
@@ -2928,7 +3096,8 @@
 
       data.habits.find(
         item =>
-          item.id === id
+          item.id
+          === id
       );
 
 
@@ -2976,7 +3145,8 @@
 
 
     if (
-      habit.barReset !== "none"
+      habit.barReset
+      !== "none"
     ) {
 
       habit.barResetKey =
@@ -3020,6 +3190,14 @@
     saveData();
 
 
+    /*
+      TODAY残数が減ったので
+      バッジも即更新
+    */
+
+    updateAppBadge();
+
+
     setTimeout(
       () => {
 
@@ -3038,13 +3216,9 @@
 
 
         if (
-
           !wasCompleted
-
           &&
-
           nowCompleted
-
         ) {
 
           requestAnimationFrame(
@@ -3080,10 +3254,9 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      −
-  ======================================== */
+  ================================ */
 
   function decreaseHabit(
     id,
@@ -3099,18 +3272,15 @@
 
       data.habits.find(
         item =>
-          item.id === id
+          item.id
+          === id
       );
 
 
     if (
-
       !habit
-
       ||
-
       habit.current <= 0
-
     ) {
 
       return;
@@ -3175,10 +3345,9 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      ボタンぽよん
-  ======================================== */
+  ================================ */
 
   function animateButton(
     button
@@ -3208,10 +3377,9 @@
   }
 
 
-
-  /* ========================================
-     TODAY長押し削除
-  ======================================== */
+  /* ================================
+     TODAY長押し
+  ================================ */
 
   function setupTodayLongPress(
     card,
@@ -3226,16 +3394,12 @@
 
 
     if (
-
       !badge
-
       ||
-
       !badge.classList
         .contains(
           "visible"
         )
-
     ) {
 
       return;
@@ -3245,10 +3409,8 @@
     let timer =
       null;
 
-
     let startX =
       0;
-
 
     let startY =
       0;
@@ -3264,7 +3426,6 @@
         startX =
           event.clientX;
 
-
         startY =
           event.clientY;
 
@@ -3273,7 +3434,6 @@
 
           setTimeout(
             () => {
-
 
               badge.classList
                 .add(
@@ -3307,6 +3467,8 @@
 
                   saveData();
 
+                  updateAppBadge();
+
                   render();
 
                 },
@@ -3329,9 +3491,13 @@
 
           Math.hypot(
 
-            event.clientX - startX,
+            event.clientX
+            -
+            startX,
 
-            event.clientY - startY
+            event.clientY
+            -
+            startY
 
           );
 
@@ -3343,7 +3509,6 @@
           clearTimeout(
             timer
           );
-
 
           timer =
             null;
@@ -3362,7 +3527,6 @@
         clearTimeout(
           timer
         );
-
 
         timer =
           null;
@@ -3393,10 +3557,9 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      並び替え
-  ======================================== */
+  ================================ */
 
   function setupLongPressDrag(
     card,
@@ -3421,34 +3584,26 @@
     let longPressTimer =
       null;
 
-
     let startX =
       0;
-
 
     let startY =
       0;
 
-
     let lastPointerY =
       0;
-
 
     let pointerId =
       null;
 
-
-
-    /* ----------------------------------------
-       画面全体で指の移動を拾う
-    ---------------------------------------- */
 
     function globalPointerMove(
       event
     ) {
 
       if (
-        event.pointerId !== pointerId
+        event.pointerId
+        !== pointerId
       ) {
 
         return;
@@ -3459,11 +3614,6 @@
         event.clientY;
 
 
-      /*
-        長押し成立前なら
-        大きく動いた時点でキャンセル
-      */
-
       if (
         !dragState
       ) {
@@ -3472,9 +3622,13 @@
 
           Math.hypot(
 
-            event.clientX - startX,
+            event.clientX
+            -
+            startX,
 
-            event.clientY - startY
+            event.clientY
+            -
+            startY
 
           );
 
@@ -3514,17 +3668,13 @@
     }
 
 
-
-    /* ----------------------------------------
-       指を離す
-    ---------------------------------------- */
-
     function globalPointerEnd(
       event
     ) {
 
       if (
-        event.pointerId !== pointerId
+        event.pointerId
+        !== pointerId
       ) {
 
         return;
@@ -3552,7 +3702,6 @@
     }
 
 
-
     function removeGlobalListeners() {
 
       window.removeEventListener(
@@ -3573,11 +3722,6 @@
       );
     }
 
-
-
-    /* ----------------------------------------
-       長押し開始
-    ---------------------------------------- */
 
     handle.addEventListener(
       "pointerdown",
@@ -3669,10 +3813,9 @@
   }
 
 
-
-  /* ========================================
-     カードを持ち上げる
-  ======================================== */
+  /* ================================
+     ドラッグ開始
+  ================================ */
 
   function beginDrag(
     card,
@@ -3789,17 +3932,8 @@
       direction:
         null,
 
-      /*
-        最後に交換した方向
-      */
-
       lastSwapDirection:
         null,
-
-      /*
-        最後に交換した時の
-        指のY座標
-      */
 
       lastSwapPointerY:
         null,
@@ -3821,32 +3955,23 @@
   }
 
 
-
-  /* ========================================
-     カード移動
-  ======================================== */
+  /* ================================
+     ドラッグ移動
+  ================================ */
 
   function updateDrag(
     pointerY
   ) {
 
     if (
-
       !dragState
-
       ||
-
       dragState.finishing
-
     ) {
 
       return;
     }
 
-
-    /*
-      指がどちらへ動いているか
-    */
 
     const movement =
 
@@ -3878,11 +4003,6 @@
     dragState.lastPointerY =
       pointerY;
 
-
-
-    /*
-      カード本体を指へ追従
-    */
 
     let newTop =
 
@@ -3931,16 +4051,9 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      入れ替え判定
-
-     下へ動いている時は
-     下のカードだけ判定。
-
-     上へ動いている時は
-     上のカードだけ判定。
-  ======================================== */
+  ================================ */
 
   function checkDragReorder(
     pointerY
@@ -3966,27 +4079,14 @@
     }
 
 
-
-    /*
-      一度交換した直後に
-      指がほんの少し逆方向へ揺れても
-      即座に元へ戻らないようにする。
-    */
-
     if (
-
       dragState.lastSwapDirection
-
       &&
-
       direction
       !== dragState.lastSwapDirection
-
       &&
-
       dragState.lastSwapPointerY
       !== null
-
     ) {
 
       const reverseDistance =
@@ -4013,13 +4113,13 @@
     }
 
 
-
-    /* ----------------------------------------
-       下方向
-    ---------------------------------------- */
+    /*
+      下方向
+    */
 
     if (
-      direction === "down"
+      direction
+      === "down"
     ) {
 
       const next =
@@ -4029,16 +4129,12 @@
 
 
       if (
-
         !next
-
         ||
-
         !next.classList
           .contains(
             "habit-card"
           )
-
       ) {
 
         return;
@@ -4058,11 +4154,6 @@
 
         dragState.height;
 
-
-      /*
-        次のカードへ25％重なったら
-        その時点で下移動確定
-      */
 
       const confirmationLine =
 
@@ -4109,13 +4200,13 @@
     }
 
 
-
-    /* ----------------------------------------
-       上方向
-    ---------------------------------------- */
+    /*
+      上方向
+    */
 
     if (
-      direction === "up"
+      direction
+      === "up"
     ) {
 
       const previous =
@@ -4125,16 +4216,12 @@
 
 
       if (
-
         !previous
-
         ||
-
         !previous.classList
           .contains(
             "habit-card"
           )
-
       ) {
 
         return;
@@ -4143,18 +4230,14 @@
 
       const rect =
 
-        previous.getBoundingClientRect();
+        previous
+          .getBoundingClientRect();
 
 
       const dragTop =
 
         dragState.currentTop;
 
-
-      /*
-        上のカードへ25％重なったら
-        その時点で上移動確定
-      */
 
       const confirmationLine =
 
@@ -4199,11 +4282,9 @@
   }
 
 
-
-  /* ========================================
-     入れ替え確定時
-     持っているカードを少しぷくっ
-  ======================================== */
+  /* ================================
+     交換時ぷくっ
+  ================================ */
 
   function pulseDraggedCard() {
 
@@ -4250,10 +4331,9 @@
   }
 
 
-
-  /* ========================================
-     下のカードをにゅるん
-  ======================================== */
+  /* ================================
+     にゅるん
+  ================================ */
 
   function animateListShift(
     changeLayout
@@ -4367,10 +4447,9 @@
   }
 
 
-
-  /* ========================================
-     画面端で自動スクロール
-  ======================================== */
+  /* ================================
+     自動スクロール
+  ================================ */
 
   function handleAutoScroll(
     pointerY
@@ -4394,11 +4473,9 @@
 
       window.scrollBy({
 
-        top:
-          -8,
+        top: -8,
 
-        behavior:
-          "auto"
+        behavior: "auto"
 
       });
 
@@ -4408,48 +4485,36 @@
 
 
     if (
-
       pointerY
-
       >
-
       window.innerHeight
       -
       edge
-
     ) {
 
       window.scrollBy({
 
-        top:
-          8,
+        top: 8,
 
-        behavior:
-          "auto"
+        behavior: "auto"
 
       });
-
     }
   }
 
 
-
-  /* ========================================
-     指を離す
-  ======================================== */
+  /* ================================
+     ドラッグ終了
+  ================================ */
 
   function finishDrag(
     immediate = false
   ) {
 
     if (
-
       !dragState
-
       ||
-
       dragState.finishing
-
     ) {
 
       return;
@@ -4547,11 +4612,6 @@
   }
 
 
-
-  /* ========================================
-     着地完了
-  ======================================== */
-
   function completeDragLanding(
     state
   ) {
@@ -4571,26 +4631,20 @@
     state.card.style.position =
       "";
 
-
     state.card.style.left =
       "";
-
 
     state.card.style.top =
       "";
 
-
     state.card.style.width =
       "";
-
 
     state.card.style.height =
       "";
 
-
     state.card.style.transition =
       "";
-
 
     state.card.style.transform =
       "";
@@ -4626,10 +4680,9 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      並び順保存
-  ======================================== */
+  ================================ */
 
   function updateDataOrderFromDom() {
 
@@ -4666,12 +4719,9 @@
       );
 
 
-    /*
-      すべてタブ
-    */
-
     if (
-      currentTab === "all"
+      currentTab
+      === "all"
     ) {
 
       data.habits =
@@ -4693,11 +4743,6 @@
       return;
     }
 
-
-    /*
-      カテゴリー内だけ
-      並び順を変更
-    */
 
     const categoryIndexes =
       [];
@@ -4765,10 +4810,9 @@
   }
 
 
-
-  /* ========================================
-     習慣追加・編集
-  ======================================== */
+  /* ================================
+     追加 / 編集
+  ================================ */
 
   function openHabitEditor(
     habitId = null
@@ -4794,10 +4838,6 @@
         "editorHabitName"
       );
 
-
-    /*
-      編集
-    */
 
     if (
       habitId
@@ -4865,31 +4905,21 @@
           "hidden"
         );
 
-    }
-
-
-    /*
-      新規
-    */
-
-    else {
+    } else {
 
       editorIcon =
         "🌷";
 
 
       if (
-
-        currentTab === "daily"
-
+        currentTab
+        === "daily"
         ||
-
-        currentTab === "creative"
-
+        currentTab
+        === "creative"
         ||
-
-        currentTab === "game"
-
+        currentTab
+        === "game"
       ) {
 
         editorCategory =
@@ -4958,7 +4988,6 @@
   }
 
 
-
   function closeHabitEditor() {
 
     document
@@ -4979,7 +5008,6 @@
   }
 
 
-
   function habitEditorBackdrop(
     event
   ) {
@@ -4994,10 +5022,9 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      編集UI
-  ======================================== */
+  ================================ */
 
   function refreshEditorUI() {
 
@@ -5055,12 +5082,9 @@
       .textContent =
 
         editorGoal
-
         +
-
         "回";
   }
-
 
 
   function renderEditorIcons() {
@@ -5091,7 +5115,8 @@
 
 
         if (
-          icon === editorIcon
+          icon
+          === editorIcon
         ) {
 
           button.classList
@@ -5125,7 +5150,6 @@
   }
 
 
-
   function selectEditorCategory(
     category
   ) {
@@ -5136,7 +5160,6 @@
 
     refreshEditorUI();
   }
-
 
 
   function selectEditorBarReset(
@@ -5151,10 +5174,9 @@
   }
 
 
-
-  /* ========================================
-     保存
-  ======================================== */
+  /* ================================
+     編集内容保存
+  ================================ */
 
   function saveHabitEditor() {
 
@@ -5180,10 +5202,6 @@
       return;
     }
 
-
-    /*
-      編集
-    */
 
     if (
       editingHabitId
@@ -5238,7 +5256,8 @@
 
         habit.barResetKey =
 
-          editorBarReset === "none"
+          editorBarReset
+          === "none"
 
           ?
 
@@ -5251,14 +5270,7 @@
           );
       }
 
-    }
-
-
-    /*
-      新規
-    */
-
-    else {
+    } else {
 
       const habit = {
 
@@ -5293,7 +5305,8 @@
 
 
       if (
-        habit.barReset !== "none"
+        habit.barReset
+        !== "none"
       ) {
 
         habit.barResetKey =
@@ -5316,6 +5329,8 @@
 
     saveData();
 
+    updateAppBadge();
+
 
     document
       .getElementById(
@@ -5333,15 +5348,13 @@
 
     syncBodyLock();
 
-
     render();
   }
 
 
-
-  /* ========================================
+  /* ================================
      削除
-  ======================================== */
+  ================================ */
 
   function deleteEditingHabit() {
 
@@ -5371,13 +5384,9 @@
 
 
     if (
-
       !confirm(
-
         `「${habit.name}」を削除しますか？`
-
       )
-
     ) {
 
       return;
@@ -5394,6 +5403,8 @@
 
 
     saveData();
+
+    updateAppBadge();
 
 
     document
@@ -5412,15 +5423,13 @@
 
     syncBodyLock();
 
-
     render();
   }
 
 
-
-  /* ========================================
-     回数ルーレット
-  ======================================== */
+  /* ================================
+     ルーレット
+  ================================ */
 
   function initGoalPicker() {
 
@@ -5436,13 +5445,9 @@
 
 
     for (
-
       let number = 1;
-
       number <= MAX_GOAL;
-
       number++
-
     ) {
 
       const item =
@@ -5477,8 +5482,7 @@
       handleWheelScroll,
 
       {
-        passive:
-          true
+        passive: true
       }
 
     );
@@ -5486,7 +5490,6 @@
 
     updateWheelHighlight();
   }
-
 
 
   function openGoalPicker() {
@@ -5528,7 +5531,6 @@
       }
     );
   }
-
 
 
   function scrollWheelToValue(
@@ -5574,7 +5576,6 @@
 
     updateWheelHighlight();
   }
-
 
 
   function handleWheelScroll() {
@@ -5642,7 +5643,6 @@
   }
 
 
-
   function updateWheelHighlight() {
 
     document
@@ -5670,7 +5670,6 @@
         }
       );
   }
-
 
 
   function closeGoalPicker(
@@ -5703,7 +5702,6 @@
   }
 
 
-
   function goalPickerBackdrop(
     event
   ) {
@@ -5720,10 +5718,9 @@
   }
 
 
-
-  /* ========================================
-     オーバーレイ中のスクロール
-  ======================================== */
+  /* ================================
+     オーバーレイ中
+  ================================ */
 
   function syncBodyLock() {
 
@@ -5768,10 +5765,9 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      HTML安全化
-  ======================================== */
+  ================================ */
 
   function escapeHtml(
     text
@@ -5808,10 +5804,9 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      ドラッグ中断対策
-  ======================================== */
+  ================================ */
 
   window.addEventListener(
     "blur",
@@ -5835,13 +5830,9 @@
     () => {
 
       if (
-
         document.hidden
-
         &&
-
         dragState
-
       ) {
 
         finishDrag(
@@ -5853,10 +5844,9 @@
   );
 
 
-
-  /* ========================================
+  /* ================================
      Service Worker
-  ======================================== */
+  ================================ */
 
   if (
     "serviceWorker"
@@ -5876,11 +5866,8 @@
             error => {
 
               console.log(
-
                 "Service Worker:",
-
                 error
-
               );
 
             }
@@ -5891,26 +5878,25 @@
   }
 
 
-
-  /* ========================================
+  /* ================================
      起動
-  ======================================== */
+  ================================ */
 
   initGoalPicker();
 
-
   checkBarResets();
 
-
   saveData();
-
 
   render();
 
 
   /*
-    0:00 / 4:00を
-    開きっぱなしでも確認
+    開きっぱなしの場合は
+    0時 / 4時を跨いでも更新。
+
+    TODAY残数バッジも
+    一緒に更新される。
   */
 
   setInterval(
@@ -5923,6 +5909,7 @@
         checkBarResets();
 
         render();
+
       }
 
     },
