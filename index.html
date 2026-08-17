@@ -49,9 +49,9 @@
     );
 
 
-    /* ================================
+    /* ========================================
        基本
-    ================================ */
+    ======================================== */
 
     * {
       box-sizing: border-box;
@@ -61,7 +61,6 @@
     body {
       margin: 0;
       min-height: 100%;
-
       background: #f6cbd8;
     }
 
@@ -129,9 +128,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        ヘッダー
-    ================================ */
+    ======================================== */
 
     header {
       padding-bottom: 20px;
@@ -179,15 +179,15 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        バッジ許可
-    ================================ */
+    ======================================== */
 
     .badge-permission {
       margin-top: 16px;
 
-      padding:
-        11px 12px;
+      padding: 11px 12px;
 
       background:
         rgba(
@@ -212,8 +212,7 @@
       border: none;
       border-radius: 999px;
 
-      padding:
-        10px 12px;
+      padding: 10px 12px;
 
       background: white;
       color: #d46f8d;
@@ -247,9 +246,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        固定タブ
-    ================================ */
+    ======================================== */
 
     .tabs-sticky {
       position: sticky;
@@ -299,8 +299,7 @@
       border: none;
       border-radius: 999px;
 
-      padding:
-        10px 5px;
+      padding: 10px 5px;
 
       background:
         rgba(
@@ -371,9 +370,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        習慣一覧
-    ================================ */
+    ======================================== */
 
     .habit-list {
       display: flex;
@@ -402,18 +402,19 @@
     }
 
 
-    /* ================================
-       カード
-    ================================ */
+
+    /* ========================================
+       習慣カード
+    ======================================== */
 
     .habit-card {
       position: relative;
 
-      padding:
-        18px 18px
-        16px;
+      padding: 0;
 
-      background: white;
+      overflow: hidden;
+
+      background: #ef5f68;
 
       border-radius: 24px;
 
@@ -426,6 +427,106 @@
           0.08
         );
     }
+
+    /*
+      白いカード部分。
+
+      左へスライドすると
+      下にある赤い削除ボタンが見える。
+    */
+
+    .habit-card-surface {
+      position: relative;
+
+      z-index: 2;
+
+      padding:
+        18px 18px
+        16px;
+
+      background: white;
+
+      border-radius: 24px;
+
+      transform:
+        translateX(0);
+
+      transition:
+        transform
+        0.34s
+        cubic-bezier(
+          0.34,
+          1.25,
+          0.64,
+          1
+        );
+
+      touch-action: pan-y;
+
+      will-change: transform;
+    }
+
+    .habit-card-surface.swiping {
+      transition: none;
+    }
+
+
+
+    /* ========================================
+       スワイプ削除
+    ======================================== */
+
+    .swipe-delete-button {
+      position: absolute;
+
+      top: 0;
+      right: 0;
+      bottom: 0;
+
+      z-index: 1;
+
+      width: 88px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      gap: 4px;
+
+      padding: 0;
+
+      border: none;
+
+      background: #ef5f68;
+      color: white;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      letter-spacing: 0.03em;
+
+      touch-action: manipulation;
+
+      transition:
+        background 0.15s ease,
+        transform 0.15s ease;
+    }
+
+    .swipe-delete-button:active {
+      background: #d94f59;
+    }
+
+    .swipe-delete-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+
+
+    /* ========================================
+       カードアニメーション
+    ======================================== */
 
     .habit-card.new-card {
       animation:
@@ -496,9 +597,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        カード上部
-    ================================ */
+    ======================================== */
 
     .habit-top {
       display: flex;
@@ -506,6 +608,12 @@
 
       gap: 9px;
     }
+
+
+
+    /* ========================================
+       並び替え
+    ======================================== */
 
     .drag-handle {
       width: 33px;
@@ -535,6 +643,12 @@
       -webkit-touch-callout: none;
     }
 
+
+
+    /* ========================================
+       アイコン
+    ======================================== */
+
     .habit-icon-button {
       width: 46px;
       height: 46px;
@@ -562,6 +676,12 @@
       transform: scale(0.88);
     }
 
+
+
+    /* ========================================
+       名前
+    ======================================== */
+
     .habit-title-area {
       min-width: 0;
       flex: 1;
@@ -588,9 +708,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        TODAY
-    ================================ */
+    ======================================== */
 
     .today-badge {
       flex-shrink: 0;
@@ -705,9 +826,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        進捗
-    ================================ */
+    ======================================== */
 
     .progress-info {
       margin-top: 15px;
@@ -786,9 +908,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        ＋ −
-    ================================ */
+    ======================================== */
 
     .habit-actions {
       margin-top: 13px;
@@ -854,9 +977,10 @@
     }
 
 
-    /* ================================
-       並び替え
-    ================================ */
+
+    /* ========================================
+       ドラッグ
+    ======================================== */
 
     .drag-placeholder {
       flex-shrink: 0;
@@ -938,9 +1062,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        オーバーレイ
-    ================================ */
+    ======================================== */
 
     .sheet-overlay {
       position: fixed;
@@ -989,9 +1114,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        編集パネル
-    ================================ */
+    ======================================== */
 
     .editor-sheet {
       width: 100%;
@@ -1124,9 +1250,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        アイコン
-    ================================ */
+    ======================================== */
 
     .icon-grid {
       display: grid;
@@ -1165,9 +1292,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        カテゴリー
-    ================================ */
+    ======================================== */
 
     .category-choice {
       display: grid;
@@ -1183,8 +1311,7 @@
       border: none;
       border-radius: 13px;
 
-      padding:
-        11px 5px;
+      padding: 11px 5px;
 
       background: #fff4f7;
       color: #917b82;
@@ -1205,9 +1332,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        目標回数
-    ================================ */
+    ======================================== */
 
     .goal-picker-button {
       width: 100%;
@@ -1219,8 +1347,7 @@
       border: none;
       border-radius: 14px;
 
-      padding:
-        13px 15px;
+      padding: 13px 15px;
 
       background: #fff4f7;
       color: #594b50;
@@ -1246,9 +1373,10 @@
     }
 
 
-    /* ================================
-       保存 / 削除
-    ================================ */
+
+    /* ========================================
+       保存・削除
+    ======================================== */
 
     .editor-save-button {
       width: 100%;
@@ -1295,9 +1423,10 @@
     }
 
 
-    /* ================================
+
+    /* ========================================
        ルーレット
-    ================================ */
+    ======================================== */
 
     #goalPickerOverlay {
       z-index: 1300;
@@ -1397,8 +1526,7 @@
       overflow-y: scroll;
       overflow-x: hidden;
 
-      padding:
-        104px 0;
+      padding: 104px 0;
 
       scroll-snap-type:
         y mandatory;
@@ -1504,10 +1632,6 @@
 
 <main class="app">
 
-  <!-- ================================
-       ヘッダー
-  ================================= -->
-
   <header>
 
     <div class="app-title">
@@ -1524,8 +1648,6 @@
       id="dateSub"
     ></div>
 
-
-    <!-- バッジ許可 -->
 
     <div
       class="badge-permission"
@@ -1552,10 +1674,6 @@
 
   </header>
 
-
-  <!-- ================================
-       タブ
-  ================================= -->
 
   <div class="tabs-sticky">
 
@@ -1606,10 +1724,6 @@
   </div>
 
 
-  <!-- ================================
-       習慣一覧
-  ================================= -->
-
   <section
     class="habit-list"
     id="habitList"
@@ -1618,9 +1732,9 @@
 </main>
 
 
-<!-- ==================================
+<!-- ========================================
      習慣追加・編集
-=================================== -->
+======================================== -->
 
 <div
   class="sheet-overlay"
@@ -1787,9 +1901,9 @@
 </div>
 
 
-<!-- ==================================
+<!-- ========================================
      回数ルーレット
-=================================== -->
+======================================== -->
 
 <div
   class="sheet-overlay"
@@ -1845,9 +1959,9 @@
 
 <script>
 
-  /* ================================
+  /* ========================================
      基本
-  ================================ */
+  ======================================== */
 
   const STORAGE_KEY =
     "habitTrackerData";
@@ -1863,6 +1977,13 @@
 
   const REVERSE_UNLOCK_DISTANCE =
     46;
+
+  /*
+    スワイプ削除
+  */
+
+  const DELETE_REVEAL_WIDTH =
+    88;
 
 
   const ICONS = [
@@ -1930,9 +2051,16 @@
     null;
 
 
-  /* ================================
+  /* スワイプ */
+
+  let swipeGestureActive =
+    false;
+
+
+
+  /* ========================================
      データ
-  ================================ */
+  ======================================== */
 
   function createInitialData() {
 
@@ -2002,9 +2130,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      ID
-  ================================ */
+  ======================================== */
 
   function createId() {
 
@@ -2032,9 +2161,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      日付
-  ================================ */
+  ======================================== */
 
   function renderDate() {
 
@@ -2079,9 +2209,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      日付境界
-  ================================ */
+  ======================================== */
 
   function getPeriodKey(
     resetHour
@@ -2174,12 +2305,10 @@
   }
 
 
-  /* ================================
-     TODAY
 
-     日常・創作 → 0:00
-     ゲーム   → 4:00
-  ================================ */
+  /* ========================================
+     TODAY
+  ======================================== */
 
   function getTodayResetHour(
     habit
@@ -2231,14 +2360,10 @@
   }
 
 
-  /* ==================================
-     ホーム画面バッジ
-  ================================== */
 
-  /*
-    TODAYがまだ付いていない
-    習慣の総数
-  */
+  /* ========================================
+     ホーム画面バッジ
+  ======================================== */
 
   function getRemainingTodayCount() {
 
@@ -2250,11 +2375,6 @@
     ).length;
   }
 
-
-  /*
-    iPhoneホーム画面の
-    アイコンバッジを更新
-  */
 
   async function updateAppBadge() {
 
@@ -2313,10 +2433,6 @@
   }
 
 
-  /*
-    バッジ許可欄の表示
-  */
-
   function refreshBadgePermissionUI() {
 
     const panel =
@@ -2324,24 +2440,16 @@
         "badgePermissionPanel"
       );
 
-
     const button =
       document.getElementById(
         "badgePermissionButton"
       );
-
 
     const text =
       document.getElementById(
         "badgePermissionText"
       );
 
-
-    /*
-      通常Safariなど
-      Badging API非対応なら
-      何も表示しない
-    */
 
     if (
       !(
@@ -2362,11 +2470,6 @@
     }
 
 
-    /*
-      許可済みなら
-      ボタン自体が不要
-    */
-
     if (
       Notification.permission
       === "granted"
@@ -2382,10 +2485,6 @@
     panel.hidden =
       false;
 
-
-    /*
-      一度拒否されている場合
-    */
 
     if (
       Notification.permission
@@ -2404,10 +2503,6 @@
     }
 
 
-    /*
-      まだ未選択
-    */
-
     button.hidden =
       false;
 
@@ -2416,11 +2511,6 @@
       "アイコンの数字に、今日まだできていない習慣数を表示します。";
   }
 
-
-  /*
-    ユーザーがボタンを押した時だけ
-    通知許可を要求
-  */
 
   async function requestBadgePermission() {
 
@@ -2469,9 +2559,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      バーリセット
-  ================================ */
+  ======================================== */
 
   function getBarPeriodKey(
     habit
@@ -2575,17 +2666,17 @@
   }
 
 
-  /* ================================
-     カテゴリー名
-  ================================ */
+
+  /* ========================================
+     カテゴリー
+  ======================================== */
 
   function getCategoryName(
     category
   ) {
 
     if (
-      category
-      === "creative"
+      category === "creative"
     ) {
 
       return "創作";
@@ -2593,8 +2684,7 @@
 
 
     if (
-      category
-      === "game"
+      category === "game"
     ) {
 
       return "ゲーム";
@@ -2605,13 +2695,20 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      タブ
-  ================================ */
+  ======================================== */
 
   function changeTab(
     tab
   ) {
+
+    closeAllSwipeCards(
+      null,
+      true
+    );
+
 
     if (
       dragState
@@ -2652,9 +2749,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      描画
-  ================================ */
+  ======================================== */
 
   function render(
     progressAnimation = null
@@ -2720,11 +2818,8 @@
 
         `
         <div class="empty">
-
           まだ習慣がありません。<br>
-
           上の＋から追加できます。
-
         </div>
         `;
 
@@ -2811,143 +2906,168 @@
 
           `
 
-          <div class="habit-top">
+          <button
+            class="swipe-delete-button"
+            onclick="
+              deleteHabitFromSwipe(
+                '${habit.id}'
+              )
+            "
+            aria-label="削除"
+          >
 
-            <button
-              class="drag-handle"
-              aria-label="長押しして並び替え"
-            >
-              ≡
-            </button>
+            <span class="swipe-delete-icon">
+              🗑
+            </span>
 
+            <span>
+              削除
+            </span>
 
-            <button
-              class="habit-icon-button"
-              onclick="
-                openHabitEditor(
-                  '${habit.id}'
-                )
-              "
-              aria-label="習慣を編集"
-            >
-              ${habit.icon}
-            </button>
+          </button>
 
 
-            <div class="habit-title-area">
+          <div class="habit-card-surface">
 
-              <div class="habit-name">
+            <div class="habit-top">
 
-                ${escapeHtml(
-                  habit.name
-                )}
+              <button
+                class="drag-handle"
+                aria-label="長押しして並び替え"
+              >
+                ≡
+              </button>
+
+
+              <button
+                class="habit-icon-button"
+                onclick="
+                  openHabitEditor(
+                    '${habit.id}'
+                  )
+                "
+                aria-label="習慣を編集"
+              >
+                ${habit.icon}
+              </button>
+
+
+              <div class="habit-title-area">
+
+                <div class="habit-name">
+
+                  ${escapeHtml(
+                    habit.name
+                  )}
+
+                </div>
+
+
+                <div class="habit-category">
+
+                  ${getCategoryName(
+                    habit.category
+                  )}
+
+                </div>
 
               </div>
 
 
-              <div class="habit-category">
+              <div
+                class="
+                  today-badge
+                  ${
+                    doneToday
+                    ? "visible"
+                    : ""
+                  }
+                  ${
+                    todayPopId
+                    === habit.id
+                    ? "today-pop"
+                    : ""
+                  }
+                "
+              >
+                TODAY ✓
+              </div>
 
-                ${getCategoryName(
-                  habit.category
-                )}
+            </div>
+
+
+            <div class="progress-info">
+
+              <div
+                class="
+                  done
+                  ${
+                    completed
+                    ? "visible"
+                    : ""
+                  }
+                "
+              >
+                ✓ DONE
+              </div>
+
+
+              <div class="count">
+
+                ${habit.current}
+                /
+                ${habit.goal}
 
               </div>
 
             </div>
 
 
-            <div
-              class="
-                today-badge
-                ${
-                  doneToday
-                  ? "visible"
-                  : ""
-                }
-                ${
-                  todayPopId
-                  === habit.id
-                  ? "today-pop"
-                  : ""
-                }
-              "
-            >
-              TODAY ✓
-            </div>
+            <div class="progress-bg">
 
-          </div>
-
-
-          <div class="progress-info">
-
-            <div
-              class="
-                done
-                ${
-                  completed
-                  ? "visible"
-                  : ""
-                }
-              "
-            >
-              ✓ DONE
-            </div>
-
-
-            <div class="count">
-
-              ${habit.current}
-              /
-              ${habit.goal}
+              <div
+                class="progress-bar"
+                data-progress="${habit.id}"
+                style="
+                  width:
+                  ${initialPercent}%;
+                "
+              ></div>
 
             </div>
 
-          </div>
+
+            <div class="habit-actions">
+
+              <button
+                class="round-button"
+                onclick="
+                  decreaseHabit(
+                    '${habit.id}',
+                    this
+                  )
+                "
+              >
+                −
+              </button>
 
 
-          <div class="progress-bg">
+              <button
+                class="
+                  round-button
+                  plus
+                "
+                onclick="
+                  increaseHabit(
+                    '${habit.id}',
+                    this
+                  )
+                "
+              >
+                ＋
+              </button>
 
-            <div
-              class="progress-bar"
-              data-progress="${habit.id}"
-              style="
-                width:
-                ${initialPercent}%;
-              "
-            ></div>
-
-          </div>
-
-
-          <div class="habit-actions">
-
-            <button
-              class="round-button"
-              onclick="
-                decreaseHabit(
-                  '${habit.id}',
-                  this
-                )
-              "
-            >
-              −
-            </button>
-
-
-            <button
-              class="
-                round-button
-                plus
-              "
-              onclick="
-                increaseHabit(
-                  '${habit.id}',
-                  this
-                )
-              "
-            >
-              ＋
-            </button>
+            </div>
 
           </div>
 
@@ -2956,6 +3076,12 @@
 
         list.appendChild(
           card
+        );
+
+
+        setupCardSwipe(
+          card,
+          habit.id
         );
 
 
@@ -2973,10 +3099,6 @@
       }
     );
 
-
-    /*
-      バーアニメーション
-    */
 
     if (
       progressAnimation
@@ -3016,10 +3138,6 @@
     }
 
 
-    /*
-      新規カード
-    */
-
     if (
       newHabitId
     ) {
@@ -3045,10 +3163,6 @@
       );
     }
 
-
-    /*
-      TODAYピコン
-    */
 
     if (
       todayPopId
@@ -3078,9 +3192,802 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
+     スワイプ削除
+  ======================================== */
+
+  function getCardSurface(
+    card
+  ) {
+
+    return card
+      ?.querySelector(
+        ".habit-card-surface"
+      );
+  }
+
+
+  function setSwipeOffset(
+    card,
+    offset,
+    animate = true
+  ) {
+
+    const surface =
+
+      getCardSurface(
+        card
+      );
+
+
+    if (
+      !surface
+    ) {
+
+      return;
+    }
+
+
+    if (
+      animate
+    ) {
+
+      surface.classList
+        .remove(
+          "swiping"
+        );
+
+    } else {
+
+      surface.classList
+        .add(
+          "swiping"
+        );
+    }
+
+
+    surface.style.transform =
+
+      `translateX(${offset}px)`;
+  }
+
+
+  function openSwipeCard(
+    card
+  ) {
+
+    if (
+      !card
+    ) {
+
+      return;
+    }
+
+
+    closeAllSwipeCards(
+      card
+    );
+
+
+    card.classList
+      .add(
+        "swipe-open"
+      );
+
+
+    setSwipeOffset(
+
+      card,
+
+      -DELETE_REVEAL_WIDTH,
+
+      true
+
+    );
+  }
+
+
+  function closeSwipeCard(
+    card,
+    immediate = false
+  ) {
+
+    if (
+      !card
+    ) {
+
+      return;
+    }
+
+
+    card.classList
+      .remove(
+        "swipe-open"
+      );
+
+
+    setSwipeOffset(
+
+      card,
+
+      0,
+
+      !immediate
+
+    );
+  }
+
+
+  function closeAllSwipeCards(
+    exceptCard = null,
+    immediate = false
+  ) {
+
+    document
+      .querySelectorAll(
+        ".habit-card.swipe-open"
+      )
+      .forEach(
+        card => {
+
+          if (
+            card !== exceptCard
+          ) {
+
+            closeSwipeCard(
+              card,
+              immediate
+            );
+          }
+
+        }
+      );
+  }
+
+
+
+  /*
+    カード本体を左へスワイプ。
+
+    縦移動の方が大きい場合は
+    通常のページスクロールとして扱う。
+  */
+
+  function setupCardSwipe(
+    card,
+    habitId
+  ) {
+
+    const surface =
+
+      getCardSurface(
+        card
+      );
+
+
+    if (
+      !surface
+    ) {
+
+      return;
+    }
+
+
+    let pointerId =
+      null;
+
+    let startX =
+      0;
+
+    let startY =
+      0;
+
+    let startOffset =
+      0;
+
+    let currentOffset =
+      0;
+
+    let intent =
+      null;
+
+    let wasOpen =
+      false;
+
+
+    function cleanup() {
+
+      window.removeEventListener(
+        "pointermove",
+        pointerMove
+      );
+
+      window.removeEventListener(
+        "pointerup",
+        pointerEnd
+      );
+
+      window.removeEventListener(
+        "pointercancel",
+        pointerCancel
+      );
+
+
+      surface.classList
+        .remove(
+          "swiping"
+        );
+
+
+      pointerId =
+        null;
+
+
+      swipeGestureActive =
+        false;
+    }
+
+
+    function pointerMove(
+      event
+    ) {
+
+      if (
+        event.pointerId
+        !== pointerId
+      ) {
+
+        return;
+      }
+
+
+      if (
+        dragState
+      ) {
+
+        cleanup();
+
+        return;
+      }
+
+
+      const dx =
+        event.clientX - startX;
+
+      const dy =
+        event.clientY - startY;
+
+
+      const absX =
+        Math.abs(
+          dx
+        );
+
+      const absY =
+        Math.abs(
+          dy
+        );
+
+
+      /*
+        まだ方向未確定
+      */
+
+      if (
+        intent === null
+      ) {
+
+        if (
+          absX < 7
+          &&
+          absY < 7
+        ) {
+
+          return;
+        }
+
+
+        /*
+          縦の方が明確に大きい
+          → スクロールとして扱う
+        */
+
+        if (
+          absY
+          >
+          absX
+          *
+          1.05
+        ) {
+
+          cleanup();
+
+          return;
+        }
+
+
+        /*
+          横方向が明確になった
+        */
+
+        if (
+          absX
+          >
+          absY
+          *
+          1.10
+        ) {
+
+          intent =
+            "horizontal";
+
+
+          swipeGestureActive =
+            true;
+
+
+          surface.classList
+            .add(
+              "swiping"
+            );
+        }
+
+
+        else {
+
+          return;
+        }
+      }
+
+
+      if (
+        intent
+        !== "horizontal"
+      ) {
+
+        return;
+      }
+
+
+      event.preventDefault();
+
+
+      let next =
+
+        startOffset
+        +
+        dx;
+
+
+      /*
+        右に引っ張りすぎた時は
+        ゴムっぽく抵抗
+      */
+
+      if (
+        next > 0
+      ) {
+
+        next =
+          next * 0.18;
+      }
+
+
+      /*
+        削除幅より左へ引っ張った時も
+        少し抵抗
+      */
+
+      if (
+        next
+        <
+        -DELETE_REVEAL_WIDTH
+      ) {
+
+        next =
+
+          -DELETE_REVEAL_WIDTH
+
+          +
+
+          (
+            next
+            +
+            DELETE_REVEAL_WIDTH
+          )
+          *
+          0.18;
+      }
+
+
+      currentOffset =
+        next;
+
+
+      setSwipeOffset(
+
+        card,
+
+        currentOffset,
+
+        false
+
+      );
+    }
+
+
+    function settleSwipe() {
+
+      /*
+        閉じた状態から始めた場合
+        約3分の1以上出せば開く
+      */
+
+      if (
+        !wasOpen
+      ) {
+
+        if (
+          currentOffset
+          <=
+          -DELETE_REVEAL_WIDTH
+          *
+          0.38
+        ) {
+
+          openSwipeCard(
+            card
+          );
+
+        } else {
+
+          closeSwipeCard(
+            card
+          );
+        }
+
+
+        return;
+      }
+
+
+      /*
+        すでに開いていた場合は、
+        右へ約3分の1戻したら閉じる
+      */
+
+      if (
+        currentOffset
+        >=
+        -DELETE_REVEAL_WIDTH
+        *
+        0.62
+      ) {
+
+        closeSwipeCard(
+          card
+        );
+
+      } else {
+
+        openSwipeCard(
+          card
+        );
+      }
+    }
+
+
+    function pointerEnd(
+      event
+    ) {
+
+      if (
+        event.pointerId
+        !== pointerId
+      ) {
+
+        return;
+      }
+
+
+      /*
+        横スワイプだった
+      */
+
+      if (
+        intent
+        === "horizontal"
+      ) {
+
+        settleSwipe();
+
+        cleanup();
+
+        return;
+      }
+
+
+      /*
+        開いたカードの白い部分を
+        軽くタップした場合は閉じる
+      */
+
+      if (
+        intent === null
+        &&
+        wasOpen
+      ) {
+
+        closeSwipeCard(
+          card
+        );
+      }
+
+
+      cleanup();
+    }
+
+
+    function pointerCancel(
+      event
+    ) {
+
+      if (
+        event.pointerId
+        !== pointerId
+      ) {
+
+        return;
+      }
+
+
+      if (
+        wasOpen
+      ) {
+
+        openSwipeCard(
+          card
+        );
+
+      } else {
+
+        closeSwipeCard(
+          card
+        );
+      }
+
+
+      cleanup();
+    }
+
+
+    surface.addEventListener(
+      "pointerdown",
+      event => {
+
+        if (
+          dragState
+          ||
+          swipeGestureActive
+        ) {
+
+          return;
+        }
+
+
+        /*
+          ボタンやTODAYから始めた操作は
+          スワイプとして扱わない
+        */
+
+        if (
+          event.target.closest(
+            "button, input, textarea, select, a, .today-badge"
+          )
+        ) {
+
+          return;
+        }
+
+
+        closeAllSwipeCards(
+          card
+        );
+
+
+        pointerId =
+          event.pointerId;
+
+
+        startX =
+          event.clientX;
+
+
+        startY =
+          event.clientY;
+
+
+        wasOpen =
+
+          card.classList
+            .contains(
+              "swipe-open"
+            );
+
+
+        startOffset =
+
+          wasOpen
+
+          ?
+
+          -DELETE_REVEAL_WIDTH
+
+          :
+
+          0;
+
+
+        currentOffset =
+          startOffset;
+
+
+        intent =
+          null;
+
+
+        window.addEventListener(
+
+          "pointermove",
+
+          pointerMove,
+
+          {
+            passive: false
+          }
+
+        );
+
+
+        window.addEventListener(
+          "pointerup",
+          pointerEnd
+        );
+
+
+        window.addEventListener(
+          "pointercancel",
+          pointerCancel
+        );
+
+      }
+    );
+  }
+
+
+
+  /* ========================================
+     スワイプから削除
+  ======================================== */
+
+  function deleteHabitFromSwipe(
+    id
+  ) {
+
+    const habit =
+
+      data.habits.find(
+        item =>
+          item.id === id
+      );
+
+
+    if (
+      !habit
+    ) {
+
+      return;
+    }
+
+
+    if (
+      !confirm(
+        `「${habit.name}」を削除しますか？`
+      )
+    ) {
+
+      const card =
+
+        document.querySelector(
+
+          `.habit-card[data-id="${id}"]`
+
+        );
+
+
+      if (
+        card
+      ) {
+
+        openSwipeCard(
+          card
+        );
+      }
+
+
+      return;
+    }
+
+
+    data.habits =
+
+      data.habits.filter(
+        item =>
+          item.id !== id
+      );
+
+
+    saveData();
+
+    updateAppBadge();
+
+    render();
+  }
+
+
+
+  /*
+    開いている削除ボタンの外を触ったら
+    自動的に閉じる。
+  */
+
+  document.addEventListener(
+
+    "pointerdown",
+
+    event => {
+
+      const openCard =
+
+        document.querySelector(
+          ".habit-card.swipe-open"
+        );
+
+
+      if (
+        !openCard
+      ) {
+
+        return;
+      }
+
+
+      if (
+        event.target.closest(
+          ".habit-card.swipe-open"
+        )
+      ) {
+
+        return;
+      }
+
+
+      closeAllSwipeCards();
+
+    },
+
+    {
+      capture: true
+    }
+
+  );
+
+
+
+  /* ========================================
      ＋
-  ================================ */
+  ======================================== */
 
   function increaseHabit(
     id,
@@ -3096,8 +4003,7 @@
 
       data.habits.find(
         item =>
-          item.id
-          === id
+          item.id === id
       );
 
 
@@ -3189,12 +4095,6 @@
 
     saveData();
 
-
-    /*
-      TODAY残数が減ったので
-      バッジも即更新
-    */
-
     updateAppBadge();
 
 
@@ -3203,8 +4103,7 @@
 
         render({
 
-          id:
-            id,
+          id: id,
 
           from:
             beforePercent,
@@ -3254,9 +4153,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      −
-  ================================ */
+  ======================================== */
 
   function decreaseHabit(
     id,
@@ -3272,8 +4172,7 @@
 
       data.habits.find(
         item =>
-          item.id
-          === id
+          item.id === id
       );
 
 
@@ -3328,8 +4227,7 @@
 
         render({
 
-          id:
-            id,
+          id: id,
 
           from:
             beforePercent,
@@ -3345,9 +4243,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      ボタンぽよん
-  ================================ */
+  ======================================== */
 
   function animateButton(
     button
@@ -3377,9 +4276,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      TODAY長押し
-  ================================ */
+  ======================================== */
 
   function setupTodayLongPress(
     card,
@@ -3557,9 +4457,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      並び替え
-  ================================ */
+  ======================================== */
 
   function setupLongPressDrag(
     card,
@@ -3729,10 +4630,23 @@
 
         if (
           dragState
+          ||
+          swipeGestureActive
         ) {
 
           return;
         }
+
+
+        /*
+          並び替え開始時は
+          スワイプ削除を閉じる
+        */
+
+        closeAllSwipeCards(
+          null,
+          true
+        );
 
 
         event.preventDefault();
@@ -3813,9 +4727,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      ドラッグ開始
-  ================================ */
+  ======================================== */
 
   function beginDrag(
     card,
@@ -3829,6 +4744,12 @@
 
       return;
     }
+
+
+    closeAllSwipeCards(
+      null,
+      true
+    );
 
 
     const rect =
@@ -3955,9 +4876,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      ドラッグ移動
-  ================================ */
+  ======================================== */
 
   function updateDrag(
     pointerY
@@ -4051,9 +4973,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      入れ替え判定
-  ================================ */
+  ======================================== */
 
   function checkDragReorder(
     pointerY
@@ -4282,9 +5205,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      交換時ぷくっ
-  ================================ */
+  ======================================== */
 
   function pulseDraggedCard() {
 
@@ -4331,9 +5255,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      にゅるん
-  ================================ */
+  ======================================== */
 
   function animateListShift(
     changeLayout
@@ -4447,9 +5372,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      自動スクロール
-  ================================ */
+  ======================================== */
 
   function handleAutoScroll(
     pointerY
@@ -4503,9 +5429,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      ドラッグ終了
-  ================================ */
+  ======================================== */
 
   function finishDrag(
     immediate = false
@@ -4680,9 +5607,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      並び順保存
-  ================================ */
+  ======================================== */
 
   function updateDataOrderFromDom() {
 
@@ -4810,13 +5738,20 @@
   }
 
 
-  /* ================================
-     追加 / 編集
-  ================================ */
+
+  /* ========================================
+     習慣追加・編集
+  ======================================== */
 
   function openHabitEditor(
     habitId = null
   ) {
+
+    closeAllSwipeCards(
+      null,
+      true
+    );
+
 
     if (
       dragState
@@ -4912,14 +5847,11 @@
 
 
       if (
-        currentTab
-        === "daily"
+        currentTab === "daily"
         ||
-        currentTab
-        === "creative"
+        currentTab === "creative"
         ||
-        currentTab
-        === "game"
+        currentTab === "game"
       ) {
 
         editorCategory =
@@ -5022,9 +5954,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      編集UI
-  ================================ */
+  ======================================== */
 
   function refreshEditorUI() {
 
@@ -5174,9 +6107,10 @@
   }
 
 
-  /* ================================
-     編集内容保存
-  ================================ */
+
+  /* ========================================
+     保存
+  ======================================== */
 
   function saveHabitEditor() {
 
@@ -5352,9 +6286,10 @@
   }
 
 
-  /* ================================
-     削除
-  ================================ */
+
+  /* ========================================
+     編集画面から削除
+  ======================================== */
 
   function deleteEditingHabit() {
 
@@ -5427,9 +6362,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      ルーレット
-  ================================ */
+  ======================================== */
 
   function initGoalPicker() {
 
@@ -5718,9 +6654,10 @@
   }
 
 
-  /* ================================
-     オーバーレイ中
-  ================================ */
+
+  /* ========================================
+     オーバーレイ
+  ======================================== */
 
   function syncBodyLock() {
 
@@ -5765,9 +6702,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      HTML安全化
-  ================================ */
+  ======================================== */
 
   function escapeHtml(
     text
@@ -5804,13 +6742,20 @@
   }
 
 
-  /* ================================
-     ドラッグ中断対策
-  ================================ */
+
+  /* ========================================
+     中断対策
+  ======================================== */
 
   window.addEventListener(
     "blur",
     () => {
+
+      closeAllSwipeCards(
+        null,
+        true
+      );
+
 
       if (
         dragState
@@ -5831,22 +6776,32 @@
 
       if (
         document.hidden
-        &&
-        dragState
       ) {
 
-        finishDrag(
+        closeAllSwipeCards(
+          null,
           true
         );
+
+
+        if (
+          dragState
+        ) {
+
+          finishDrag(
+            true
+          );
+        }
       }
 
     }
   );
 
 
-  /* ================================
+
+  /* ========================================
      Service Worker
-  ================================ */
+  ======================================== */
 
   if (
     "serviceWorker"
@@ -5878,9 +6833,10 @@
   }
 
 
-  /* ================================
+
+  /* ========================================
      起動
-  ================================ */
+  ======================================== */
 
   initGoalPicker();
 
@@ -5891,25 +6847,18 @@
   render();
 
 
-  /*
-    開きっぱなしの場合は
-    0時 / 4時を跨いでも更新。
-
-    TODAY残数バッジも
-    一緒に更新される。
-  */
-
   setInterval(
     () => {
 
       if (
         !dragState
+        &&
+        !swipeGestureActive
       ) {
 
         checkBarResets();
 
         render();
-
       }
 
     },
