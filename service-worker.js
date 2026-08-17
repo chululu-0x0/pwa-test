@@ -1,5 +1,5 @@
 const CACHE_NAME =
-  "habits-cache-v3";
+  "habits-cache-v4";
 
 
 const APP_FILES = [
