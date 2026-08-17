@@ -107,6 +107,144 @@
         max(80px, env(safe-area-inset-bottom));
     }
 
+    /* ==========================================
+   長押し時の文字選択を禁止
+========================================== */
+
+body {
+  -webkit-user-select: none;
+  user-select: none;
+
+  -webkit-touch-callout: none;
+}
+
+/*
+  習慣名入力欄だけは
+  普通に文字選択できるように戻す
+*/
+
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+
+  -webkit-touch-callout: default;
+}
+
+
+/*
+  並び替え中は画面スクロールを停止
+*/
+
+body.drag-active {
+  overflow: hidden;
+
+  touch-action: none;
+}
+
+
+/*
+  並び替えハンドル
+*/
+
+.drag-handle {
+  touch-action: none;
+
+  -webkit-user-select: none;
+  user-select: none;
+
+  -webkit-touch-callout: none;
+}
+
+
+/*
+  浮いているカード
+*/
+
+.habit-card.dragging {
+  position: fixed;
+
+  z-index: 9999;
+
+  margin: 0;
+
+  pointer-events: none;
+
+  opacity: 0.97;
+
+  transform: scale(1.035);
+
+  box-shadow:
+    0 24px 55px
+    rgba(91, 55, 67, 0.25);
+
+  transition: none;
+}
+
+
+/*
+  カードが抜けた場所
+*/
+
+.drag-placeholder {
+  flex-shrink: 0;
+
+  border-radius: 24px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.20
+    );
+
+  border:
+    2px dashed
+    rgba(
+      255,
+      255,
+      255,
+      0.48
+    );
+}
+
+
+/*
+  指を離したとき
+*/
+
+.habit-card.landing {
+  animation:
+    dragLanding
+    0.42s
+    cubic-bezier(
+      0.34,
+      1.56,
+      0.64,
+      1
+    );
+}
+
+@keyframes dragLanding {
+
+  0% {
+    transform: scale(1.035);
+  }
+
+  45% {
+    transform: scale(0.975);
+  }
+
+  72% {
+    transform: scale(1.018);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
 
     /* ==========================================
        ヘッダー
