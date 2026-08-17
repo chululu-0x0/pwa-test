@@ -48,9 +48,9 @@
     );
 
 
-    /* =========================
+    /* ==========================================
        基本
-    ========================= */
+    ========================================== */
 
     * {
       box-sizing: border-box;
@@ -60,6 +60,7 @@
     body {
       margin: 0;
       min-height: 100%;
+
       background: #f6cbd8;
     }
 
@@ -86,8 +87,11 @@
 
     button {
       touch-action: manipulation;
+
       -webkit-user-select: none;
       user-select: none;
+
+      -webkit-touch-callout: none;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -98,180 +102,229 @@
       margin: 0 auto;
 
       padding:
-        max(30px, env(safe-area-inset-top))
+        max(32px, env(safe-area-inset-top))
         18px
         max(80px, env(safe-area-inset-bottom));
     }
 
 
-    /* =========================
+    /* ==========================================
        ヘッダー
-    ========================= */
+    ========================================== */
 
     header {
-      margin-bottom: 22px;
+      padding-bottom: 20px;
     }
 
     .app-title {
-      margin: 0;
-
       color: white;
 
       font-family:
         "M PLUS Rounded 1c",
         sans-serif;
 
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 800;
 
       letter-spacing: 0.18em;
 
-      opacity: 0.92;
+      opacity: 0.88;
     }
 
     .big-date {
-      margin-top: 4px;
+      margin-top: 5px;
 
       color: white;
 
-      font-size: 31px;
+      font-size: 35px;
       font-weight: 700;
 
       line-height: 1.25;
+
+      letter-spacing: 0.01em;
     }
 
     .date-sub {
-      margin-top: 4px;
+      margin-top: 3px;
 
       color:
-        rgba(255,255,255,0.88);
+        rgba(
+          255,
+          255,
+          255,
+          0.88
+        );
 
-      font-size: 13px;
+      font-size: 14px;
+      font-weight: 500;
     }
 
 
-    /* =========================
-       今日判定設定
-    ========================= */
+    /* ==========================================
+       固定タブ
+    ========================================== */
 
-    .global-setting {
-      margin-top: 17px;
+    .tabs-sticky {
+      position: sticky;
 
-      padding: 11px 13px;
+      top: env(safe-area-inset-top);
 
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      z-index: 100;
 
-      gap: 10px;
+      margin:
+        0 -18px
+        16px;
+
+      padding:
+        8px 18px;
 
       background:
-        rgba(255,255,255,0.30);
+        rgba(
+          246,
+          203,
+          216,
+          0.91
+        );
 
-      border-radius: 16px;
+      -webkit-backdrop-filter:
+        blur(14px);
 
-      color: white;
+      backdrop-filter:
+        blur(14px);
     }
-
-    .global-setting-label {
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .tiny-segment {
-      display: flex;
-
-      padding: 3px;
-
-      background:
-        rgba(255,255,255,0.25);
-
-      border-radius: 999px;
-    }
-
-    .tiny-segment button {
-      border: none;
-      border-radius: 999px;
-
-      padding: 6px 11px;
-
-      background: transparent;
-
-      color: white;
-
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .tiny-segment button.active {
-      background: white;
-      color: #d77794;
-    }
-
-
-    /* =========================
-       タブ
-    ========================= */
 
     .tabs {
-      display: flex;
+      display: grid;
 
-      gap: 7px;
+      grid-template-columns:
+        repeat(4, 1fr)
+        44px;
 
-      margin-bottom: 16px;
-
-      overflow-x: auto;
-
-      scrollbar-width: none;
-    }
-
-    .tabs::-webkit-scrollbar {
-      display: none;
+      gap: 6px;
     }
 
     .tab-button {
-      flex: 1;
-
-      min-width: 80px;
+      min-width: 0;
 
       border: none;
       border-radius: 999px;
 
-      padding: 10px 13px;
+      padding:
+        10px 5px;
 
       background:
-        rgba(255,255,255,0.36);
+        rgba(
+          255,
+          255,
+          255,
+          0.36
+        );
 
       color: white;
 
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
+
+      transition:
+        transform 0.15s ease,
+        background 0.2s ease,
+        color 0.2s ease;
     }
 
     .tab-button.active {
       background: white;
+
       color: #d67391;
 
       box-shadow:
         0 5px 15px
-        rgba(105,70,80,0.07);
+        rgba(
+          105,
+          70,
+          80,
+          0.07
+        );
+    }
+
+    .tab-button:active {
+      transform: scale(0.93);
+    }
+
+    .tab-add-button {
+      width: 44px;
+      height: 40px;
+
+      padding: 0;
+
+      border: none;
+      border-radius: 50%;
+
+      background: white;
+      color: #dd7896;
+
+      font-size: 24px;
+      font-weight: 500;
+
+      box-shadow:
+        0 5px 15px
+        rgba(
+          105,
+          70,
+          80,
+          0.07
+        );
+
+      transition:
+        transform 0.15s ease;
+    }
+
+    .tab-add-button:active {
+      transform: scale(0.86);
     }
 
 
-    /* =========================
-       習慣カード
-    ========================= */
+    /* ==========================================
+       習慣リスト
+    ========================================== */
 
     .habit-list {
       display: flex;
       flex-direction: column;
+
       gap: 14px;
+
+      min-height: 100px;
     }
+
+    .empty {
+      padding:
+        50px 20px;
+
+      text-align: center;
+
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          0.93
+        );
+
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+
+    /* ==========================================
+       カード
+    ========================================== */
 
     .habit-card {
       position: relative;
 
-      padding: 18px 18px 16px;
+      padding:
+        18px 18px
+        16px;
 
       background: white;
 
@@ -279,12 +332,12 @@
 
       box-shadow:
         0 7px 20px
-        rgba(105,70,80,0.08);
-
-      transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        opacity 0.18s ease;
+        rgba(
+          105,
+          70,
+          80,
+          0.08
+        );
     }
 
     .habit-card.new-card {
@@ -305,16 +358,16 @@
         opacity: 0;
 
         transform:
-          translateY(-85px)
-          scale(0.96);
+          translateY(-90px)
+          scale(0.95);
       }
 
-      65% {
+      64% {
         opacity: 1;
 
         transform:
-          translateY(10px)
-          scale(1.015);
+          translateY(11px)
+          scale(1.018);
       }
 
       82% {
@@ -330,80 +383,52 @@
       }
     }
 
+
+    /* 達成時 */
+
     .habit-card.completed-pop {
       animation:
         completedPop
-        0.42s ease;
+        0.45s ease;
     }
 
     @keyframes completedPop {
 
+      0% {
+        transform: scale(1);
+      }
+
       45% {
-        transform:
-          scale(1.025);
+        transform: scale(1.026);
       }
 
-      70% {
-        transform:
-          scale(0.99);
+      72% {
+        transform: scale(0.99);
+      }
+
+      100% {
+        transform: scale(1);
       }
     }
 
 
-    /* =========================
-       並び替え
-    ========================= */
-
-    .habit-card.dragging {
-      z-index: 100;
-
-      opacity: 0.94;
-
-      box-shadow:
-        0 18px 38px
-        rgba(100,65,75,0.22);
-
-      transform:
-        scale(1.025);
-    }
-
-    .drag-handle {
-      width: 34px;
-      height: 34px;
-
-      flex-shrink: 0;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      border: none;
-      border-radius: 50%;
-
-      background: #f9edf0;
-
-      color: #c8aab3;
-
-      font-size: 18px;
-
-      touch-action: none;
-    }
-
-
-    /* =========================
+    /* ==========================================
        カード上部
-    ========================= */
+    ========================================== */
 
     .habit-top {
       display: flex;
       align-items: center;
 
-      gap: 10px;
+      gap: 9px;
     }
 
-    .habit-icon {
-      width: 44px;
-      height: 44px;
+
+    /* 並び替え */
+
+    .drag-handle {
+      width: 33px;
+      height: 42px;
 
       flex-shrink: 0;
 
@@ -411,12 +436,52 @@
       justify-content: center;
       align-items: center;
 
-      background: #fff0f4;
+      padding: 0;
 
+      border: none;
+      border-radius: 13px;
+
+      background: #faf0f3;
+      color: #c9aeb6;
+
+      font-size: 19px;
+
+      touch-action: none;
+    }
+
+
+    /* アイコン */
+
+    .habit-icon-button {
+      width: 46px;
+      height: 46px;
+
+      flex-shrink: 0;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 0;
+
+      border: none;
       border-radius: 15px;
 
-      font-size: 23px;
+      background: #fff0f4;
+
+      font-size: 24px;
+
+      transition:
+        transform 0.15s ease;
     }
+
+    .habit-icon-button:active {
+      transform:
+        scale(0.88);
+    }
+
+
+    /* タイトル */
 
     .habit-title-area {
       min-width: 0;
@@ -433,7 +498,7 @@
     .habit-category {
       margin-top: 2px;
 
-      color: #b5a2a8;
+      color: #b4a0a7;
 
       font-family:
         "M PLUS Rounded 1c",
@@ -444,14 +509,15 @@
     }
 
 
-    /* =========================
+    /* ==========================================
        TODAY
-    ========================= */
+    ========================================== */
 
     .today-badge {
       flex-shrink: 0;
 
-      padding: 6px 9px;
+      padding:
+        7px 11px;
 
       border-radius: 999px;
 
@@ -463,17 +529,44 @@
         "M PLUS Rounded 1c",
         sans-serif;
 
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 800;
 
       opacity: 0;
+      visibility: hidden;
 
-      transform:
-        scale(0.65);
+      transform: scale(0.8);
+
+      pointer-events: none;
+
+      -webkit-user-select: none;
+      user-select: none;
+
+      -webkit-touch-callout: none;
 
       transition:
-        opacity 0.25s ease,
-        transform 0.35s
+        opacity 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .today-badge.visible {
+      opacity: 1;
+      visibility: visible;
+
+      transform: scale(1);
+
+      pointer-events: auto;
+
+      touch-action: none;
+    }
+
+
+    /* 初回にピコン */
+
+    .today-badge.today-pop {
+      animation:
+        todayPicon
+        0.58s
         cubic-bezier(
           0.34,
           1.56,
@@ -482,15 +575,72 @@
         );
     }
 
-    .today-badge.visible {
-      opacity: 1;
-      transform: scale(1);
+    @keyframes todayPicon {
+
+      0% {
+        opacity: 0;
+
+        transform:
+          translateY(3px)
+          scale(0.35);
+      }
+
+      48% {
+        opacity: 1;
+
+        transform:
+          translateY(-6px)
+          scale(1.24);
+      }
+
+      72% {
+        transform:
+          translateY(1px)
+          scale(0.95);
+      }
+
+      100% {
+        opacity: 1;
+
+        transform:
+          translateY(0)
+          scale(1);
+      }
     }
 
 
-    /* =========================
-       カウント
-    ========================= */
+    /* 長押し削除 */
+
+    .today-badge.clearing {
+      animation:
+        todayClear
+        0.24s ease forwards;
+    }
+
+    @keyframes todayClear {
+
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      45% {
+        transform: scale(1.12);
+      }
+
+      100% {
+        opacity: 0;
+
+        transform:
+          scale(0.4)
+          translateY(-5px);
+      }
+    }
+
+
+    /* ==========================================
+       進捗
+    ========================================== */
 
     .progress-info {
       margin-top: 15px;
@@ -498,17 +648,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-
-    .count {
-      color: #8d7f84;
-
-      font-family:
-        "M PLUS Rounded 1c",
-        sans-serif;
-
-      font-size: 13px;
-      font-weight: 700;
     }
 
     .done {
@@ -523,17 +662,24 @@
 
       opacity: 0;
 
-      transition: opacity 0.25s;
+      transition:
+        opacity 0.25s ease;
     }
 
     .done.visible {
       opacity: 1;
     }
 
+    .count {
+      color: #8d7f84;
 
-    /* =========================
-       バー
-    ========================= */
+      font-family:
+        "M PLUS Rounded 1c",
+        sans-serif;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
 
     .progress-bg {
       width: 100%;
@@ -552,14 +698,14 @@
       width: 0;
       height: 100%;
 
+      border-radius: 999px;
+
       background:
         linear-gradient(
           90deg,
           #f2b0c2,
           #eb8fac
         );
-
-      border-radius: 999px;
 
       transition:
         width
@@ -573,9 +719,9 @@
     }
 
 
-    /* =========================
-       プラスマイナス
-    ========================= */
+    /* ==========================================
+       ＋ −
+    ========================================== */
 
     .habit-actions {
       margin-top: 13px;
@@ -631,7 +777,7 @@
         transform: scale(1.18);
       }
 
-      75% {
+      76% {
         transform: scale(0.95);
       }
 
@@ -641,301 +787,99 @@
     }
 
 
-    /* =========================
-       バーリセット設定
-    ========================= */
+    /* ==========================================
+       ドラッグ中
+    ========================================== */
 
-    .habit-settings {
-      margin-top: 14px;
-      padding-top: 12px;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      gap: 8px;
-
-      border-top:
-        1px solid #f4e7eb;
-    }
-
-    .bar-reset-label {
-      color: #a39197;
-
-      font-family:
-        "M PLUS Rounded 1c",
-        sans-serif;
-
-      font-size: 10px;
-    }
-
-    .bar-reset-button {
-      border: none;
-      border-radius: 999px;
-
-      padding: 7px 10px;
-
-      background: #f7dce4;
-
-      color: #c66d88;
-
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .delete-button {
-      margin-top: 10px;
-
-      border: none;
-      padding: 0;
-
-      background: transparent;
-
-      color: #c6b6bb;
-
-      font-size: 10px;
-    }
-
-
-    /* =========================
-       追加欄
-    ========================= */
-
-    .add-card {
-      margin-top: 20px;
-
-      padding: 20px;
-
-      background:
-        rgba(255,255,255,0.68);
+    .drag-placeholder {
+      flex-shrink: 0;
 
       border-radius: 24px;
-    }
-
-    .add-title {
-      margin-bottom: 15px;
-
-      font-size: 17px;
-      font-weight: 700;
-    }
-
-    .field-label {
-      display: block;
-
-      margin:
-        11px 0 7px;
-
-      color: #917b82;
-
-      font-family:
-        "M PLUS Rounded 1c",
-        sans-serif;
-
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    #habitName {
-      width: 100%;
-
-      border: none;
-      outline: none;
-
-      border-radius: 14px;
-
-      padding: 13px 14px;
-
-      background: white;
-
-      color: #4f4549;
-
-      font-size: 16px;
-    }
-
-
-    /* =========================
-       アイコン選択
-    ========================= */
-
-    .icon-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(6, 1fr);
-
-      gap: 7px;
-    }
-
-    .icon-choice {
-      aspect-ratio: 1;
-
-      border: 2px solid transparent;
-      border-radius: 13px;
 
       background:
-        rgba(255,255,255,0.75);
+        rgba(
+          255,
+          255,
+          255,
+          0.21
+        );
 
-      font-size: 21px;
+      border:
+        2px dashed
+        rgba(
+          255,
+          255,
+          255,
+          0.45
+        );
     }
 
-    .icon-choice.selected {
-      border-color: #ed9db5;
-      background: white;
+    .habit-card.dragging {
+      position: fixed;
 
-      transform: scale(1.08);
+      z-index: 999;
+
+      margin: 0;
+
+      pointer-events: none;
+
+      opacity: 0.97;
+
+      transform:
+        scale(1.025);
+
+      box-shadow:
+        0 22px 50px
+        rgba(
+          91,
+          55,
+          67,
+          0.24
+        );
     }
 
-
-    /* =========================
-       カテゴリ選択
-    ========================= */
-
-    .category-choice {
-      display: flex;
-      gap: 8px;
+    .habit-card.landing {
+      animation:
+        landingPop
+        0.42s
+        cubic-bezier(
+          0.34,
+          1.56,
+          0.64,
+          1
+        );
     }
 
-    .category-button {
-      flex: 1;
+    @keyframes landingPop {
 
-      border: none;
-      border-radius: 13px;
+      0% {
+        transform: scale(1.025);
+      }
 
-      padding: 10px;
+      45% {
+        transform: scale(0.975);
+      }
 
-      background:
-        rgba(255,255,255,0.65);
+      75% {
+        transform: scale(1.018);
+      }
 
-      color: #917b82;
-
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .category-button.selected {
-      background: white;
-      color: #d36f8d;
-    }
-
-
-    /* =========================
-       目標回数
-    ========================= */
-
-    .goal-picker-button {
-      width: 100%;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      border: none;
-      border-radius: 14px;
-
-      padding: 13px 15px;
-
-      background: white;
-
-      color: #594b50;
-
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .goal-picker-value {
-      color: #d77492;
-
-      font-size: 18px;
-      font-weight: 800;
+      100% {
+        transform: scale(1);
+      }
     }
 
 
-    /* =========================
-       バー更新選択
-    ========================= */
+    /* ==========================================
+       共通オーバーレイ
+    ========================================== */
 
-    .reset-selector {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 6px;
-    }
-
-    .reset-option {
-      border: none;
-      border-radius: 13px;
-
-      padding: 10px 5px;
-
-      background:
-        rgba(255,255,255,0.60);
-
-      color: #917b82;
-
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .reset-option.selected {
-      background: white;
-      color: #d36f8d;
-    }
-
-
-    /* =========================
-       追加
-    ========================= */
-
-    .add-button {
-      width: 100%;
-
-      margin-top: 18px;
-
-      border: none;
-      border-radius: 16px;
-
-      padding: 14px;
-
-      background: white;
-      color: #d56f8e;
-
-      font-size: 15px;
-      font-weight: 800;
-    }
-
-    .add-button:active {
-      transform: scale(0.97);
-    }
-
-
-    /* =========================
-       空
-    ========================= */
-
-    .empty {
-      padding: 30px 20px;
-
-      text-align: center;
-
-      color:
-        rgba(255,255,255,0.94);
-
-      font-size: 14px;
-    }
-
-
-    /* =========================
-       ピッカー
-    ========================= */
-
-    .picker-overlay {
+    .sheet-overlay {
       position: fixed;
 
       inset: 0;
 
-      z-index: 1000;
+      z-index: 1100;
 
       display: flex;
       justify-content: center;
@@ -950,25 +894,351 @@
         );
 
       background:
-        rgba(90,60,70,0.18);
-
-      backdrop-filter:
-        blur(5px);
+        rgba(
+          89,
+          57,
+          68,
+          0.20
+        );
 
       -webkit-backdrop-filter:
+        blur(5px);
+
+      backdrop-filter:
         blur(5px);
 
       opacity: 0;
       visibility: hidden;
 
       transition:
-        opacity 0.25s,
-        visibility 0.25s;
+        opacity 0.24s ease,
+        visibility 0.24s ease;
     }
 
-    .picker-overlay.open {
+    .sheet-overlay.open {
       opacity: 1;
       visibility: visible;
+    }
+
+
+    /* ==========================================
+       編集・追加パネル
+    ========================================== */
+
+    .editor-sheet {
+      width: 100%;
+      max-width: 500px;
+
+      max-height: 88vh;
+
+      overflow-y: auto;
+
+      padding:
+        12px 20px
+        24px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.98
+        );
+
+      border-radius: 29px;
+
+      box-shadow:
+        0 20px 60px
+        rgba(
+          90,
+          60,
+          70,
+          0.20
+        );
+
+      transform:
+        translateY(110%)
+        scale(0.98);
+
+      transition:
+        transform
+        0.4s
+        cubic-bezier(
+          0.34,
+          1.28,
+          0.64,
+          1
+        );
+    }
+
+    .sheet-overlay.open
+    .editor-sheet {
+      transform:
+        translateY(0)
+        scale(1);
+    }
+
+    .sheet-handle {
+      width: 42px;
+      height: 5px;
+
+      margin:
+        0 auto
+        14px;
+
+      border-radius: 999px;
+
+      background: #eadde1;
+    }
+
+    .editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 10px;
+
+      margin-bottom: 16px;
+    }
+
+    .editor-title {
+      margin: 0;
+
+      font-size: 21px;
+      font-weight: 700;
+    }
+
+    .editor-close {
+      width: 36px;
+      height: 36px;
+
+      border: none;
+      border-radius: 50%;
+
+      background: #f6ebee;
+      color: #9f858d;
+
+      font-size: 18px;
+    }
+
+    .field-label {
+      display: block;
+
+      margin:
+        14px 0
+        7px;
+
+      color: #917b82;
+
+      font-family:
+        "M PLUS Rounded 1c",
+        sans-serif;
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    #editorHabitName {
+      width: 100%;
+
+      border: none;
+      outline: none;
+
+      border-radius: 14px;
+
+      padding:
+        13px 14px;
+
+      background: #fff4f7;
+      color: #4f4549;
+
+      font-size: 16px;
+    }
+
+
+    /* ==========================================
+       アイコン選択
+    ========================================== */
+
+    .icon-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(6, 1fr);
+
+      gap: 7px;
+    }
+
+    .icon-choice {
+      aspect-ratio: 1;
+
+      border:
+        2px solid
+        transparent;
+
+      border-radius: 13px;
+
+      background: #fff4f7;
+
+      font-size: 21px;
+
+      transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        border-color 0.15s ease;
+    }
+
+    .icon-choice.selected {
+      background: #ffffff;
+
+      border-color: #ed9db5;
+
+      transform: scale(1.08);
+    }
+
+
+    /* ==========================================
+       カテゴリ
+    ========================================== */
+
+    .category-choice {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 7px;
+    }
+
+    .category-button,
+    .reset-option {
+      border: none;
+      border-radius: 13px;
+
+      padding:
+        11px 5px;
+
+      background: #fff4f7;
+      color: #917b82;
+
+      font-size: 11px;
+      font-weight: 700;
+
+      transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        color 0.15s ease;
+    }
+
+    .category-button.selected,
+    .reset-option.selected {
+      background: #f5bfd0;
+      color: white;
+    }
+
+
+    /* ==========================================
+       目標回数
+    ========================================== */
+
+    .goal-picker-button {
+      width: 100%;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      border: none;
+      border-radius: 14px;
+
+      padding:
+        13px 15px;
+
+      background: #fff4f7;
+      color: #594b50;
+
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .goal-picker-value {
+      color: #d77492;
+
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+
+    /* ==========================================
+       バーリセット
+    ========================================== */
+
+    .reset-selector {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 7px;
+    }
+
+
+    /* ==========================================
+       編集ボタン
+    ========================================== */
+
+    .editor-save-button {
+      width: 100%;
+
+      margin-top: 20px;
+
+      border: none;
+      border-radius: 16px;
+
+      padding: 14px;
+
+      background: #ee9fb6;
+      color: white;
+
+      font-size: 15px;
+      font-weight: 800;
+
+      transition:
+        transform 0.15s ease;
+    }
+
+    .editor-save-button:active {
+      transform: scale(0.96);
+    }
+
+    .editor-delete-button {
+      width: 100%;
+
+      margin-top: 12px;
+
+      border: none;
+
+      padding: 10px;
+
+      background: transparent;
+
+      color: #bd969f;
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .editor-delete-button.hidden {
+      display: none;
+    }
+
+
+    /* ==========================================
+       回数ルーレット
+    ========================================== */
+
+    #goalPickerOverlay {
+      z-index: 1300;
     }
 
     .picker-sheet {
@@ -976,10 +1246,16 @@
       max-width: 480px;
 
       padding:
-        18px 18px 22px;
+        18px 18px
+        22px;
 
       background:
-        rgba(255,255,255,0.98);
+        rgba(
+          255,
+          255,
+          255,
+          0.99
+        );
 
       border-radius: 28px;
 
@@ -998,7 +1274,7 @@
         );
     }
 
-    .picker-overlay.open
+    .sheet-overlay.open
     .picker-sheet {
       transform:
         translateY(0)
@@ -1019,14 +1295,13 @@
       padding: 8px;
 
       background: transparent;
-
       color: #d37491;
 
       font-size: 13px;
       font-weight: 800;
     }
 
-    .picker-header .cancel {
+    .picker-header button.cancel {
       color: #aa9ba0;
     }
 
@@ -1058,6 +1333,7 @@
       height: 260px;
 
       overflow-y: scroll;
+      overflow-x: hidden;
 
       padding:
         104px 0;
@@ -1091,7 +1367,7 @@
       font-size: 19px;
       font-weight: 500;
 
-      opacity: 0.50;
+      opacity: 0.5;
 
       transition:
         transform 0.18s,
@@ -1105,9 +1381,9 @@
       font-size: 25px;
       font-weight: 800;
 
-      transform: scale(1.08);
-
       opacity: 1;
+
+      transform: scale(1.08);
     }
 
     .wheel-highlight {
@@ -1129,7 +1405,12 @@
         1px solid #f0c7d3;
 
       background:
-        rgba(247,207,219,0.12);
+        rgba(
+          247,
+          207,
+          219,
+          0.12
+        );
     }
 
     .wheel-unit {
@@ -1138,7 +1419,11 @@
       pointer-events: none;
 
       top: 50%;
-      left: calc(50% + 38px);
+
+      left:
+        calc(
+          50% + 38px
+        );
 
       transform:
         translateY(-50%);
@@ -1157,6 +1442,10 @@
 
 <main class="app">
 
+  <!-- =========================
+       上段
+  ========================== -->
+
   <header>
 
     <div class="app-title">
@@ -1173,81 +1462,104 @@
       id="dateSub"
     ></div>
 
-
-    <div class="global-setting">
-
-      <span class="global-setting-label">
-        TODAYの切り替え
-      </span>
-
-      <div class="tiny-segment">
-
-        <button
-          id="todayReset0"
-          onclick="setTodayReset(0)"
-        >
-          0:00
-        </button>
-
-        <button
-          id="todayReset4"
-          onclick="setTodayReset(4)"
-        >
-          4:00
-        </button>
-
-      </div>
-
-    </div>
-
   </header>
 
 
-  <!-- タブ -->
+  <!-- =========================
+       固定タブ
+  ========================== -->
 
-  <nav class="tabs">
+  <div class="tabs-sticky">
 
-    <button
-      class="tab-button active"
-      data-tab="all"
-      onclick="changeTab('all')"
-    >
-      すべて
-    </button>
+    <nav class="tabs">
 
-    <button
-      class="tab-button"
-      data-tab="daily"
-      onclick="changeTab('daily')"
-    >
-      日常
-    </button>
+      <button
+        class="tab-button active"
+        data-tab="all"
+        onclick="changeTab('all')"
+      >
+        すべて
+      </button>
 
-    <button
-      class="tab-button"
-      data-tab="creative"
-      onclick="changeTab('creative')"
-    >
-      創作
-    </button>
+      <button
+        class="tab-button"
+        data-tab="daily"
+        onclick="changeTab('daily')"
+      >
+        日常
+      </button>
 
-  </nav>
+      <button
+        class="tab-button"
+        data-tab="creative"
+        onclick="changeTab('creative')"
+      >
+        創作
+      </button>
+
+      <button
+        class="tab-button"
+        data-tab="game"
+        onclick="changeTab('game')"
+      >
+        ゲーム
+      </button>
+
+      <button
+        class="tab-add-button"
+        onclick="openHabitEditor()"
+        aria-label="習慣を追加"
+      >
+        ＋
+      </button>
+
+    </nav>
+
+  </div>
 
 
-  <!-- 習慣 -->
+  <!-- =========================
+       習慣一覧
+  ========================== -->
 
   <section
     class="habit-list"
     id="habitList"
   ></section>
 
+</main>
 
-  <!-- 追加 -->
 
-  <section class="add-card">
+<!-- ==========================================
+     習慣追加・編集
+========================================== -->
 
-    <div class="add-title">
-      ＋ 習慣を追加
+<div
+  class="sheet-overlay"
+  id="habitEditorOverlay"
+  onclick="habitEditorBackdrop(event)"
+>
+
+  <section class="editor-sheet">
+
+    <div class="sheet-handle"></div>
+
+    <div class="editor-header">
+
+      <h2
+        class="editor-title"
+        id="editorTitle"
+      >
+        習慣を追加
+      </h2>
+
+      <button
+        class="editor-close"
+        onclick="closeHabitEditor()"
+      >
+        ×
+      </button>
+
     </div>
 
 
@@ -1256,7 +1568,7 @@
     </label>
 
     <input
-      id="habitName"
+      id="editorHabitName"
       type="text"
       placeholder="例：水を飲む"
     >
@@ -1268,7 +1580,7 @@
 
     <div
       class="icon-grid"
-      id="iconGrid"
+      id="editorIconGrid"
     ></div>
 
 
@@ -1279,19 +1591,27 @@
     <div class="category-choice">
 
       <button
-        class="category-button selected"
-        data-category="daily"
-        onclick="selectCategory('daily')"
+        class="category-button"
+        data-editor-category="daily"
+        onclick="selectEditorCategory('daily')"
       >
         日常
       </button>
 
       <button
         class="category-button"
-        data-category="creative"
-        onclick="selectCategory('creative')"
+        data-editor-category="creative"
+        onclick="selectEditorCategory('creative')"
       >
         創作
+      </button>
+
+      <button
+        class="category-button"
+        data-editor-category="game"
+        onclick="selectEditorCategory('game')"
+      >
+        ゲーム
       </button>
 
     </div>
@@ -1312,7 +1632,7 @@
 
       <span
         class="goal-picker-value"
-        id="goalPickerValue"
+        id="editorGoalValue"
       >
         1回
       </span>
@@ -1328,24 +1648,24 @@
 
       <button
         class="reset-option"
-        data-reset="none"
-        onclick="selectBarReset('none')"
+        data-editor-reset="none"
+        onclick="selectEditorBarReset('none')"
       >
         なし
       </button>
 
       <button
         class="reset-option"
-        data-reset="midnight"
-        onclick="selectBarReset('midnight')"
+        data-editor-reset="midnight"
+        onclick="selectEditorBarReset('midnight')"
       >
         0:00
       </button>
 
       <button
-        class="reset-option selected"
-        data-reset="four"
-        onclick="selectBarReset('four')"
+        class="reset-option"
+        data-editor-reset="four"
+        onclick="selectEditorBarReset('four')"
       >
         4:00
       </button>
@@ -1354,23 +1674,38 @@
 
 
     <button
-      class="add-button"
-      onclick="addHabit()"
+      class="editor-save-button"
+      id="editorSaveButton"
+      onclick="saveHabitEditor()"
     >
       追加する
     </button>
 
+
+    <button
+      class="
+        editor-delete-button
+        hidden
+      "
+      id="editorDeleteButton"
+      onclick="deleteEditingHabit()"
+    >
+      この習慣を削除
+    </button>
+
   </section>
 
-</main>
+</div>
 
 
-<!-- 回数ルーレット -->
+<!-- ==========================================
+     回数ルーレット
+========================================== -->
 
 <div
-  class="picker-overlay"
+  class="sheet-overlay"
   id="goalPickerOverlay"
-  onclick="overlayClicked(event)"
+  onclick="goalPickerBackdrop(event)"
 >
 
   <div class="picker-sheet">
@@ -1421,9 +1756,9 @@
 
 <script>
 
-  /* =========================
+  /* ==========================================
      基本
-  ========================= */
+  ========================================== */
 
   const STORAGE_KEY =
     "habitTrackerData";
@@ -1444,100 +1779,139 @@
     "💊",
     "🌱",
     "⭐",
-    "🐰"
+    "🐰",
+    "🎮",
+    "🕹️",
+    "🎧",
+    "☕"
   ];
 
 
   let currentTab = "all";
 
-  let selectedGoal = 1;
+  let newHabitId = null;
+
+  let todayPopId = null;
+
+  let editingHabitId = null;
+
+
+  /* 編集中の値 */
+
+  let editorIcon = "🌷";
+
+  let editorCategory = "daily";
+
+  let editorGoal = 1;
+
+  let editorBarReset = "four";
+
+
+  /* ルーレット */
 
   let pendingGoal = 1;
-
-  let selectedIcon = "🌷";
-
-  let selectedCategory = "daily";
-
-  let selectedBarReset = "four";
-
-  let newHabitId = null;
 
   let wheelFrame = null;
 
 
-  /* =========================
-     時間関係
-  ========================= */
+  /* ドラッグ */
 
-  function getPeriodKey(
-    hour
-  ) {
-
-    const now =
-      new Date();
-
-    const shifted =
-      new Date(
-        now.getTime()
-        -
-        hour
-        * 60
-        * 60
-        * 1000
-      );
+  let dragState = null;
 
 
-    return (
-      shifted.getFullYear()
-      + "-"
-      +
-      String(
-        shifted.getMonth() + 1
-      ).padStart(2, "0")
-      + "-"
-      +
-      String(
-        shifted.getDate()
-      ).padStart(2, "0")
-    );
+  /* ==========================================
+     データ
+  ========================================== */
+
+  function createInitialData() {
+
+    return {
+      habits: []
+    };
   }
 
 
-  function getCurrentPeriodStart(
-    resetHour
-  ) {
+  function loadData() {
 
-    const now =
-      new Date();
-
-    const start =
-      new Date(now);
-
-    start.setHours(
-      resetHour,
-      0,
-      0,
-      0
-    );
-
-
-    if (
-      now < start
-    ) {
-
-      start.setDate(
-        start.getDate() - 1
+    const saved =
+      localStorage.getItem(
+        STORAGE_KEY
       );
+
+
+    if (!saved) {
+
+      return createInitialData();
     }
 
 
-    return start.getTime();
+    try {
+
+      const parsed =
+        JSON.parse(saved);
+
+
+      if (
+        !Array.isArray(
+          parsed.habits
+        )
+      ) {
+
+        return createInitialData();
+      }
+
+
+      return parsed;
+
+    } catch {
+
+      return createInitialData();
+    }
   }
 
 
-  /* =========================
-     日付表示
-  ========================= */
+  let data =
+    loadData();
+
+
+  function saveData() {
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(data)
+    );
+  }
+
+
+  /* ==========================================
+     ID
+  ========================================== */
+
+  function createId() {
+
+    if (
+      window.crypto
+      &&
+      crypto.randomUUID
+    ) {
+
+      return crypto.randomUUID();
+    }
+
+
+    return (
+      Date.now().toString()
+      +
+      Math.random()
+        .toString(16)
+        .slice(2)
+    );
+  }
+
+
+  /* ==========================================
+     日付
+  ========================================== */
 
   function renderDate() {
 
@@ -1574,188 +1948,134 @@
   }
 
 
-  /* =========================
-     ID
-  ========================= */
+  /* ==========================================
+     0時 / 4時の期間キー
+  ========================================== */
 
-  function createId() {
+  function getPeriodKey(
+    resetHour
+  ) {
 
-    if (
-      window.crypto
-      &&
-      crypto.randomUUID
-    ) {
-
-      return crypto.randomUUID();
-    }
+    const now =
+      new Date();
 
 
-    return (
-      Date.now().toString()
-      +
-      Math.random()
-        .toString(16)
-        .slice(2)
-    );
-  }
-
-
-  /* =========================
-     データ読込
-  ========================= */
-
-  function loadData() {
-
-    const saved =
-      localStorage.getItem(
-        STORAGE_KEY
+    const shifted =
+      new Date(
+        now.getTime()
+        -
+        resetHour
+        * 60
+        * 60
+        * 1000
       );
 
 
-    if (!saved) {
-
-      return {
-        settings: {
-          todayResetHour: 4
-        },
-
-        habits: []
-      };
-    }
-
-
-    try {
-
-      const parsed =
-        JSON.parse(saved);
-
-
-      if (
-        !parsed.settings
-      ) {
-
-        parsed.settings = {
-          todayResetHour: 4
-        };
-      }
-
-
-      if (
-        parsed.settings
-          .todayResetHour
-        === undefined
-      ) {
-
-        parsed.settings
-          .todayResetHour = 4;
-      }
-
-
-      if (
-        !Array.isArray(
-          parsed.habits
-        )
-      ) {
-
-        parsed.habits = [];
-      }
-
-
-      /*
-        旧バージョンから移行
-      */
-
-      parsed.habits =
-        parsed.habits.map(
-          habit => {
-
-            let barReset =
-              habit.barReset;
-
-
-            if (!barReset) {
-
-              if (
-                habit.resetDaily
-                === false
-              ) {
-
-                barReset = "none";
-
-              } else {
-
-                barReset = "four";
-
-              }
-            }
-
-
-            return {
-
-              ...habit,
-
-              id:
-                habit.id
-                || createId(),
-
-              icon:
-                habit.icon
-                || "🌷",
-
-              category:
-                habit.category
-                || "daily",
-
-              barReset:
-                barReset,
-
-              barResetKey:
-                habit.barResetKey
-                || null,
-
-              lastDoneAt:
-                habit.lastDoneAt
-                || null
-
-            };
-
-          }
-        );
-
-
-      return parsed;
-
-    } catch {
-
-      return {
-
-        settings: {
-          todayResetHour: 4
-        },
-
-        habits: []
-
-      };
-    }
-  }
-
-
-  let data =
-    loadData();
-
-
-  function saveData() {
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(data)
+    return (
+      shifted.getFullYear()
+      + "-"
+      +
+      String(
+        shifted.getMonth() + 1
+      ).padStart(2, "0")
+      + "-"
+      +
+      String(
+        shifted.getDate()
+      ).padStart(2, "0")
     );
   }
 
 
-  /* =========================
-     バーリセット
-  ========================= */
+  function getPeriodStart(
+    resetHour
+  ) {
+
+    const now =
+      new Date();
+
+
+    const start =
+      new Date(now);
+
+
+    start.setHours(
+      resetHour,
+      0,
+      0,
+      0
+    );
+
+
+    if (
+      now < start
+    ) {
+
+      start.setDate(
+        start.getDate() - 1
+      );
+    }
+
+
+    return start.getTime();
+  }
+
+
+  /* ==========================================
+     TODAY
+
+     日常・創作 = 0時
+     ゲーム = 4時
+  ========================================== */
+
+  function getTodayResetHour(
+    habit
+  ) {
+
+    if (
+      habit.category
+      === "game"
+    ) {
+
+      return 4;
+    }
+
+
+    return 0;
+  }
+
+
+  function isDoneToday(
+    habit
+  ) {
+
+    if (
+      !habit.lastDoneAt
+    ) {
+
+      return false;
+    }
+
+
+    const resetHour =
+      getTodayResetHour(
+        habit
+      );
+
+
+    return (
+      habit.lastDoneAt
+      >=
+      getPeriodStart(
+        resetHour
+      )
+    );
+  }
+
+
+  /* ==========================================
+     バーのリセット
+  ========================================== */
 
   function getBarPeriodKey(
     habit
@@ -1800,23 +2120,18 @@
         }
 
 
-        const key =
+        const currentKey =
           getBarPeriodKey(
             habit
           );
 
-
-        /*
-          初回は現在の期間を記録
-          既存カウントは消さない
-        */
 
         if (
           !habit.barResetKey
         ) {
 
           habit.barResetKey =
-            key;
+            currentKey;
 
           changed = true;
 
@@ -1826,13 +2141,13 @@
 
         if (
           habit.barResetKey
-          !== key
+          !== currentKey
         ) {
 
           habit.current = 0;
 
           habit.barResetKey =
-            key;
+            currentKey;
 
           changed = true;
         }
@@ -1842,6 +2157,7 @@
 
 
     if (changed) {
+
       saveData();
     }
 
@@ -1850,54 +2166,37 @@
   }
 
 
-  /* =========================
-     TODAY判定
-  ========================= */
+  /* ==========================================
+     カテゴリ名
+  ========================================== */
 
-  function isDoneToday(
-    habit
+  function getCategoryName(
+    category
   ) {
 
     if (
-      !habit.lastDoneAt
+      category === "creative"
     ) {
 
-      return false;
+      return "創作";
     }
 
 
-    const start =
-      getCurrentPeriodStart(
-        data.settings
-          .todayResetHour
-      );
+    if (
+      category === "game"
+    ) {
+
+      return "ゲーム";
+    }
 
 
-    return (
-      habit.lastDoneAt
-      >= start
-    );
+    return "日常";
   }
 
 
-  function setTodayReset(
-    hour
-  ) {
-
-    data.settings
-      .todayResetHour =
-        hour;
-
-
-    saveData();
-
-    render();
-  }
-
-
-  /* =========================
+  /* ==========================================
      タブ
-  ========================= */
+  ========================================== */
 
   function changeTab(
     tab
@@ -1927,9 +2226,9 @@
   }
 
 
-  /* =========================
-     描画
-  ========================= */
+  /* ==========================================
+     メイン描画
+  ========================================== */
 
   function render(
     progressAnimation = null
@@ -1938,32 +2237,6 @@
     checkBarResets();
 
     renderDate();
-
-
-    document
-      .getElementById(
-        "todayReset0"
-      )
-      .classList
-      .toggle(
-        "active",
-        data.settings
-          .todayResetHour
-        === 0
-      );
-
-
-    document
-      .getElementById(
-        "todayReset4"
-      )
-      .classList
-      .toggle(
-        "active",
-        data.settings
-          .todayResetHour
-        === 4
-      );
 
 
     const list =
@@ -1980,7 +2253,8 @@
         habit => {
 
           if (
-            currentTab === "all"
+            currentTab
+            === "all"
           ) {
 
             return true;
@@ -2003,7 +2277,11 @@
       list.innerHTML =
         `
         <div class="empty">
-          このタブにはまだ習慣がありません。
+
+          まだ習慣がありません。<br>
+
+          上の＋から追加できます。
+
         </div>
         `;
 
@@ -2013,7 +2291,6 @@
 
     visibleHabits.forEach(
       habit => {
-
 
         const percent =
           Math.min(
@@ -2092,27 +2369,35 @@
             </button>
 
 
-            <div class="habit-icon">
+            <button
+              class="habit-icon-button"
+              onclick="
+                openHabitEditor(
+                  '${habit.id}'
+                )
+              "
+              aria-label="習慣を編集"
+            >
               ${habit.icon}
-            </div>
+            </button>
 
 
             <div class="habit-title-area">
 
               <div class="habit-name">
+
                 ${escapeHtml(
                   habit.name
                 )}
+
               </div>
+
 
               <div class="habit-category">
 
-                ${
+                ${getCategoryName(
                   habit.category
-                  === "creative"
-                  ? "創作"
-                  : "日常"
-                }
+                )}
 
               </div>
 
@@ -2127,6 +2412,12 @@
                   ? "visible"
                   : ""
                 }
+                ${
+                  todayPopId
+                  === habit.id
+                  ? "today-pop"
+                  : ""
+                }
               "
             >
               TODAY ✓
@@ -2137,7 +2428,7 @@
 
           <div class="progress-info">
 
-            <span
+            <div
               class="
                 done
                 ${
@@ -2148,14 +2439,16 @@
               "
             >
               ✓ DONE
-            </span>
+            </div>
 
 
-            <span class="count">
+            <div class="count">
+
               ${habit.current}
               /
               ${habit.goal}
-            </span>
+
+            </div>
 
           </div>
 
@@ -2206,51 +2499,17 @@
 
           </div>
 
-
-          <div class="habit-settings">
-
-            <span class="bar-reset-label">
-
-              バー：
-              ${
-                getBarResetText(
-                  habit.barReset
-                )
-              }
-
-            </span>
-
-
-            <button
-              class="bar-reset-button"
-              onclick="
-                cycleBarReset(
-                  '${habit.id}'
-                )
-              "
-            >
-              変更
-            </button>
-
-          </div>
-
-
-          <button
-            class="delete-button"
-            onclick="
-              deleteHabit(
-                '${habit.id}'
-              )
-            "
-          >
-            この習慣を削除
-          </button>
-
           `;
 
 
         list.appendChild(
           card
+        );
+
+
+        setupTodayLongPress(
+          card,
+          habit.id
         );
 
 
@@ -2263,9 +2522,7 @@
     );
 
 
-    /*
-      バーアニメーション
-    */
+    /* バーをびよーん */
 
     if (
       progressAnimation
@@ -2295,9 +2552,10 @@
 
         }
       );
-
     }
 
+
+    /* 新規カード判定解除 */
 
     if (newHabitId) {
 
@@ -2321,96 +2579,36 @@
       );
     }
 
-  }
+
+    /* TODAYピコン判定解除 */
+
+    if (todayPopId) {
+
+      const id =
+        todayPopId;
 
 
-  /* =========================
-     バー設定
-  ========================= */
+      setTimeout(
+        () => {
 
-  function getBarResetText(
-    type
-  ) {
+          if (
+            todayPopId
+            === id
+          ) {
 
-    if (
-      type === "midnight"
-    ) {
+            todayPopId = null;
+          }
 
-      return "毎日 0:00";
-    }
-
-
-    if (
-      type === "four"
-    ) {
-
-      return "毎日 4:00";
-    }
-
-
-    return "リセットなし";
-  }
-
-
-  function cycleBarReset(
-    id
-  ) {
-
-    const habit =
-      data.habits.find(
-        item =>
-          item.id === id
+        },
+        650
       );
-
-
-    if (!habit) {
-      return;
     }
-
-
-    if (
-      habit.barReset
-      === "none"
-    ) {
-
-      habit.barReset =
-        "midnight";
-
-    } else if (
-      habit.barReset
-      === "midnight"
-    ) {
-
-      habit.barReset =
-        "four";
-
-    } else {
-
-      habit.barReset =
-        "none";
-    }
-
-
-    /*
-      変更した瞬間に
-      カウントを消さない
-    */
-
-    habit.barResetKey =
-      getBarPeriodKey(
-        habit
-      );
-
-
-    saveData();
-
-    render();
   }
 
 
-  /* =========================
+  /* ==========================================
      ＋
-  ========================= */
+  ========================================== */
 
   function increaseHabit(
     id,
@@ -2434,6 +2632,12 @@
     }
 
 
+    const alreadyDoneToday =
+      isDoneToday(
+        habit
+      );
+
+
     const beforePercent =
       Math.min(
         100,
@@ -2453,17 +2657,9 @@
     habit.current++;
 
 
-    /*
-      TODAY記録
-    */
-
     habit.lastDoneAt =
       Date.now();
 
-
-    /*
-      現在のバー期間も保存
-    */
 
     if (
       habit.barReset
@@ -2491,6 +2687,15 @@
     const nowCompleted =
       habit.current
       >= habit.goal;
+
+
+    if (
+      !alreadyDoneToday
+    ) {
+
+      todayPopId =
+        id;
+    }
 
 
     saveData();
@@ -2540,14 +2745,14 @@
         }
 
       },
-      80
+      75
     );
   }
 
 
-  /* =========================
+  /* ==========================================
      −
-  ========================= */
+  ========================================== */
 
   function decreaseHabit(
     id,
@@ -2620,10 +2825,14 @@
         });
 
       },
-      80
+      75
     );
   }
 
+
+  /* ==========================================
+     ボタンぽよん
+  ========================================== */
 
   function animateButton(
     button
@@ -2650,9 +2859,160 @@
   }
 
 
-  /* =========================
+  /* ==========================================
+     TODAY長押し
+
+     TODAYだけ消す。
+     バーは減らさない。
+  ========================================== */
+
+  function setupTodayLongPress(
+    card,
+    habitId
+  ) {
+
+    const badge =
+      card.querySelector(
+        ".today-badge"
+      );
+
+
+    if (
+      !badge
+      ||
+      !badge.classList
+        .contains("visible")
+    ) {
+
+      return;
+    }
+
+
+    let timer = null;
+
+    let startX = 0;
+
+    let startY = 0;
+
+    let triggered = false;
+
+
+    badge.addEventListener(
+      "pointerdown",
+      event => {
+
+        startX =
+          event.clientX;
+
+        startY =
+          event.clientY;
+
+
+        triggered = false;
+
+
+        timer =
+          setTimeout(
+            () => {
+
+              triggered = true;
+
+
+              badge.classList
+                .add(
+                  "clearing"
+                );
+
+
+              setTimeout(
+                () => {
+
+                  const habit =
+                    data.habits.find(
+                      item =>
+                        item.id
+                        === habitId
+                    );
+
+
+                  if (!habit) {
+                    return;
+                  }
+
+
+                  habit.lastDoneAt =
+                    null;
+
+
+                  saveData();
+
+                  render();
+
+                },
+                220
+              );
+
+            },
+            550
+          );
+
+      }
+    );
+
+
+    badge.addEventListener(
+      "pointermove",
+      event => {
+
+        const distance =
+          Math.hypot(
+            event.clientX
+            - startX,
+
+            event.clientY
+            - startY
+          );
+
+
+        if (
+          distance > 10
+        ) {
+
+          clearTimeout(
+            timer
+          );
+        }
+
+      }
+    );
+
+
+    function cancel() {
+
+      if (!triggered) {
+
+        clearTimeout(
+          timer
+        );
+      }
+    }
+
+
+    badge.addEventListener(
+      "pointerup",
+      cancel
+    );
+
+    badge.addEventListener(
+      "pointercancel",
+      cancel
+    );
+  }
+
+
+  /* ==========================================
      並び替え
-  ========================= */
+  ========================================== */
 
   function setupLongPressDrag(
     card,
@@ -2665,43 +3025,53 @@
       );
 
 
+    if (!handle) {
+      return;
+    }
+
+
     let timer = null;
 
-    let dragging = false;
+    let startX = 0;
 
-    let pointerId = null;
+    let startY = 0;
+
+    let active = false;
 
 
     handle.addEventListener(
       "pointerdown",
       event => {
 
-        pointerId =
-          event.pointerId;
+        if (dragState) {
+          return;
+        }
+
+
+        startX =
+          event.clientX;
+
+        startY =
+          event.clientY;
 
 
         timer =
           setTimeout(
             () => {
 
-              dragging = true;
-
-              card.classList
-                .add(
-                  "dragging"
-                );
+              active = true;
 
 
-              if (
-                navigator.vibrate
-              ) {
-
-                navigator.vibrate(20);
-              }
+              beginDrag(
+                card,
+                habitId,
+                event.clientY
+              );
 
             },
-            350
+            380
           );
+
       }
     );
 
@@ -2710,63 +3080,40 @@
       "pointermove",
       event => {
 
-        if (!dragging) {
+        if (
+          active
+          &&
+          dragState
+        ) {
+
+          event.preventDefault();
+
+
+          updateDrag(
+            event.clientY
+          );
+
           return;
         }
 
 
-        event.preventDefault();
+        const moved =
+          Math.hypot(
+            event.clientX
+            - startX,
 
-
-        const element =
-          document.elementFromPoint(
-            event.clientX,
             event.clientY
-          );
-
-
-        const targetCard =
-          element
-          ?.closest(
-            ".habit-card"
+            - startY
           );
 
 
         if (
-          !targetCard
-          ||
-          targetCard === card
+          moved > 9
         ) {
 
-          return;
-        }
-
-
-        const targetId =
-          targetCard.dataset.id;
-
-
-        reorderVisibleHabits(
-          habitId,
-          targetId
-        );
-
-
-        render();
-
-
-        const movedCard =
-          document.querySelector(
-            `.habit-card[data-id="${habitId}"]`
+          clearTimeout(
+            timer
           );
-
-
-        if (movedCard) {
-
-          movedCard.classList
-            .add(
-              "dragging"
-            );
         }
 
       }
@@ -2775,16 +3122,20 @@
 
     function finish() {
 
-      clearTimeout(timer);
+      clearTimeout(
+        timer
+      );
 
 
-      if (dragging) {
+      if (
+        active
+        &&
+        dragState
+      ) {
 
-        dragging = false;
+        active = false;
 
-        saveData();
-
-        render();
+        finishDrag();
       }
     }
 
@@ -2801,20 +3152,526 @@
   }
 
 
-  function reorderVisibleHabits(
-    movingId,
-    targetId
+  function beginDrag(
+    card,
+    habitId,
+    pointerY
   ) {
 
-    const visibleIndexes = [];
+    const rect =
+      card.getBoundingClientRect();
+
+
+    const placeholder =
+      document.createElement(
+        "div"
+      );
+
+
+    placeholder.className =
+      "drag-placeholder";
+
+
+    placeholder.style.height =
+      rect.height + "px";
+
+
+    card.parentNode
+      .insertBefore(
+        placeholder,
+        card
+      );
+
+
+    document.body
+      .appendChild(
+        card
+      );
+
+
+    card.classList
+      .add(
+        "dragging"
+      );
+
+
+    card.style.left =
+      rect.left + "px";
+
+    card.style.top =
+      rect.top + "px";
+
+    card.style.width =
+      rect.width + "px";
+
+    card.style.height =
+      rect.height + "px";
+
+
+    dragState = {
+
+      id:
+        habitId,
+
+      card:
+        card,
+
+      placeholder:
+        placeholder,
+
+      startPointerY:
+        pointerY,
+
+      lastPointerY:
+        pointerY,
+
+      startTop:
+        rect.top,
+
+      currentTop:
+        rect.top,
+
+      height:
+        rect.height
+
+    };
+  }
+
+
+  function updateDrag(
+    pointerY
+  ) {
+
+    if (!dragState) {
+      return;
+    }
+
+
+    const direction =
+      pointerY
+      -
+      dragState.lastPointerY;
+
+
+    dragState.lastPointerY =
+      pointerY;
+
+
+    const delta =
+      pointerY
+      -
+      dragState.startPointerY;
+
+
+    let newTop =
+      dragState.startTop
+      +
+      delta;
+
+
+    newTop =
+      Math.max(
+        8,
+        Math.min(
+          window.innerHeight
+          -
+          dragState.height
+          -
+          8,
+
+          newTop
+        )
+      );
+
+
+    dragState.currentTop =
+      newTop;
+
+
+    dragState.card.style.top =
+      newTop + "px";
+
+
+    if (
+      direction > 0
+    ) {
+
+      movePlaceholderDown();
+
+    } else if (
+      direction < 0
+    ) {
+
+      movePlaceholderUp();
+    }
+  }
+
+
+  /* 少し被った段階で下のカードが逃げる */
+
+  function movePlaceholderDown() {
+
+    if (!dragState) {
+      return;
+    }
+
+
+    let next =
+      dragState.placeholder
+        .nextElementSibling;
+
+
+    while (
+      next
+      &&
+      next.classList
+        .contains(
+          "habit-card"
+        )
+    ) {
+
+      const rect =
+        next.getBoundingClientRect();
+
+
+      const dragBottom =
+        dragState.currentTop
+        +
+        dragState.height;
+
+
+      const threshold =
+        rect.top
+        +
+        rect.height
+        * 0.24;
+
+
+      if (
+        dragBottom
+        <= threshold
+      ) {
+
+        break;
+      }
+
+
+      animateListShift(
+        () => {
+
+          next.after(
+            dragState.placeholder
+          );
+
+        }
+      );
+
+
+      next =
+        dragState.placeholder
+          .nextElementSibling;
+    }
+  }
+
+
+  function movePlaceholderUp() {
+
+    if (!dragState) {
+      return;
+    }
+
+
+    let previous =
+      dragState.placeholder
+        .previousElementSibling;
+
+
+    while (
+      previous
+      &&
+      previous.classList
+        .contains(
+          "habit-card"
+        )
+    ) {
+
+      const rect =
+        previous
+          .getBoundingClientRect();
+
+
+      const threshold =
+        rect.bottom
+        -
+        rect.height
+        * 0.24;
+
+
+      if (
+        dragState.currentTop
+        >= threshold
+      ) {
+
+        break;
+      }
+
+
+      animateListShift(
+        () => {
+
+          previous.before(
+            dragState.placeholder
+          );
+
+        }
+      );
+
+
+      previous =
+        dragState.placeholder
+          .previousElementSibling;
+    }
+  }
+
+
+  /* にゅるん移動 */
+
+  function animateListShift(
+    changeLayout
+  ) {
+
+    const cards =
+      Array.from(
+        document.querySelectorAll(
+          "#habitList .habit-card"
+        )
+      );
+
+
+    const before =
+      new Map();
+
+
+    cards.forEach(
+      card => {
+
+        before.set(
+          card,
+          card.getBoundingClientRect()
+        );
+      }
+    );
+
+
+    changeLayout();
+
+
+    cards.forEach(
+      card => {
+
+        const oldRect =
+          before.get(
+            card
+          );
+
+
+        const newRect =
+          card.getBoundingClientRect();
+
+
+        if (!oldRect) {
+          return;
+        }
+
+
+        const dy =
+          oldRect.top
+          -
+          newRect.top;
+
+
+        if (
+          Math.abs(dy)
+          < 1
+        ) {
+
+          return;
+        }
+
+
+        card.animate(
+
+          [
+            {
+              transform:
+                `translateY(${dy}px)`
+            },
+
+            {
+              transform:
+                "translateY(0)"
+            }
+          ],
+
+          {
+            duration: 250,
+
+            easing:
+              "cubic-bezier(0.22, 1, 0.36, 1)"
+          }
+
+        );
+
+      }
+    );
+  }
+
+
+  function finishDrag() {
+
+    if (!dragState) {
+      return;
+    }
+
+
+    const state =
+      dragState;
+
+
+    const targetRect =
+      state.placeholder
+        .getBoundingClientRect();
+
+
+    state.card.style.transition =
+      "top 0.18s cubic-bezier(0.22,1,0.36,1), left 0.18s ease";
+
+
+    state.card.style.top =
+      targetRect.top + "px";
+
+    state.card.style.left =
+      targetRect.left + "px";
+
+
+    setTimeout(
+      () => {
+
+        state.card.style.transition =
+          "";
+
+
+        state.card.style.position =
+          "";
+
+        state.card.style.left =
+          "";
+
+        state.card.style.top =
+          "";
+
+        state.card.style.width =
+          "";
+
+        state.card.style.height =
+          "";
+
+        state.card.style.zIndex =
+          "";
+
+        state.card.style.pointerEvents =
+          "";
+
+
+        state.card.classList
+          .remove(
+            "dragging"
+          );
+
+
+        state.placeholder
+          .replaceWith(
+            state.card
+          );
+
+
+        state.card.classList
+          .add(
+            "landing"
+          );
+
+
+        updateDataOrderFromDom();
+
+
+        saveData();
+
+
+        setTimeout(
+          () => {
+
+            state.card.classList
+              .remove(
+                "landing"
+              );
+
+          },
+          450
+        );
+
+
+        dragState = null;
+
+      },
+      185
+    );
+  }
+
+
+  /* DOMの並びを保存 */
+
+  function updateDataOrderFromDom() {
+
+    const ids =
+      Array.from(
+        document.querySelectorAll(
+          "#habitList .habit-card"
+        )
+      )
+      .map(
+        card =>
+          card.dataset.id
+      );
+
+
+    if (
+      currentTab === "all"
+    ) {
+
+      data.habits =
+        ids
+          .map(
+            id =>
+              data.habits.find(
+                habit =>
+                  habit.id === id
+              )
+          )
+          .filter(Boolean);
+
+
+      return;
+    }
+
+
+    const visibleIndexes =
+      [];
 
 
     data.habits.forEach(
       (habit, index) => {
 
         if (
-          currentTab === "all"
-          ||
           habit.category
           === currentTab
         ) {
@@ -2828,72 +3685,279 @@
     );
 
 
-    const visibleHabits =
-      visibleIndexes.map(
-        index =>
-          data.habits[index]
-      );
-
-
-    const from =
-      visibleHabits.findIndex(
-        habit =>
-          habit.id === movingId
-      );
-
-
-    const to =
-      visibleHabits.findIndex(
-        habit =>
-          habit.id === targetId
-      );
-
-
-    if (
-      from < 0
-      ||
-      to < 0
-      ||
-      from === to
-    ) {
-
-      return;
-    }
-
-
-    const [moving] =
-      visibleHabits.splice(
-        from,
-        1
-      );
-
-
-    visibleHabits.splice(
-      to,
-      0,
-      moving
-    );
+    const orderedHabits =
+      ids
+        .map(
+          id =>
+            data.habits.find(
+              habit =>
+                habit.id === id
+            )
+        )
+        .filter(Boolean);
 
 
     visibleIndexes.forEach(
       (realIndex, index) => {
 
-        data.habits[realIndex] =
-          visibleHabits[index];
+        data.habits[
+          realIndex
+        ] =
+          orderedHabits[
+            index
+          ];
       }
     );
   }
 
 
-  /* =========================
-     アイコン
-  ========================= */
+  /* ==========================================
+     編集パネル
+  ========================================== */
 
-  function initIcons() {
+  function openHabitEditor(
+    habitId = null
+  ) {
+
+    editingHabitId =
+      habitId;
+
+
+    const nameInput =
+      document.getElementById(
+        "editorHabitName"
+      );
+
+
+    if (habitId) {
+
+      const habit =
+        data.habits.find(
+          item =>
+            item.id
+            === habitId
+        );
+
+
+      if (!habit) {
+        return;
+      }
+
+
+      editorIcon =
+        habit.icon;
+
+      editorCategory =
+        habit.category;
+
+      editorGoal =
+        habit.goal;
+
+      editorBarReset =
+        habit.barReset;
+
+
+      nameInput.value =
+        habit.name;
+
+
+      document
+        .getElementById(
+          "editorTitle"
+        )
+        .textContent =
+          "習慣を編集";
+
+
+      document
+        .getElementById(
+          "editorSaveButton"
+        )
+        .textContent =
+          "保存する";
+
+
+      document
+        .getElementById(
+          "editorDeleteButton"
+        )
+        .classList
+        .remove(
+          "hidden"
+        );
+
+    } else {
+
+      editorIcon =
+        "🌷";
+
+
+      if (
+        currentTab === "daily"
+        ||
+        currentTab === "creative"
+        ||
+        currentTab === "game"
+      ) {
+
+        editorCategory =
+          currentTab;
+
+      } else {
+
+        editorCategory =
+          "daily";
+      }
+
+
+      editorGoal = 1;
+
+      editorBarReset =
+        "four";
+
+
+      nameInput.value =
+        "";
+
+
+      document
+        .getElementById(
+          "editorTitle"
+        )
+        .textContent =
+          "習慣を追加";
+
+
+      document
+        .getElementById(
+          "editorSaveButton"
+        )
+        .textContent =
+          "追加する";
+
+
+      document
+        .getElementById(
+          "editorDeleteButton"
+        )
+        .classList
+        .add(
+          "hidden"
+        );
+    }
+
+
+    refreshEditorUI();
+
+
+    document
+      .getElementById(
+        "habitEditorOverlay"
+      )
+      .classList
+      .add(
+        "open"
+      );
+
+
+    syncBodyLock();
+  }
+
+
+  function closeHabitEditor() {
+
+    document
+      .getElementById(
+        "habitEditorOverlay"
+      )
+      .classList
+      .remove(
+        "open"
+      );
+
+
+    editingHabitId =
+      null;
+
+
+    syncBodyLock();
+  }
+
+
+  function habitEditorBackdrop(
+    event
+  ) {
+
+    if (
+      event.target.id
+      === "habitEditorOverlay"
+    ) {
+
+      closeHabitEditor();
+    }
+  }
+
+
+  /* ==========================================
+     編集UI更新
+  ========================================== */
+
+  function refreshEditorUI() {
+
+    renderEditorIcons();
+
+
+    document
+      .querySelectorAll(
+        "[data-editor-category]"
+      )
+      .forEach(
+        button => {
+
+          button.classList
+            .toggle(
+              "selected",
+              button.dataset
+                .editorCategory
+              === editorCategory
+            );
+        }
+      );
+
+
+    document
+      .querySelectorAll(
+        "[data-editor-reset]"
+      )
+      .forEach(
+        button => {
+
+          button.classList
+            .toggle(
+              "selected",
+              button.dataset
+                .editorReset
+              === editorBarReset
+            );
+        }
+      );
+
+
+    document
+      .getElementById(
+        "editorGoalValue"
+      )
+      .textContent =
+        editorGoal
+        + "回";
+  }
+
+
+  function renderEditorIcons() {
 
     const grid =
       document.getElementById(
-        "iconGrid"
+        "editorIconGrid"
       );
 
 
@@ -2914,7 +3978,7 @@
 
 
         if (
-          icon === selectedIcon
+          icon === editorIcon
         ) {
 
           button.classList
@@ -2929,8 +3993,14 @@
 
 
         button.onclick =
-          () =>
-            selectIcon(icon);
+          () => {
+
+            editorIcon =
+              icon;
+
+
+            renderEditorIcons();
+          };
 
 
         grid.appendChild(
@@ -2941,80 +4011,252 @@
   }
 
 
-  function selectIcon(
-    icon
-  ) {
-
-    selectedIcon =
-      icon;
-
-    initIcons();
-  }
-
-
-  /* =========================
-     カテゴリ
-  ========================= */
-
-  function selectCategory(
+  function selectEditorCategory(
     category
   ) {
 
-    selectedCategory =
+    editorCategory =
       category;
 
 
-    document
-      .querySelectorAll(
-        ".category-button"
-      )
-      .forEach(
-        button => {
-
-          button.classList
-            .toggle(
-              "selected",
-              button.dataset.category
-              === category
-            );
-        }
-      );
+    refreshEditorUI();
   }
 
 
-  /* =========================
-     新規バー設定
-  ========================= */
-
-  function selectBarReset(
+  function selectEditorBarReset(
     type
   ) {
 
-    selectedBarReset =
+    editorBarReset =
       type;
 
 
-    document
-      .querySelectorAll(
-        ".reset-option"
-      )
-      .forEach(
-        button => {
-
-          button.classList
-            .toggle(
-              "selected",
-              button.dataset.reset
-              === type
-            );
-        }
-      );
+    refreshEditorUI();
   }
 
 
-  /* =========================
+  /* ==========================================
+     保存
+  ========================================== */
+
+  function saveHabitEditor() {
+
+    const name =
+      document
+        .getElementById(
+          "editorHabitName"
+        )
+        .value
+        .trim();
+
+
+    if (!name) {
+
+      alert(
+        "習慣名を入力してね。"
+      );
+
+      return;
+    }
+
+
+    if (editingHabitId) {
+
+      const habit =
+        data.habits.find(
+          item =>
+            item.id
+            === editingHabitId
+        );
+
+
+      if (!habit) {
+        return;
+      }
+
+
+      const resetChanged =
+        habit.barReset
+        !== editorBarReset;
+
+
+      habit.name =
+        name;
+
+      habit.icon =
+        editorIcon;
+
+      habit.category =
+        editorCategory;
+
+      habit.goal =
+        editorGoal;
+
+      habit.barReset =
+        editorBarReset;
+
+
+      if (resetChanged) {
+
+        habit.barResetKey =
+          editorBarReset
+          === "none"
+          ? null
+          : getBarPeriodKey(
+              habit
+            );
+      }
+
+    } else {
+
+      const habit = {
+
+        id:
+          createId(),
+
+        name:
+          name,
+
+        icon:
+          editorIcon,
+
+        category:
+          editorCategory,
+
+        goal:
+          editorGoal,
+
+        current:
+          0,
+
+        barReset:
+          editorBarReset,
+
+        barResetKey:
+          null,
+
+        lastDoneAt:
+          null
+
+      };
+
+
+      if (
+        habit.barReset
+        !== "none"
+      ) {
+
+        habit.barResetKey =
+          getBarPeriodKey(
+            habit
+          );
+      }
+
+
+      data.habits.push(
+        habit
+      );
+
+
+      newHabitId =
+        habit.id;
+    }
+
+
+    saveData();
+
+
+    document
+      .getElementById(
+        "habitEditorOverlay"
+      )
+      .classList
+      .remove(
+        "open"
+      );
+
+
+    editingHabitId =
+      null;
+
+
+    syncBodyLock();
+
+    render();
+  }
+
+
+  /* ==========================================
+     編集中習慣削除
+  ========================================== */
+
+  function deleteEditingHabit() {
+
+    if (
+      !editingHabitId
+    ) {
+
+      return;
+    }
+
+
+    const habit =
+      data.habits.find(
+        item =>
+          item.id
+          === editingHabitId
+      );
+
+
+    if (!habit) {
+      return;
+    }
+
+
+    if (
+      !confirm(
+        `「${habit.name}」を削除しますか？`
+      )
+    ) {
+
+      return;
+    }
+
+
+    data.habits =
+      data.habits.filter(
+        item =>
+          item.id
+          !== editingHabitId
+      );
+
+
+    saveData();
+
+
+    document
+      .getElementById(
+        "habitEditorOverlay"
+      )
+      .classList
+      .remove(
+        "open"
+      );
+
+
+    editingHabitId =
+      null;
+
+
+    syncBodyLock();
+
+    render();
+  }
+
+
+  /* ==========================================
      ルーレット
-  ========================= */
+  ========================================== */
 
   function initGoalPicker() {
 
@@ -3028,9 +4270,9 @@
 
 
     for (
-      let i = 1;
-      i <= MAX_GOAL;
-      i++
+      let number = 1;
+      number <= MAX_GOAL;
+      number++
     ) {
 
       const item =
@@ -3042,11 +4284,13 @@
       item.className =
         "wheel-item";
 
+
       item.dataset.value =
-        i;
+        number;
+
 
       item.textContent =
-        i;
+        number;
 
 
       wheel.appendChild(
@@ -3062,16 +4306,13 @@
         passive: true
       }
     );
-
-
-    updateWheelHighlight();
   }
 
 
   function openGoalPicker() {
 
     pendingGoal =
-      selectedGoal;
+      editorGoal;
 
 
     document
@@ -3084,9 +4325,7 @@
       );
 
 
-    document.body.style
-      .overflow =
-        "hidden";
+    syncBodyLock();
 
 
     requestAnimationFrame(
@@ -3099,6 +4338,7 @@
               pendingGoal,
               false
             );
+
           }
         );
       }
@@ -3183,6 +4423,7 @@
 
 
           updateWheelHighlight();
+
         }
       );
   }
@@ -3216,17 +4457,11 @@
 
     if (save) {
 
-      selectedGoal =
+      editorGoal =
         pendingGoal;
 
 
-      document
-        .getElementById(
-          "goalPickerValue"
-        )
-        .textContent =
-          selectedGoal
-          + "回";
+      refreshEditorUI();
     }
 
 
@@ -3240,13 +4475,11 @@
       );
 
 
-    document.body.style
-      .overflow =
-        "";
+    syncBodyLock();
   }
 
 
-  function overlayClicked(
+  function goalPickerBackdrop(
     event
   ) {
 
@@ -3255,164 +4488,54 @@
       === "goalPickerOverlay"
     ) {
 
-      closeGoalPicker(false);
+      closeGoalPicker(
+        false
+      );
     }
   }
 
 
-  /* =========================
-     習慣追加
-  ========================= */
+  /* ==========================================
+     オーバーレイ時スクロール固定
+  ========================================== */
 
-  function addHabit() {
+  function syncBodyLock() {
 
-    const input =
-      document.getElementById(
-        "habitName"
-      );
-
-
-    const name =
-      input.value.trim();
-
-
-    if (!name) {
-
-      alert(
-        "習慣名を入力してね。"
-      );
-
-      return;
-    }
-
-
-    const habit = {
-
-      id:
-        createId(),
-
-      name:
-        name,
-
-      goal:
-        selectedGoal,
-
-      current:
-        0,
-
-      icon:
-        selectedIcon,
-
-      category:
-        selectedCategory,
-
-      barReset:
-        selectedBarReset,
-
-      barResetKey:
-        null,
-
-      lastDoneAt:
-        null
-
-    };
-
-
-    if (
-      selectedBarReset
-      !== "none"
-    ) {
-
-      habit.barResetKey =
-        getBarPeriodKey(
-          habit
+    const editorOpen =
+      document
+        .getElementById(
+          "habitEditorOverlay"
+        )
+        .classList
+        .contains(
+          "open"
         );
-    }
 
 
-    data.habits.push(
-      habit
-    );
+    const pickerOpen =
+      document
+        .getElementById(
+          "goalPickerOverlay"
+        )
+        .classList
+        .contains(
+          "open"
+        );
 
 
-    newHabitId =
-      habit.id;
-
-
-    saveData();
-
-
-    input.value = "";
-
-
-    selectedGoal = 1;
-    pendingGoal = 1;
-
-
-    document
-      .getElementById(
-        "goalPickerValue"
-      )
-      .textContent =
-        "1回";
-
-
-    render();
+    document.body.style
+      .overflow =
+        editorOpen
+        ||
+        pickerOpen
+        ? "hidden"
+        : "";
   }
 
 
-  /* =========================
-     削除
-  ========================= */
-
-  function deleteHabit(
-    id
-  ) {
-
-    const index =
-      data.habits.findIndex(
-        habit =>
-          habit.id === id
-      );
-
-
-    if (
-      index === -1
-    ) {
-
-      return;
-    }
-
-
-    const habit =
-      data.habits[index];
-
-
-    if (
-      !confirm(
-        `「${habit.name}」を削除しますか？`
-      )
-    ) {
-
-      return;
-    }
-
-
-    data.habits.splice(
-      index,
-      1
-    );
-
-
-    saveData();
-
-    render();
-  }
-
-
-  /* =========================
-     安全表示
-  ========================= */
+  /* ==========================================
+     HTML安全化
+  ========================================== */
 
   function escapeHtml(
     text
@@ -3447,9 +4570,9 @@
   }
 
 
-  /* =========================
+  /* ==========================================
      Service Worker
-  ========================= */
+  ========================================== */
 
   if (
     "serviceWorker"
@@ -3480,11 +4603,9 @@
   }
 
 
-  /* =========================
+  /* ==========================================
      起動
-  ========================= */
-
-  initIcons();
+  ========================================== */
 
   initGoalPicker();
 
@@ -3496,28 +4617,16 @@
 
 
   /*
-    開きっぱなしの場合も
-    0時 / 4時を確認
+    0時・4時を跨いだとき、
+    開きっぱなしでも表示を更新
   */
 
   setInterval(
     () => {
 
-      const changed =
-        checkBarResets();
+      checkBarResets();
 
-
-      if (changed) {
-        render();
-      } else {
-
-        /*
-          TODAYも時刻境界で
-          消える必要がある
-        */
-
-        render();
-      }
+      render();
 
     },
     30000
