@@ -1,0 +1,17 @@
+{
+  "name": "HABITS",
+  "short_name": "HABITS",
+  "description": "シンプルなハビットトラッカー",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6cbd8",
+  "theme_color": "#f6cbd8",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
