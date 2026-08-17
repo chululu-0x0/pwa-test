@@ -41,6 +41,7 @@
     href="manifest.json"
   >
 
+
   <style>
 
     @import url(
@@ -48,9 +49,9 @@
     );
 
 
-    /* ==========================================
+    /* ========================================
        基本
-    ========================================== */
+    ======================================== */
 
     * {
       box-sizing: border-box;
@@ -73,8 +74,33 @@
         BlinkMacSystemFont,
         sans-serif;
 
-      -webkit-tap-highlight-color: transparent;
+      -webkit-tap-highlight-color:
+        transparent;
+
+      /*
+        長押しした時の
+        青い文字選択を基本的に禁止
+      */
+      -webkit-user-select: none;
+      user-select: none;
+
+      -webkit-touch-callout: none;
     }
+
+
+    /*
+      入力欄だけは普通に
+      文字選択可能
+    */
+
+    input,
+    textarea {
+      -webkit-user-select: text;
+      user-select: text;
+
+      -webkit-touch-callout: default;
+    }
+
 
     button,
     input {
@@ -85,15 +111,19 @@
         sans-serif;
     }
 
+
     button {
-      touch-action: manipulation;
+      -webkit-tap-highlight-color:
+        transparent;
 
       -webkit-user-select: none;
       user-select: none;
 
       -webkit-touch-callout: none;
-      -webkit-tap-highlight-color: transparent;
+
+      touch-action: manipulation;
     }
+
 
     .app {
       width: 100%;
@@ -102,157 +132,26 @@
       margin: 0 auto;
 
       padding:
-        max(32px, env(safe-area-inset-top))
+        max(
+          32px,
+          env(safe-area-inset-top)
+        )
         18px
-        max(80px, env(safe-area-inset-bottom));
+        max(
+          80px,
+          env(safe-area-inset-bottom)
+        );
     }
 
-    /* ==========================================
-   長押し時の文字選択を禁止
-========================================== */
 
-body {
-  -webkit-user-select: none;
-  user-select: none;
-
-  -webkit-touch-callout: none;
-}
-
-/*
-  習慣名入力欄だけは
-  普通に文字選択できるように戻す
-*/
-
-input,
-textarea {
-  -webkit-user-select: text;
-  user-select: text;
-
-  -webkit-touch-callout: default;
-}
-
-
-/*
-  並び替え中は画面スクロールを停止
-*/
-
-body.drag-active {
-  overflow: hidden;
-
-  touch-action: none;
-}
-
-
-/*
-  並び替えハンドル
-*/
-
-.drag-handle {
-  touch-action: none;
-
-  -webkit-user-select: none;
-  user-select: none;
-
-  -webkit-touch-callout: none;
-}
-
-
-/*
-  浮いているカード
-*/
-
-.habit-card.dragging {
-  position: fixed;
-
-  z-index: 9999;
-
-  margin: 0;
-
-  pointer-events: none;
-
-  opacity: 0.97;
-
-  transform: scale(1.035);
-
-  box-shadow:
-    0 24px 55px
-    rgba(91, 55, 67, 0.25);
-
-  transition: none;
-}
-
-
-/*
-  カードが抜けた場所
-*/
-
-.drag-placeholder {
-  flex-shrink: 0;
-
-  border-radius: 24px;
-
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.20
-    );
-
-  border:
-    2px dashed
-    rgba(
-      255,
-      255,
-      255,
-      0.48
-    );
-}
-
-
-/*
-  指を離したとき
-*/
-
-.habit-card.landing {
-  animation:
-    dragLanding
-    0.42s
-    cubic-bezier(
-      0.34,
-      1.56,
-      0.64,
-      1
-    );
-}
-
-@keyframes dragLanding {
-
-  0% {
-    transform: scale(1.035);
-  }
-
-  45% {
-    transform: scale(0.975);
-  }
-
-  72% {
-    transform: scale(1.018);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-
-    /* ==========================================
+    /* ========================================
        ヘッダー
-    ========================================== */
+    ======================================== */
 
     header {
       padding-bottom: 20px;
     }
+
 
     .app-title {
       color: white;
@@ -269,6 +168,7 @@ body.drag-active {
       opacity: 0.88;
     }
 
+
     .big-date {
       margin-top: 5px;
 
@@ -278,9 +178,8 @@ body.drag-active {
       font-weight: 700;
 
       line-height: 1.25;
-
-      letter-spacing: 0.01em;
     }
+
 
     .date-sub {
       margin-top: 3px;
@@ -298,14 +197,17 @@ body.drag-active {
     }
 
 
-    /* ==========================================
+    /* ========================================
        固定タブ
-    ========================================== */
+    ======================================== */
 
     .tabs-sticky {
       position: sticky;
 
-      top: env(safe-area-inset-top);
+      top:
+        env(
+          safe-area-inset-top
+        );
 
       z-index: 100;
 
@@ -331,6 +233,7 @@ body.drag-active {
         blur(14px);
     }
 
+
     .tabs {
       display: grid;
 
@@ -340,6 +243,7 @@ body.drag-active {
 
       gap: 6px;
     }
+
 
     .tab-button {
       min-width: 0;
@@ -369,9 +273,9 @@ body.drag-active {
         color 0.2s ease;
     }
 
+
     .tab-button.active {
       background: white;
-
       color: #d67391;
 
       box-shadow:
@@ -384,9 +288,11 @@ body.drag-active {
         );
     }
 
+
     .tab-button:active {
       transform: scale(0.93);
     }
+
 
     .tab-add-button {
       width: 44px;
@@ -401,7 +307,6 @@ body.drag-active {
       color: #dd7896;
 
       font-size: 24px;
-      font-weight: 500;
 
       box-shadow:
         0 5px 15px
@@ -416,14 +321,15 @@ body.drag-active {
         transform 0.15s ease;
     }
 
+
     .tab-add-button:active {
       transform: scale(0.86);
     }
 
 
-    /* ==========================================
-       習慣リスト
-    ========================================== */
+    /* ========================================
+       習慣一覧
+    ======================================== */
 
     .habit-list {
       display: flex;
@@ -433,6 +339,7 @@ body.drag-active {
 
       min-height: 100px;
     }
+
 
     .empty {
       padding:
@@ -453,9 +360,9 @@ body.drag-active {
     }
 
 
-    /* ==========================================
-       カード
-    ========================================== */
+    /* ========================================
+       習慣カード
+    ======================================== */
 
     .habit-card {
       position: relative;
@@ -478,6 +385,9 @@ body.drag-active {
         );
     }
 
+
+    /* 新規追加 */
+
     .habit-card.new-card {
       animation:
         cardDrop
@@ -489,6 +399,7 @@ body.drag-active {
           1
         );
     }
+
 
     @keyframes cardDrop {
 
@@ -522,13 +433,14 @@ body.drag-active {
     }
 
 
-    /* 達成時 */
+    /* 目標達成 */
 
     .habit-card.completed-pop {
       animation:
         completedPop
         0.45s ease;
     }
+
 
     @keyframes completedPop {
 
@@ -550,9 +462,9 @@ body.drag-active {
     }
 
 
-    /* ==========================================
+    /* ========================================
        カード上部
-    ========================================== */
+    ======================================== */
 
     .habit-top {
       display: flex;
@@ -562,7 +474,7 @@ body.drag-active {
     }
 
 
-    /* 並び替え */
+    /* 並び替えハンドル */
 
     .drag-handle {
       width: 33px;
@@ -584,7 +496,17 @@ body.drag-active {
 
       font-size: 19px;
 
+      /*
+        この部分だけは
+        ブラウザのスクロール操作より
+        ドラッグを優先
+      */
       touch-action: none;
+
+      -webkit-user-select: none;
+      user-select: none;
+
+      -webkit-touch-callout: none;
     }
 
 
@@ -613,9 +535,9 @@ body.drag-active {
         transform 0.15s ease;
     }
 
+
     .habit-icon-button:active {
-      transform:
-        scale(0.88);
+      transform: scale(0.88);
     }
 
 
@@ -626,12 +548,14 @@ body.drag-active {
       flex: 1;
     }
 
+
     .habit-name {
       font-size: 18px;
       font-weight: 700;
 
       word-break: break-word;
     }
+
 
     .habit-category {
       margin-top: 2px;
@@ -647,9 +571,9 @@ body.drag-active {
     }
 
 
-    /* ==========================================
+    /* ========================================
        TODAY
-    ========================================== */
+    ======================================== */
 
     .today-badge {
       flex-shrink: 0;
@@ -660,7 +584,6 @@ body.drag-active {
       border-radius: 999px;
 
       background: #fbe4eb;
-
       color: #d66e8e;
 
       font-family:
@@ -677,15 +600,11 @@ body.drag-active {
 
       pointer-events: none;
 
-      -webkit-user-select: none;
-      user-select: none;
-
-      -webkit-touch-callout: none;
-
       transition:
         opacity 0.2s ease,
         transform 0.2s ease;
     }
+
 
     .today-badge.visible {
       opacity: 1;
@@ -695,11 +614,15 @@ body.drag-active {
 
       pointer-events: auto;
 
+      /*
+        TODAY長押し時も
+        iOSの標準選択操作を出さない
+      */
       touch-action: none;
     }
 
 
-    /* 初回にピコン */
+    /* ピコン */
 
     .today-badge.today-pop {
       animation:
@@ -712,6 +635,7 @@ body.drag-active {
           1
         );
     }
+
 
     @keyframes todayPicon {
 
@@ -747,13 +671,15 @@ body.drag-active {
     }
 
 
-    /* 長押し削除 */
+    /* TODAY削除 */
 
     .today-badge.clearing {
       animation:
         todayClear
-        0.24s ease forwards;
+        0.24s ease
+        forwards;
     }
+
 
     @keyframes todayClear {
 
@@ -776,9 +702,9 @@ body.drag-active {
     }
 
 
-    /* ==========================================
+    /* ========================================
        進捗
-    ========================================== */
+    ======================================== */
 
     .progress-info {
       margin-top: 15px;
@@ -787,6 +713,7 @@ body.drag-active {
       justify-content: space-between;
       align-items: center;
     }
+
 
     .done {
       color: #d97796;
@@ -804,9 +731,11 @@ body.drag-active {
         opacity 0.25s ease;
     }
 
+
     .done.visible {
       opacity: 1;
     }
+
 
     .count {
       color: #8d7f84;
@@ -818,6 +747,7 @@ body.drag-active {
       font-size: 13px;
       font-weight: 700;
     }
+
 
     .progress-bg {
       width: 100%;
@@ -831,6 +761,7 @@ body.drag-active {
 
       border-radius: 999px;
     }
+
 
     .progress-bar {
       width: 0;
@@ -857,9 +788,9 @@ body.drag-active {
     }
 
 
-    /* ==========================================
-       ＋ −
-    ========================================== */
+    /* ========================================
+       プラス・マイナス
+    ======================================== */
 
     .habit-actions {
       margin-top: 13px;
@@ -869,6 +800,7 @@ body.drag-active {
 
       gap: 8px;
     }
+
 
     .round-button {
       width: 44px;
@@ -890,20 +822,24 @@ body.drag-active {
       font-weight: 700;
     }
 
+
     .round-button.plus {
       background: #ee9fb6;
       color: white;
     }
 
+
     .round-button:active {
       transform: scale(0.82);
     }
+
 
     .round-button.button-pop {
       animation:
         buttonPop
         0.32s ease;
     }
+
 
     @keyframes buttonPop {
 
@@ -925,9 +861,13 @@ body.drag-active {
     }
 
 
-    /* ==========================================
-       ドラッグ中
-    ========================================== */
+    /* ========================================
+       並び替え
+    ======================================== */
+
+    /*
+      カードが抜けた場所
+    */
 
     .drag-placeholder {
       flex-shrink: 0;
@@ -939,7 +879,7 @@ body.drag-active {
           255,
           255,
           255,
-          0.21
+          0.20
         );
 
       border:
@@ -948,14 +888,19 @@ body.drag-active {
           255,
           255,
           255,
-          0.45
+          0.47
         );
     }
+
+
+    /*
+      指で持っているカード
+    */
 
     .habit-card.dragging {
       position: fixed;
 
-      z-index: 999;
+      z-index: 9999;
 
       margin: 0;
 
@@ -963,22 +908,28 @@ body.drag-active {
 
       opacity: 0.97;
 
-      transform:
-        scale(1.025);
+      transform: scale(1.035);
 
       box-shadow:
-        0 22px 50px
+        0 24px 55px
         rgba(
           91,
           55,
           67,
-          0.24
+          0.25
         );
+
+      transition: none;
     }
+
+
+    /*
+      着地ぽよん
+    */
 
     .habit-card.landing {
       animation:
-        landingPop
+        dragLanding
         0.42s
         cubic-bezier(
           0.34,
@@ -988,17 +939,18 @@ body.drag-active {
         );
     }
 
-    @keyframes landingPop {
+
+    @keyframes dragLanding {
 
       0% {
-        transform: scale(1.025);
+        transform: scale(1.035);
       }
 
       45% {
         transform: scale(0.975);
       }
 
-      75% {
+      72% {
         transform: scale(1.018);
       }
 
@@ -1008,9 +960,9 @@ body.drag-active {
     }
 
 
-    /* ==========================================
+    /* ========================================
        共通オーバーレイ
-    ========================================== */
+    ======================================== */
 
     .sheet-overlay {
       position: fixed;
@@ -1053,15 +1005,16 @@ body.drag-active {
         visibility 0.24s ease;
     }
 
+
     .sheet-overlay.open {
       opacity: 1;
       visibility: visible;
     }
 
 
-    /* ==========================================
-       編集・追加パネル
-    ========================================== */
+    /* ========================================
+       編集パネル
+    ======================================== */
 
     .editor-sheet {
       width: 100%;
@@ -1109,12 +1062,14 @@ body.drag-active {
         );
     }
 
+
     .sheet-overlay.open
     .editor-sheet {
       transform:
         translateY(0)
         scale(1);
     }
+
 
     .sheet-handle {
       width: 42px;
@@ -1129,6 +1084,7 @@ body.drag-active {
       background: #eadde1;
     }
 
+
     .editor-header {
       display: flex;
       justify-content: space-between;
@@ -1139,12 +1095,14 @@ body.drag-active {
       margin-bottom: 16px;
     }
 
+
     .editor-title {
       margin: 0;
 
       font-size: 21px;
       font-weight: 700;
     }
+
 
     .editor-close {
       width: 36px;
@@ -1158,6 +1116,7 @@ body.drag-active {
 
       font-size: 18px;
     }
+
 
     .field-label {
       display: block;
@@ -1175,6 +1134,7 @@ body.drag-active {
       font-size: 11px;
       font-weight: 700;
     }
+
 
     #editorHabitName {
       width: 100%;
@@ -1194,9 +1154,9 @@ body.drag-active {
     }
 
 
-    /* ==========================================
-       アイコン選択
-    ========================================== */
+    /* ========================================
+       アイコン
+    ======================================== */
 
     .icon-grid {
       display: grid;
@@ -1206,6 +1166,7 @@ body.drag-active {
 
       gap: 7px;
     }
+
 
     .icon-choice {
       aspect-ratio: 1;
@@ -1226,8 +1187,9 @@ body.drag-active {
         border-color 0.15s ease;
     }
 
+
     .icon-choice.selected {
-      background: #ffffff;
+      background: white;
 
       border-color: #ed9db5;
 
@@ -1235,9 +1197,9 @@ body.drag-active {
     }
 
 
-    /* ==========================================
-       カテゴリ
-    ========================================== */
+    /* ========================================
+       カテゴリー
+    ======================================== */
 
     .category-choice {
       display: grid;
@@ -1247,6 +1209,7 @@ body.drag-active {
 
       gap: 7px;
     }
+
 
     .category-button,
     .reset-option {
@@ -1268,6 +1231,7 @@ body.drag-active {
         color 0.15s ease;
     }
 
+
     .category-button.selected,
     .reset-option.selected {
       background: #f5bfd0;
@@ -1275,9 +1239,9 @@ body.drag-active {
     }
 
 
-    /* ==========================================
+    /* ========================================
        目標回数
-    ========================================== */
+    ======================================== */
 
     .goal-picker-button {
       width: 100%;
@@ -1299,6 +1263,7 @@ body.drag-active {
       font-weight: 700;
     }
 
+
     .goal-picker-value {
       color: #d77492;
 
@@ -1307,9 +1272,9 @@ body.drag-active {
     }
 
 
-    /* ==========================================
+    /* ========================================
        バーリセット
-    ========================================== */
+    ======================================== */
 
     .reset-selector {
       display: grid;
@@ -1321,9 +1286,9 @@ body.drag-active {
     }
 
 
-    /* ==========================================
-       編集ボタン
-    ========================================== */
+    /* ========================================
+       保存・削除
+    ======================================== */
 
     .editor-save-button {
       width: 100%;
@@ -1345,9 +1310,11 @@ body.drag-active {
         transform 0.15s ease;
     }
 
+
     .editor-save-button:active {
       transform: scale(0.96);
     }
+
 
     .editor-delete-button {
       width: 100%;
@@ -1359,25 +1326,26 @@ body.drag-active {
       padding: 10px;
 
       background: transparent;
-
       color: #bd969f;
 
       font-size: 11px;
       font-weight: 700;
     }
 
+
     .editor-delete-button.hidden {
       display: none;
     }
 
 
-    /* ==========================================
+    /* ========================================
        回数ルーレット
-    ========================================== */
+    ======================================== */
 
     #goalPickerOverlay {
       z-index: 1300;
     }
+
 
     .picker-sheet {
       width: 100%;
@@ -1412,12 +1380,14 @@ body.drag-active {
         );
     }
 
+
     .sheet-overlay.open
     .picker-sheet {
       transform:
         translateY(0)
         scale(1);
     }
+
 
     .picker-header {
       display: flex;
@@ -1426,6 +1396,7 @@ body.drag-active {
 
       margin-bottom: 8px;
     }
+
 
     .picker-header button {
       border: none;
@@ -1439,14 +1410,17 @@ body.drag-active {
       font-weight: 800;
     }
 
+
     .picker-header button.cancel {
       color: #aa9ba0;
     }
+
 
     .picker-title {
       font-size: 14px;
       font-weight: 800;
     }
+
 
     .wheel-container {
       position: relative;
@@ -1466,6 +1440,7 @@ body.drag-active {
           #fff7f9
         );
     }
+
 
     .picker-wheel {
       height: 260px;
@@ -1487,9 +1462,11 @@ body.drag-active {
       touch-action: pan-y;
     }
 
+
     .picker-wheel::-webkit-scrollbar {
       display: none;
     }
+
 
     .wheel-item {
       height: 52px;
@@ -1513,6 +1490,7 @@ body.drag-active {
         opacity 0.18s;
     }
 
+
     .wheel-item.selected {
       color: #dc7896;
 
@@ -1523,6 +1501,7 @@ body.drag-active {
 
       transform: scale(1.08);
     }
+
 
     .wheel-highlight {
       position: absolute;
@@ -1550,6 +1529,7 @@ body.drag-active {
           0.12
         );
     }
+
 
     .wheel-unit {
       position: absolute;
@@ -1580,9 +1560,9 @@ body.drag-active {
 
 <main class="app">
 
-  <!-- =========================
-       上段
-  ========================== -->
+  <!-- ========================================
+       ヘッダー
+  ======================================== -->
 
   <header>
 
@@ -1603,9 +1583,9 @@ body.drag-active {
   </header>
 
 
-  <!-- =========================
-       固定タブ
-  ========================== -->
+  <!-- ========================================
+       タブ
+  ======================================== -->
 
   <div class="tabs-sticky">
 
@@ -1656,9 +1636,9 @@ body.drag-active {
   </div>
 
 
-  <!-- =========================
+  <!-- ========================================
        習慣一覧
-  ========================== -->
+  ======================================== -->
 
   <section
     class="habit-list"
@@ -1681,6 +1661,7 @@ body.drag-active {
   <section class="editor-sheet">
 
     <div class="sheet-handle"></div>
+
 
     <div class="editor-header">
 
@@ -1894,9 +1875,9 @@ body.drag-active {
 
 <script>
 
-  /* ==========================================
-     基本
-  ========================================== */
+  /* ========================================
+     基本設定
+  ======================================== */
 
   const STORAGE_KEY =
     "habitTrackerData";
@@ -1905,7 +1886,9 @@ body.drag-active {
 
   const WHEEL_ITEM_HEIGHT = 52;
 
+
   const ICONS = [
+
     "🌷",
     "💗",
     "💧",
@@ -1922,49 +1905,65 @@ body.drag-active {
     "🕹️",
     "🎧",
     "☕"
+
   ];
 
 
-  let currentTab = "all";
-
-  let newHabitId = null;
-
-  let todayPopId = null;
-
-  let editingHabitId = null;
+  let currentTab =
+    "all";
 
 
-  /* 編集中の値 */
+  let newHabitId =
+    null;
 
-  let editorIcon = "🌷";
 
-  let editorCategory = "daily";
+  let todayPopId =
+    null;
 
-  let editorGoal = 1;
 
-  let editorBarReset = "four";
+  /* 編集 */
+
+  let editingHabitId =
+    null;
+
+  let editorIcon =
+    "🌷";
+
+  let editorCategory =
+    "daily";
+
+  let editorGoal =
+    1;
+
+  let editorBarReset =
+    "four";
 
 
   /* ルーレット */
 
-  let pendingGoal = 1;
+  let pendingGoal =
+    1;
 
-  let wheelFrame = null;
+  let wheelFrame =
+    null;
 
 
   /* ドラッグ */
 
-  let dragState = null;
+  let dragState =
+    null;
 
 
-  /* ==========================================
+  /* ========================================
      データ
-  ========================================== */
+  ======================================== */
 
   function createInitialData() {
 
     return {
+
       habits: []
+
     };
   }
 
@@ -1986,7 +1985,9 @@ body.drag-active {
     try {
 
       const parsed =
-        JSON.parse(saved);
+        JSON.parse(
+          saved
+        );
 
 
       if (
@@ -2004,6 +2005,7 @@ body.drag-active {
     } catch {
 
       return createInitialData();
+
     }
   }
 
@@ -2015,15 +2017,20 @@ body.drag-active {
   function saveData() {
 
     localStorage.setItem(
+
       STORAGE_KEY,
-      JSON.stringify(data)
+
+      JSON.stringify(
+        data
+      )
+
     );
   }
 
 
-  /* ==========================================
+  /* ========================================
      ID
-  ========================================== */
+  ======================================== */
 
   function createId() {
 
@@ -2034,22 +2041,27 @@ body.drag-active {
     ) {
 
       return crypto.randomUUID();
+
     }
 
 
     return (
+
       Date.now().toString()
+
       +
+
       Math.random()
         .toString(16)
         .slice(2)
+
     );
   }
 
 
-  /* ==========================================
-     日付
-  ========================================== */
+  /* ========================================
+     日付表示
+  ======================================== */
 
   function renderDate() {
 
@@ -2062,12 +2074,21 @@ body.drag-active {
         "bigDate"
       )
       .textContent =
+
         now.toLocaleDateString(
+
           "ja-JP",
+
           {
-            month: "long",
-            day: "numeric"
+
+            month:
+              "long",
+
+            day:
+              "numeric"
+
           }
+
         );
 
 
@@ -2076,19 +2097,28 @@ body.drag-active {
         "dateSub"
       )
       .textContent =
+
         now.toLocaleDateString(
+
           "ja-JP",
+
           {
-            year: "numeric",
-            weekday: "long"
+
+            year:
+              "numeric",
+
+            weekday:
+              "long"
+
           }
+
         );
   }
 
 
-  /* ==========================================
-     0時 / 4時の期間キー
-  ========================================== */
+  /* ========================================
+     日付境界
+  ======================================== */
 
   function getPeriodKey(
     resetHour
@@ -2100,27 +2130,48 @@ body.drag-active {
 
     const shifted =
       new Date(
+
         now.getTime()
+
         -
+
         resetHour
-        * 60
-        * 60
-        * 1000
+        *
+        60
+        *
+        60
+        *
+        1000
+
       );
 
 
     return (
+
       shifted.getFullYear()
+
       + "-"
+
       +
+
       String(
         shifted.getMonth() + 1
-      ).padStart(2, "0")
+      ).padStart(
+        2,
+        "0"
+      )
+
       + "-"
+
       +
+
       String(
         shifted.getDate()
-      ).padStart(2, "0")
+      ).padStart(
+        2,
+        "0"
+      )
+
     );
   }
 
@@ -2134,14 +2185,21 @@ body.drag-active {
 
 
     const start =
-      new Date(now);
+      new Date(
+        now
+      );
 
 
     start.setHours(
+
       resetHour,
+
       0,
+
       0,
+
       0
+
     );
 
 
@@ -2150,7 +2208,11 @@ body.drag-active {
     ) {
 
       start.setDate(
-        start.getDate() - 1
+
+        start.getDate()
+        -
+        1
+
       );
     }
 
@@ -2159,12 +2221,12 @@ body.drag-active {
   }
 
 
-  /* ==========================================
+  /* ========================================
      TODAY
 
-     日常・創作 = 0時
-     ゲーム = 4時
-  ========================================== */
+     日常・創作 → 0:00
+     ゲーム   → 4:00
+  ======================================== */
 
   function getTodayResetHour(
     habit
@@ -2202,18 +2264,22 @@ body.drag-active {
 
 
     return (
+
       habit.lastDoneAt
+
       >=
+
       getPeriodStart(
         resetHour
       )
+
     );
   }
 
 
-  /* ==========================================
-     バーのリセット
-  ========================================== */
+  /* ========================================
+     バーリセット
+  ======================================== */
 
   function getBarPeriodKey(
     habit
@@ -2224,7 +2290,9 @@ body.drag-active {
       === "midnight"
     ) {
 
-      return getPeriodKey(0);
+      return getPeriodKey(
+        0
+      );
     }
 
 
@@ -2233,7 +2301,9 @@ body.drag-active {
       === "four"
     ) {
 
-      return getPeriodKey(4);
+      return getPeriodKey(
+        4
+      );
     }
 
 
@@ -2243,11 +2313,13 @@ body.drag-active {
 
   function checkBarResets() {
 
-    let changed = false;
+    let changed =
+      false;
 
 
     data.habits.forEach(
       habit => {
+
 
         if (
           habit.barReset
@@ -2271,7 +2343,10 @@ body.drag-active {
           habit.barResetKey =
             currentKey;
 
-          changed = true;
+
+          changed =
+            true;
+
 
           return;
         }
@@ -2282,19 +2357,25 @@ body.drag-active {
           !== currentKey
         ) {
 
-          habit.current = 0;
+          habit.current =
+            0;
+
 
           habit.barResetKey =
             currentKey;
 
-          changed = true;
+
+          changed =
+            true;
         }
 
       }
     );
 
 
-    if (changed) {
+    if (
+      changed
+    ) {
 
       saveData();
     }
@@ -2304,16 +2385,17 @@ body.drag-active {
   }
 
 
-  /* ==========================================
-     カテゴリ名
-  ========================================== */
+  /* ========================================
+     カテゴリー名
+  ======================================== */
 
   function getCategoryName(
     category
   ) {
 
     if (
-      category === "creative"
+      category
+      === "creative"
     ) {
 
       return "創作";
@@ -2321,7 +2403,8 @@ body.drag-active {
 
 
     if (
-      category === "game"
+      category
+      === "game"
     ) {
 
       return "ゲーム";
@@ -2332,15 +2415,31 @@ body.drag-active {
   }
 
 
-  /* ==========================================
+  /* ========================================
      タブ
-  ========================================== */
+  ======================================== */
 
   function changeTab(
     tab
   ) {
 
-    currentTab = tab;
+    /*
+      万一ドラッグ中なら
+      先に必ず着地させる
+    */
+
+    if (
+      dragState
+    ) {
+
+      finishDrag(
+        true
+      );
+    }
+
+
+    currentTab =
+      tab;
 
 
     document
@@ -2352,10 +2451,14 @@ body.drag-active {
 
           button.classList
             .toggle(
+
               "active",
+
               button.dataset.tab
               === tab
+
             );
+
         }
       );
 
@@ -2364,13 +2467,26 @@ body.drag-active {
   }
 
 
-  /* ==========================================
+  /* ========================================
      メイン描画
-  ========================================== */
+  ======================================== */
 
   function render(
     progressAnimation = null
   ) {
+
+    /*
+      ドラッグ中に
+      renderしない
+    */
+
+    if (
+      dragState
+    ) {
+
+      return;
+    }
+
 
     checkBarResets();
 
@@ -2383,12 +2499,15 @@ body.drag-active {
       );
 
 
-    list.innerHTML = "";
+    list.innerHTML =
+      "";
 
 
     const visibleHabits =
+
       data.habits.filter(
         habit => {
+
 
           if (
             currentTab
@@ -2400,9 +2519,12 @@ body.drag-active {
 
 
           return (
+
             habit.category
             === currentTab
+
           );
+
         }
       );
 
@@ -2413,6 +2535,7 @@ body.drag-active {
     ) {
 
       list.innerHTML =
+
         `
         <div class="empty">
 
@@ -2423,6 +2546,7 @@ body.drag-active {
         </div>
         `;
 
+
       return;
     }
 
@@ -2430,23 +2554,30 @@ body.drag-active {
     visibleHabits.forEach(
       habit => {
 
+
         const percent =
+
           Math.min(
+
             100,
+
             habit.current
             /
             habit.goal
             *
             100
+
           );
 
 
         const completed =
+
           habit.current
           >= habit.goal;
 
 
         const doneToday =
+
           isDoneToday(
             habit
           );
@@ -2457,10 +2588,14 @@ body.drag-active {
 
 
         if (
+
           progressAnimation
+
           &&
+
           progressAnimation.id
           === habit.id
+
         ) {
 
           initialPercent =
@@ -2469,6 +2604,7 @@ body.drag-active {
 
 
         const card =
+
           document.createElement(
             "article"
           );
@@ -2495,6 +2631,7 @@ body.drag-active {
 
 
         card.innerHTML =
+
           `
 
           <div class="habit-top">
@@ -2646,21 +2783,29 @@ body.drag-active {
 
 
         setupTodayLongPress(
+
           card,
+
           habit.id
+
         );
 
 
         setupLongPressDrag(
+
           card,
+
           habit.id
+
         );
 
       }
     );
 
 
-    /* バーをびよーん */
+    /*
+      バーアニメーション
+    */
 
     if (
       progressAnimation
@@ -2673,16 +2818,25 @@ body.drag-active {
             () => {
 
               const bar =
+
                 document.querySelector(
+
                   `[data-progress="${progressAnimation.id}"]`
+
                 );
 
 
-              if (bar) {
+              if (
+                bar
+              ) {
 
                 bar.style.width =
+
                   progressAnimation.to
-                  + "%";
+
+                  +
+
+                  "%";
               }
 
             }
@@ -2693,9 +2847,13 @@ body.drag-active {
     }
 
 
-    /* 新規カード判定解除 */
+    /*
+      新規カード判定解除
+    */
 
-    if (newHabitId) {
+    if (
+      newHabitId
+    ) {
 
       const id =
         newHabitId;
@@ -2709,7 +2867,8 @@ body.drag-active {
             === id
           ) {
 
-            newHabitId = null;
+            newHabitId =
+              null;
           }
 
         },
@@ -2718,9 +2877,13 @@ body.drag-active {
     }
 
 
-    /* TODAYピコン判定解除 */
+    /*
+      TODAYピコン解除
+    */
 
-    if (todayPopId) {
+    if (
+      todayPopId
+    ) {
 
       const id =
         todayPopId;
@@ -2734,19 +2897,21 @@ body.drag-active {
             === id
           ) {
 
-            todayPopId = null;
+            todayPopId =
+              null;
           }
 
         },
         650
       );
     }
+
   }
 
 
-  /* ==========================================
+  /* ========================================
      ＋
-  ========================================== */
+  ======================================== */
 
   function increaseHabit(
     id,
@@ -2759,35 +2924,46 @@ body.drag-active {
 
 
     const habit =
+
       data.habits.find(
         item =>
-          item.id === id
+          item.id
+          === id
       );
 
 
-    if (!habit) {
+    if (
+      !habit
+    ) {
+
       return;
     }
 
 
     const alreadyDoneToday =
+
       isDoneToday(
         habit
       );
 
 
     const beforePercent =
+
       Math.min(
+
         100,
+
         habit.current
         /
         habit.goal
         *
         100
+
       );
 
 
     const wasCompleted =
+
       habit.current
       >= habit.goal;
 
@@ -2805,6 +2981,7 @@ body.drag-active {
     ) {
 
       habit.barResetKey =
+
         getBarPeriodKey(
           habit
         );
@@ -2812,17 +2989,22 @@ body.drag-active {
 
 
     const afterPercent =
+
       Math.min(
+
         100,
+
         habit.current
         /
         habit.goal
         *
         100
+
       );
 
 
     const nowCompleted =
+
       habit.current
       >= habit.goal;
 
@@ -2844,7 +3026,8 @@ body.drag-active {
 
         render({
 
-          id: id,
+          id:
+            id,
 
           from:
             beforePercent,
@@ -2856,21 +3039,30 @@ body.drag-active {
 
 
         if (
+
           !wasCompleted
+
           &&
+
           nowCompleted
+
         ) {
 
           requestAnimationFrame(
             () => {
 
               const card =
+
                 document.querySelector(
+
                   `.habit-card[data-id="${id}"]`
+
                 );
 
 
-              if (card) {
+              if (
+                card
+              ) {
 
                 card.classList
                   .add(
@@ -2880,6 +3072,7 @@ body.drag-active {
 
             }
           );
+
         }
 
       },
@@ -2888,9 +3081,9 @@ body.drag-active {
   }
 
 
-  /* ==========================================
+  /* ========================================
      −
-  ========================================== */
+  ======================================== */
 
   function decreaseHabit(
     id,
@@ -2903,16 +3096,22 @@ body.drag-active {
 
 
     const habit =
+
       data.habits.find(
         item =>
-          item.id === id
+          item.id
+          === id
       );
 
 
     if (
+
       !habit
+
       ||
+
       habit.current <= 0
+
     ) {
 
       return;
@@ -2920,13 +3119,17 @@ body.drag-active {
 
 
     const beforePercent =
+
       Math.min(
+
         100,
+
         habit.current
         /
         habit.goal
         *
         100
+
       );
 
 
@@ -2934,13 +3137,17 @@ body.drag-active {
 
 
     const afterPercent =
+
       Math.min(
+
         100,
+
         habit.current
         /
         habit.goal
         *
         100
+
       );
 
 
@@ -2952,7 +3159,8 @@ body.drag-active {
 
         render({
 
-          id: id,
+          id:
+            id,
 
           from:
             beforePercent,
@@ -2968,15 +3176,18 @@ body.drag-active {
   }
 
 
-  /* ==========================================
+  /* ========================================
      ボタンぽよん
-  ========================================== */
+  ======================================== */
 
   function animateButton(
     button
   ) {
 
-    if (!button) {
+    if (
+      !button
+    ) {
+
       return;
     }
 
@@ -2997,12 +3208,12 @@ body.drag-active {
   }
 
 
-  /* ==========================================
+  /* ========================================
      TODAY長押し
 
-     TODAYだけ消す。
-     バーは減らさない。
-  ========================================== */
+     バーは変更せず
+     TODAYだけ消す
+  ======================================== */
 
   function setupTodayLongPress(
     card,
@@ -3010,34 +3221,47 @@ body.drag-active {
   ) {
 
     const badge =
+
       card.querySelector(
         ".today-badge"
       );
 
 
     if (
+
       !badge
+
       ||
+
       !badge.classList
-        .contains("visible")
+        .contains(
+          "visible"
+        )
+
     ) {
 
       return;
     }
 
 
-    let timer = null;
+    let timer =
+      null;
 
-    let startX = 0;
 
-    let startY = 0;
+    let startX =
+      0;
 
-    let triggered = false;
+
+    let startY =
+      0;
 
 
     badge.addEventListener(
       "pointerdown",
       event => {
+
+        event.preventDefault();
+
 
         startX =
           event.clientX;
@@ -3046,14 +3270,10 @@ body.drag-active {
           event.clientY;
 
 
-        triggered = false;
-
-
         timer =
+
           setTimeout(
             () => {
-
-              triggered = true;
 
 
               badge.classList
@@ -3066,6 +3286,7 @@ body.drag-active {
                 () => {
 
                   const habit =
+
                     data.habits.find(
                       item =>
                         item.id
@@ -3073,7 +3294,10 @@ body.drag-active {
                     );
 
 
-                  if (!habit) {
+                  if (
+                    !habit
+                  ) {
+
                     return;
                   }
 
@@ -3103,12 +3327,17 @@ body.drag-active {
       event => {
 
         const distance =
+
           Math.hypot(
+
             event.clientX
-            - startX,
+            -
+            startX,
 
             event.clientY
-            - startY
+            -
+            startY
+
           );
 
 
@@ -3119,6 +3348,9 @@ body.drag-active {
           clearTimeout(
             timer
           );
+
+          timer =
+            null;
         }
 
       }
@@ -3127,11 +3359,16 @@ body.drag-active {
 
     function cancel() {
 
-      if (!triggered) {
+      if (
+        timer
+      ) {
 
         clearTimeout(
           timer
         );
+
+        timer =
+          null;
       }
     }
 
@@ -3141,149 +3378,108 @@ body.drag-active {
       cancel
     );
 
+
     badge.addEventListener(
       "pointercancel",
       cancel
     );
-  }
 
 
-  /* ==========================================
-   並び替え
-========================================== */
+    badge.addEventListener(
+      "contextmenu",
+      event => {
 
-function setupLongPressDrag(
-  card,
-  habitId
-) {
+        event.preventDefault();
 
-  const handle =
-    card.querySelector(
-      ".drag-handle"
+      }
     );
-
-
-  if (!handle) {
-    return;
   }
 
 
-  let pressTimer = null;
+  /* ========================================
+     並び替え
+  ======================================== */
 
-  let pointerId = null;
+  function setupLongPressDrag(
+    card,
+    habitId
+  ) {
 
-  let startX = 0;
+    const handle =
 
-  let startY = 0;
+      card.querySelector(
+        ".drag-handle"
+      );
 
 
-  /* ------------------------------------------
-     長押し開始
-  ------------------------------------------ */
+    if (
+      !handle
+    ) {
 
-  handle.addEventListener(
-    "pointerdown",
-    event => {
+      return;
+    }
 
-      if (dragState) {
+
+    let longPressTimer =
+      null;
+
+
+    let startX =
+      0;
+
+
+    let startY =
+      0;
+
+
+    let lastPointerY =
+      0;
+
+
+    let pointerId =
+      null;
+
+
+    /*
+      指移動
+    */
+
+    function globalPointerMove(
+      event
+    ) {
+
+      if (
+        event.pointerId
+        !== pointerId
+      ) {
+
         return;
       }
 
 
-      pointerId =
-        event.pointerId;
-
-
-      startX =
-        event.clientX;
-
-      startY =
+      lastPointerY =
         event.clientY;
 
 
       /*
-        ここが今回かなり重要。
-
-        指が≡ボタンの外へ行っても、
-        このハンドルが最後まで
-        pointerイベントを受け取る。
-      */
-
-      try {
-
-        handle.setPointerCapture(
-          pointerId
-        );
-
-      } catch {}
-
-
-      pressTimer =
-        setTimeout(
-          () => {
-
-            beginDrag(
-              card,
-              habitId,
-              event.clientY,
-              pointerId,
-              handle
-            );
-
-          },
-          380
-        );
-
-    }
-  );
-
-
-  /* ------------------------------------------
-     指移動
-  ------------------------------------------ */
-
-  handle.addEventListener(
-    "pointermove",
-    event => {
-
-      /*
-        既にドラッグ中
+        まだ長押し成立前
       */
 
       if (
-        dragState
-        &&
-        dragState.pointerId
-        === event.pointerId
+        !dragState
       ) {
 
-        event.preventDefault();
-
-
-        updateDrag(
-          event.clientY
-        );
-
-
-        return;
-      }
-
-
-      /*
-        長押し成立前に
-        大きく動いた場合はキャンセル
-      */
-
-      if (pressTimer) {
-
         const distance =
+
           Math.hypot(
 
             event.clientX
-            - startX,
+            -
+            startX,
 
             event.clientY
-            - startY
+            -
+            startY
 
           );
 
@@ -3293,927 +3489,1124 @@ function setupLongPressDrag(
         ) {
 
           clearTimeout(
-            pressTimer
+            longPressTimer
           );
 
 
-          pressTimer = null;
+          longPressTimer =
+            null;
+
+
+          removeGlobalListeners();
         }
+
+
+        return;
       }
 
-    }
-  );
+
+      event.preventDefault();
 
 
-  /* ------------------------------------------
-     指を離す
-  ------------------------------------------ */
-
-  function endPointer(
-    event
-  ) {
-
-    if (pressTimer) {
-
-      clearTimeout(
-        pressTimer
+      updateDrag(
+        event.clientY
       );
 
 
-      pressTimer = null;
+      handleAutoScroll(
+        event.clientY
+      );
     }
 
 
-    if (
-      dragState
-      &&
-      dragState.pointerId
-      === event.pointerId
+    /*
+      指を離す
+    */
+
+    function globalPointerEnd(
+      event
     ) {
 
-      finishDrag();
-    }
-
-
-    try {
-
       if (
-        handle.hasPointerCapture(
-          event.pointerId
-        )
+        event.pointerId
+        !== pointerId
       ) {
 
-        handle.releasePointerCapture(
-          event.pointerId
-        );
+        return;
       }
 
-    } catch {}
 
-  }
-
-
-  handle.addEventListener(
-    "pointerup",
-    endPointer
-  );
+      clearTimeout(
+        longPressTimer
+      );
 
 
-  handle.addEventListener(
-    "pointercancel",
-    endPointer
-  );
+      longPressTimer =
+        null;
 
-
-  /*
-    iOS側からpointerを
-    強制的に奪われた場合も終了
-  */
-
-  handle.addEventListener(
-    "lostpointercapture",
-    event => {
 
       if (
         dragState
-        &&
-        dragState.pointerId
-        === event.pointerId
       ) {
 
         finishDrag();
       }
 
-    }
-  );
 
-
-  /*
-    長押しメニューを出さない
-  */
-
-  handle.addEventListener(
-    "contextmenu",
-    event => {
-
-      event.preventDefault();
-
-    }
-  );
-
-}
-
-
-/* ==========================================
-   カードを持ち上げる
-========================================== */
-
-function beginDrag(
-  card,
-  habitId,
-  pointerY,
-  pointerId,
-  handle
-) {
-
-  if (dragState) {
-    return;
-  }
-
-
-  const rect =
-    card.getBoundingClientRect();
-
-
-  const placeholder =
-    document.createElement(
-      "div"
-    );
-
-
-  placeholder.className =
-    "drag-placeholder";
-
-
-  placeholder.style.height =
-    rect.height
-    + "px";
-
-
-  /*
-    元の場所に
-    空席を作る
-  */
-
-  card.parentNode
-    .insertBefore(
-      placeholder,
-      card
-    );
-
-
-  /*
-    カード自体はbodyに移して
-    画面上を自由に動けるようにする
-  */
-
-  document.body
-    .appendChild(
-      card
-    );
-
-
-  card.classList
-    .add(
-      "dragging"
-    );
-
-
-  card.style.left =
-    rect.left
-    + "px";
-
-
-  card.style.top =
-    rect.top
-    + "px";
-
-
-  card.style.width =
-    rect.width
-    + "px";
-
-
-  card.style.height =
-    rect.height
-    + "px";
-
-
-  /*
-    指がカードのどの位置を
-    掴んだかを記録
-  */
-
-  const pointerOffsetY =
-    pointerY
-    - rect.top;
-
-
-  dragState = {
-
-    id:
-      habitId,
-
-    card:
-      card,
-
-    placeholder:
-      placeholder,
-
-    pointerId:
-      pointerId,
-
-    handle:
-      handle,
-
-    pointerOffsetY:
-      pointerOffsetY,
-
-    currentTop:
-      rect.top,
-
-    height:
-      rect.height,
-
-    finishing:
-      false
-
-  };
-
-
-  document.body
-    .classList
-    .add(
-      "drag-active"
-    );
-}
-
-
-/* ==========================================
-   持っているカードを動かす
-========================================== */
-
-function updateDrag(
-  pointerY
-) {
-
-  if (
-    !dragState
-    ||
-    dragState.finishing
-  ) {
-
-    return;
-  }
-
-
-  let top =
-    pointerY
-    -
-    dragState.pointerOffsetY;
-
-
-  /*
-    画面外へ飛びすぎないよう制限
-  */
-
-  top =
-    Math.max(
-      6,
-
-      Math.min(
-
-        window.innerHeight
-        -
-        dragState.height
-        -
-        6,
-
-        top
-
-      )
-    );
-
-
-  dragState.currentTop =
-    top;
-
-
-  dragState.card.style.top =
-    top
-    + "px";
-
-
-  checkDragReorder();
-}
-
-
-/* ==========================================
-   他カードへの重なりを判定
-========================================== */
-
-function checkDragReorder() {
-
-  if (!dragState) {
-    return;
-  }
-
-
-  const placeholder =
-    dragState.placeholder;
-
-
-  const dragTop =
-    dragState.currentTop;
-
-
-  const dragBottom =
-    dragTop
-    +
-    dragState.height;
-
-
-  /* ------------------------------------------
-     下方向
-  ------------------------------------------ */
-
-  let next =
-    placeholder
-      .nextElementSibling;
-
-
-  while (
-    next
-    &&
-    next.classList
-      .contains(
-        "habit-card"
-      )
-  ) {
-
-    const rect =
-      next
-        .getBoundingClientRect();
-
-
-    /*
-      次のカードへ約25%ほど
-      被ったら入れ替える
-    */
-
-    const threshold =
-      rect.top
-      +
-      rect.height
-      * 0.25;
-
-
-    if (
-      dragBottom
-      <= threshold
-    ) {
-
-      break;
+      removeGlobalListeners();
     }
 
 
-    animateListShift(
-      () => {
+    function removeGlobalListeners() {
 
-        next.after(
-          placeholder
-        );
-
-      }
-    );
-
-
-    next =
-      placeholder
-        .nextElementSibling;
-  }
-
-
-  /* ------------------------------------------
-     上方向
-  ------------------------------------------ */
-
-  let previous =
-    placeholder
-      .previousElementSibling;
-
-
-  while (
-    previous
-    &&
-    previous.classList
-      .contains(
-        "habit-card"
-      )
-  ) {
-
-    const rect =
-      previous
-        .getBoundingClientRect();
-
-
-    /*
-      上のカードへ約25%ほど
-      被ったら入れ替える
-    */
-
-    const threshold =
-      rect.bottom
-      -
-      rect.height
-      * 0.25;
-
-
-    if (
-      dragTop
-      >= threshold
-    ) {
-
-      break;
-    }
-
-
-    animateListShift(
-      () => {
-
-        previous.before(
-          placeholder
-        );
-
-      }
-    );
-
-
-    previous =
-      placeholder
-        .previousElementSibling;
-  }
-
-}
-
-
-/* ==========================================
-   周りのカードを「にゅるん」と移動
-========================================== */
-
-function animateListShift(
-  changeLayout
-) {
-
-  const cards =
-    Array.from(
-
-      document.querySelectorAll(
-        "#habitList .habit-card"
-      )
-
-    );
-
-
-  const before =
-    new Map();
-
-
-  cards.forEach(
-    card => {
-
-      before.set(
-        card,
-        card.getBoundingClientRect()
+      window.removeEventListener(
+        "pointermove",
+        globalPointerMove
       );
 
+
+      window.removeEventListener(
+        "pointerup",
+        globalPointerEnd
+      );
+
+
+      window.removeEventListener(
+        "pointercancel",
+        globalPointerEnd
+      );
     }
-  );
 
 
-  /*
-    placeholderの場所を変更
-  */
+    /*
+      長押し開始
+    */
 
-  changeLayout();
+    handle.addEventListener(
+      "pointerdown",
+      event => {
+
+        if (
+          dragState
+        ) {
+
+          return;
+        }
 
 
-  /*
-    FLIPアニメーション
-  */
+        event.preventDefault();
 
-  cards.forEach(
-    card => {
 
-      const oldRect =
-        before.get(
-          card
+        pointerId =
+          event.pointerId;
+
+
+        startX =
+          event.clientX;
+
+
+        startY =
+          event.clientY;
+
+
+        lastPointerY =
+          event.clientY;
+
+
+        window.addEventListener(
+          "pointermove",
+          globalPointerMove,
+          {
+            passive: false
+          }
         );
 
 
-      if (!oldRect) {
-        return;
+        window.addEventListener(
+          "pointerup",
+          globalPointerEnd
+        );
+
+
+        window.addEventListener(
+          "pointercancel",
+          globalPointerEnd
+        );
+
+
+        longPressTimer =
+
+          setTimeout(
+            () => {
+
+              beginDrag(
+
+                card,
+
+                habitId,
+
+                lastPointerY
+
+              );
+
+            },
+            380
+          );
+
       }
+    );
 
 
-      const newRect =
-        card.getBoundingClientRect();
+    /*
+      長押しメニュー禁止
+    */
+
+    handle.addEventListener(
+      "contextmenu",
+      event => {
+
+        event.preventDefault();
+
+      }
+    );
+  }
 
 
-      const moveY =
-        oldRect.top
+  /* ========================================
+     カードを持ち上げる
+  ======================================== */
+
+  function beginDrag(
+    card,
+    habitId,
+    pointerY
+  ) {
+
+    if (
+      dragState
+    ) {
+
+      return;
+    }
+
+
+    const rect =
+
+      card.getBoundingClientRect();
+
+
+    const placeholder =
+
+      document.createElement(
+        "div"
+      );
+
+
+    placeholder.className =
+      "drag-placeholder";
+
+
+    placeholder.style.height =
+
+      rect.height
+      +
+      "px";
+
+
+    /*
+      元の場所に
+      空きスペースを作る
+    */
+
+    card.parentNode
+      .insertBefore(
+
+        placeholder,
+
+        card
+
+      );
+
+
+    /*
+      カードをbody直下へ移動
+    */
+
+    document.body
+      .appendChild(
+        card
+      );
+
+
+    card.classList
+      .add(
+        "dragging"
+      );
+
+
+    card.style.left =
+
+      rect.left
+      +
+      "px";
+
+
+    card.style.top =
+
+      rect.top
+      +
+      "px";
+
+
+    card.style.width =
+
+      rect.width
+      +
+      "px";
+
+
+    card.style.height =
+
+      rect.height
+      +
+      "px";
+
+
+    dragState = {
+
+      id:
+        habitId,
+
+      card:
+        card,
+
+      placeholder:
+        placeholder,
+
+      pointerOffsetY:
+        pointerY
         -
-        newRect.top;
+        rect.top,
+
+      currentTop:
+        rect.top,
+
+      height:
+        rect.height,
+
+      finishing:
+        false
+
+    };
+
+
+    /*
+      ちょっとだけ振動
+      対応端末のみ
+    */
+
+    if (
+      navigator.vibrate
+    ) {
+
+      navigator.vibrate(
+        15
+      );
+    }
+  }
+
+
+  /* ========================================
+     ドラッグ移動
+  ======================================== */
+
+  function updateDrag(
+    pointerY
+  ) {
+
+    if (
+
+      !dragState
+
+      ||
+
+      dragState.finishing
+
+    ) {
+
+      return;
+    }
+
+
+    let newTop =
+
+      pointerY
+
+      -
+
+      dragState.pointerOffsetY;
+
+
+    /*
+      極端に画面外へ
+      行かないようにする
+    */
+
+    newTop =
+
+      Math.max(
+
+        4,
+
+        Math.min(
+
+          window.innerHeight
+          -
+          dragState.height
+          -
+          4,
+
+          newTop
+
+        )
+
+      );
+
+
+    dragState.currentTop =
+      newTop;
+
+
+    dragState.card.style.top =
+
+      newTop
+      +
+      "px";
+
+
+    checkDragReorder();
+  }
+
+
+  /* ========================================
+     画面端で少し自動スクロール
+  ======================================== */
+
+  function handleAutoScroll(
+    pointerY
+  ) {
+
+    if (
+      !dragState
+    ) {
+
+      return;
+    }
+
+
+    const edge =
+      90;
+
+
+    if (
+      pointerY < edge
+    ) {
+
+      window.scrollBy({
+
+        top:
+          -8,
+
+        behavior:
+          "auto"
+
+      });
+
+    } else if (
+      pointerY
+      >
+      window.innerHeight
+      -
+      edge
+    ) {
+
+      window.scrollBy({
+
+        top:
+          8,
+
+        behavior:
+          "auto"
+
+      });
+
+    }
+  }
+
+
+  /* ========================================
+     重なったカードを入れ替える
+  ======================================== */
+
+  function checkDragReorder() {
+
+    if (
+      !dragState
+    ) {
+
+      return;
+    }
+
+
+    const placeholder =
+
+      dragState.placeholder;
+
+
+    const dragTop =
+
+      dragState.currentTop;
+
+
+    const dragBottom =
+
+      dragTop
+      +
+      dragState.height;
+
+
+    /* ----------------------------------------
+       下方向
+    ---------------------------------------- */
+
+    let next =
+
+      placeholder
+        .nextElementSibling;
+
+
+    while (
+
+      next
+
+      &&
+
+      next.classList
+        .contains(
+          "habit-card"
+        )
+
+    ) {
+
+      const rect =
+
+        next.getBoundingClientRect();
+
+
+      /*
+        次カードの上から28%くらいまで
+        重なったら順番変更
+      */
+
+      const threshold =
+
+        rect.top
+        +
+        rect.height
+        *
+        0.28;
 
 
       if (
-        Math.abs(
-          moveY
-        ) < 1
+        dragBottom
+        <= threshold
       ) {
 
-        return;
+        break;
       }
 
 
-      card.animate(
+      animateListShift(
+        () => {
 
-        [
+          next.after(
+            placeholder
+          );
 
-          {
-            transform:
-              `translateY(${moveY}px)`
-          },
-
-          {
-            transform:
-              "translateY(0)"
-          }
-
-        ],
-
-        {
-          duration: 260,
-
-          easing:
-            "cubic-bezier(0.22, 1, 0.36, 1)"
         }
-
       );
 
+
+      next =
+
+        placeholder
+          .nextElementSibling;
     }
-  );
-
-}
 
 
-/* ==========================================
-   指を離す
-========================================== */
+    /* ----------------------------------------
+       上方向
+    ---------------------------------------- */
 
-function finishDrag() {
+    let previous =
 
-  if (
-    !dragState
-    ||
-    dragState.finishing
-  ) {
+      placeholder
+        .previousElementSibling;
 
-    return;
+
+    while (
+
+      previous
+
+      &&
+
+      previous.classList
+        .contains(
+          "habit-card"
+        )
+
+    ) {
+
+      const rect =
+
+        previous
+          .getBoundingClientRect();
+
+
+      const threshold =
+
+        rect.bottom
+
+        -
+
+        rect.height
+        *
+        0.28;
+
+
+      if (
+        dragTop
+        >= threshold
+      ) {
+
+        break;
+      }
+
+
+      animateListShift(
+        () => {
+
+          previous.before(
+            placeholder
+          );
+
+        }
+      );
+
+
+      previous =
+
+        placeholder
+          .previousElementSibling;
+    }
   }
 
 
-  dragState.finishing =
-    true;
+  /* ========================================
+     周りのカードをにゅるん
+  ======================================== */
 
+  function animateListShift(
+    changeLayout
+  ) {
 
-  const state =
-    dragState;
+    const cards =
 
+      Array.from(
 
-  const target =
-    state.placeholder
-      .getBoundingClientRect();
+        document.querySelectorAll(
+          "#habitList .habit-card"
+        )
 
-
-  /*
-    今いる場所から
-    placeholderへ吸い込まれる
-  */
-
-  state.card.style.transition =
-    `
-      top
-      180ms
-      cubic-bezier(0.22,1,0.36,1),
-
-      left
-      180ms
-      cubic-bezier(0.22,1,0.36,1),
-
-      transform
-      180ms
-      ease
-    `;
-
-
-  requestAnimationFrame(
-    () => {
-
-      state.card.style.top =
-        target.top
-        + "px";
-
-
-      state.card.style.left =
-        target.left
-        + "px";
-
-
-      state.card.style.transform =
-        "scale(1)";
-
-    }
-  );
-
-
-  setTimeout(
-    () => {
-
-      /*
-        通常のカードへ戻す
-      */
-
-      state.card
-        .classList
-        .remove(
-          "dragging"
-        );
-
-
-      state.card.style.position =
-        "";
-
-      state.card.style.left =
-        "";
-
-      state.card.style.top =
-        "";
-
-      state.card.style.width =
-        "";
-
-      state.card.style.height =
-        "";
-
-      state.card.style.transform =
-        "";
-
-      state.card.style.transition =
-        "";
-
-
-      /*
-        placeholderと置換
-      */
-
-      state.placeholder
-        .replaceWith(
-          state.card
-        );
-
-
-      document.body
-        .classList
-        .remove(
-          "drag-active"
-        );
-
-
-      /*
-        DOM上の順番を
-        データへ保存
-      */
-
-      updateDataOrderFromDom();
-
-
-      saveData();
-
-
-      /*
-        着地ぽよん
-      */
-
-      state.card
-        .classList
-        .add(
-          "landing"
-        );
-
-
-      setTimeout(
-        () => {
-
-          state.card
-            .classList
-            .remove(
-              "landing"
-            );
-
-        },
-        430
       );
 
 
-      dragState = null;
-
-    },
-    190
-  );
-
-}
+    const before =
+      new Map();
 
 
-/* ==========================================
-   DOM順を保存
-========================================== */
+    cards.forEach(
+      card => {
 
-function updateDataOrderFromDom() {
+        before.set(
 
-  const orderedIds =
-    Array.from(
+          card,
 
-      document.querySelectorAll(
-        "#habitList .habit-card"
-      )
+          card.getBoundingClientRect()
 
-    )
-    .map(
-      card =>
-        card.dataset.id
+        );
+
+      }
     );
 
 
-  /*
-    「すべて」タブなら
-    そのまま全体順
-  */
+    changeLayout();
 
-  if (
-    currentTab
-    === "all"
+
+    cards.forEach(
+      card => {
+
+        const oldRect =
+
+          before.get(
+            card
+          );
+
+
+        if (
+          !oldRect
+        ) {
+
+          return;
+        }
+
+
+        const newRect =
+
+          card.getBoundingClientRect();
+
+
+        const moveY =
+
+          oldRect.top
+
+          -
+
+          newRect.top;
+
+
+        if (
+          Math.abs(
+            moveY
+          )
+          <
+          1
+        ) {
+
+          return;
+        }
+
+
+        card.animate(
+
+          [
+
+            {
+
+              transform:
+                `translateY(${moveY}px)`
+
+            },
+
+            {
+
+              transform:
+                "translateY(0)"
+
+            }
+
+          ],
+
+          {
+
+            duration:
+              260,
+
+            easing:
+              "cubic-bezier(0.22, 1, 0.36, 1)"
+
+          }
+
+        );
+
+      }
+    );
+  }
+
+
+  /* ========================================
+     指を離して着地
+  ======================================== */
+
+  function finishDrag(
+    immediate = false
   ) {
 
-    const map =
+    if (
+
+      !dragState
+
+      ||
+
+      dragState.finishing
+
+    ) {
+
+      return;
+    }
+
+
+    dragState.finishing =
+      true;
+
+
+    const state =
+      dragState;
+
+
+    const target =
+
+      state.placeholder
+        .getBoundingClientRect();
+
+
+    /*
+      タブ切替などで
+      即時終了するとき
+    */
+
+    if (
+      immediate
+    ) {
+
+      completeDragLanding(
+        state
+      );
+
+      return;
+    }
+
+
+    state.card.style.transition =
+
+      `
+        top
+        180ms
+        cubic-bezier(
+          0.22,
+          1,
+          0.36,
+          1
+        ),
+
+        left
+        180ms
+        cubic-bezier(
+          0.22,
+          1,
+          0.36,
+          1
+        ),
+
+        transform
+        180ms
+        ease
+      `;
+
+
+    requestAnimationFrame(
+      () => {
+
+        state.card.style.top =
+
+          target.top
+          +
+          "px";
+
+
+        state.card.style.left =
+
+          target.left
+          +
+          "px";
+
+
+        state.card.style.transform =
+
+          "scale(1)";
+
+      }
+    );
+
+
+    setTimeout(
+      () => {
+
+        completeDragLanding(
+          state
+        );
+
+      },
+      190
+    );
+  }
+
+
+  function completeDragLanding(
+    state
+  ) {
+
+    /*
+      placeholderの場所へ
+      カードを戻す
+    */
+
+    state.placeholder
+      .replaceWith(
+        state.card
+      );
+
+
+    state.card.classList
+      .remove(
+        "dragging"
+      );
+
+
+    state.card.style.position =
+      "";
+
+    state.card.style.left =
+      "";
+
+    state.card.style.top =
+      "";
+
+    state.card.style.width =
+      "";
+
+    state.card.style.height =
+      "";
+
+    state.card.style.transition =
+      "";
+
+    state.card.style.transform =
+      "";
+
+
+    /*
+      DOMの並びをデータへ保存
+    */
+
+    updateDataOrderFromDom();
+
+
+    saveData();
+
+
+    state.card.classList
+      .add(
+        "landing"
+      );
+
+
+    setTimeout(
+      () => {
+
+        state.card.classList
+          .remove(
+            "landing"
+          );
+
+      },
+      430
+    );
+
+
+    dragState =
+      null;
+  }
+
+
+  /* ========================================
+     DOMの順番を保存
+  ======================================== */
+
+  function updateDataOrderFromDom() {
+
+    const orderedIds =
+
+      Array.from(
+
+        document.querySelectorAll(
+          "#habitList .habit-card"
+        )
+
+      )
+
+      .map(
+        card =>
+          card.dataset.id
+      );
+
+
+    const habitMap =
+
       new Map(
 
         data.habits.map(
           habit => [
+
             habit.id,
+
             habit
+
           ]
         )
 
       );
 
 
-    data.habits =
+    /*
+      すべてタブ
+    */
+
+    if (
+      currentTab
+      === "all"
+    ) {
+
+      data.habits =
+
+        orderedIds
+
+          .map(
+            id =>
+              habitMap.get(
+                id
+              )
+          )
+
+          .filter(
+            Boolean
+          );
+
+
+      return;
+    }
+
+
+    /*
+      カテゴリ別の場合は
+      そのカテゴリ内だけ順番変更
+    */
+
+    const categoryIndexes =
+      [];
+
+
+    data.habits.forEach(
+      (
+        habit,
+        index
+      ) => {
+
+        if (
+          habit.category
+          === currentTab
+        ) {
+
+          categoryIndexes.push(
+            index
+          );
+        }
+
+      }
+    );
+
+
+    const reordered =
+
       orderedIds
 
         .map(
           id =>
-            map.get(id)
+            habitMap.get(
+              id
+            )
         )
 
-        .filter(Boolean);
-
-
-    return;
-  }
-
-
-  /*
-    カテゴリタブ内なら
-    そのカテゴリだけ並び替える
-  */
-
-  const categoryIndexes =
-    [];
-
-
-  data.habits.forEach(
-    (habit, index) => {
-
-      if (
-        habit.category
-        === currentTab
-      ) {
-
-        categoryIndexes.push(
-          index
+        .filter(
+          Boolean
         );
-      }
-
-    }
-  );
 
 
-  const map =
-    new Map(
+    categoryIndexes.forEach(
+      (
+        dataIndex,
+        orderIndex
+      ) => {
 
-      data.habits.map(
-        habit => [
-          habit.id,
-          habit
-        ]
-      )
-
-    );
-
-
-  const orderedCategoryHabits =
-    orderedIds
-
-      .map(
-        id =>
-          map.get(id)
-      )
-
-      .filter(Boolean);
-
-
-  categoryIndexes.forEach(
-    (dataIndex, orderIndex) => {
-
-      if (
-        orderedCategoryHabits[
-          orderIndex
-        ]
-      ) {
-
-        data.habits[
-          dataIndex
-        ] =
-          orderedCategoryHabits[
+        if (
+          reordered[
             orderIndex
-          ];
+          ]
+        ) {
+
+          data.habits[
+            dataIndex
+          ] =
+
+            reordered[
+              orderIndex
+            ];
+        }
+
       }
-
-    }
-  );
-
-}
-
-
-/* ==========================================
-   万一操作が中断された場合
-
-   ホームへ戻る・画面切替などでも
-   浮きっぱなしを防ぐ
-========================================== */
-
-window.addEventListener(
-  "blur",
-  () => {
-
-    if (dragState) {
-
-      finishDrag();
-    }
-
+    );
   }
-);
 
 
-document.addEventListener(
-  "visibilitychange",
-  () => {
-
-    if (
-      document.hidden
-      &&
-      dragState
-    ) {
-
-      finishDrag();
-    }
-
-  }
-);
-
-
-  /* ==========================================
-     編集パネル
-  ========================================== */
+  /* ========================================
+     編集画面
+  ======================================== */
 
   function openHabitEditor(
     habitId = null
   ) {
+
+    if (
+      dragState
+    ) {
+
+      finishDrag(
+        true
+      );
+    }
+
 
     editingHabitId =
       habitId;
 
 
     const nameInput =
+
       document.getElementById(
         "editorHabitName"
       );
 
 
-    if (habitId) {
+    /*
+      編集
+    */
+
+    if (
+      habitId
+    ) {
 
       const habit =
+
         data.habits.find(
           item =>
             item.id
@@ -4221,7 +4614,10 @@ document.addEventListener(
         );
 
 
-      if (!habit) {
+      if (
+        !habit
+      ) {
+
         return;
       }
 
@@ -4229,11 +4625,14 @@ document.addEventListener(
       editorIcon =
         habit.icon;
 
+
       editorCategory =
         habit.category;
 
+
       editorGoal =
         habit.goal;
+
 
       editorBarReset =
         habit.barReset;
@@ -4268,18 +4667,34 @@ document.addEventListener(
           "hidden"
         );
 
-    } else {
+    }
+
+
+    /*
+      新規追加
+    */
+
+    else {
 
       editorIcon =
         "🌷";
 
 
       if (
-        currentTab === "daily"
+
+        currentTab
+        === "daily"
+
         ||
-        currentTab === "creative"
+
+        currentTab
+        === "creative"
+
         ||
-        currentTab === "game"
+
+        currentTab
+        === "game"
+
       ) {
 
         editorCategory =
@@ -4289,10 +4704,13 @@ document.addEventListener(
 
         editorCategory =
           "daily";
+
       }
 
 
-      editorGoal = 1;
+      editorGoal =
+        1;
+
 
       editorBarReset =
         "four";
@@ -4380,9 +4798,9 @@ document.addEventListener(
   }
 
 
-  /* ==========================================
-     編集UI更新
-  ========================================== */
+  /* ========================================
+     編集UI
+  ======================================== */
 
   function refreshEditorUI() {
 
@@ -4398,11 +4816,15 @@ document.addEventListener(
 
           button.classList
             .toggle(
+
               "selected",
+
               button.dataset
                 .editorCategory
               === editorCategory
+
             );
+
         }
       );
 
@@ -4416,11 +4838,15 @@ document.addEventListener(
 
           button.classList
             .toggle(
+
               "selected",
+
               button.dataset
                 .editorReset
               === editorBarReset
+
             );
+
         }
       );
 
@@ -4430,26 +4856,33 @@ document.addEventListener(
         "editorGoalValue"
       )
       .textContent =
+
         editorGoal
-        + "回";
+
+        +
+
+        "回";
   }
 
 
   function renderEditorIcons() {
 
     const grid =
+
       document.getElementById(
         "editorIconGrid"
       );
 
 
-    grid.innerHTML = "";
+    grid.innerHTML =
+      "";
 
 
     ICONS.forEach(
       icon => {
 
         const button =
+
           document.createElement(
             "button"
           );
@@ -4460,7 +4893,8 @@ document.addEventListener(
 
 
         if (
-          icon === editorIcon
+          icon
+          === editorIcon
         ) {
 
           button.classList
@@ -4488,6 +4922,7 @@ document.addEventListener(
         grid.appendChild(
           button
         );
+
       }
     );
   }
@@ -4517,13 +4952,14 @@ document.addEventListener(
   }
 
 
-  /* ==========================================
-     保存
-  ========================================== */
+  /* ========================================
+     編集内容保存
+  ======================================== */
 
   function saveHabitEditor() {
 
     const name =
+
       document
         .getElementById(
           "editorHabitName"
@@ -4532,7 +4968,9 @@ document.addEventListener(
         .trim();
 
 
-    if (!name) {
+    if (
+      !name
+    ) {
 
       alert(
         "習慣名を入力してね。"
@@ -4542,9 +4980,16 @@ document.addEventListener(
     }
 
 
-    if (editingHabitId) {
+    /*
+      既存編集
+    */
+
+    if (
+      editingHabitId
+    ) {
 
       const habit =
+
         data.habits.find(
           item =>
             item.id
@@ -4552,12 +4997,16 @@ document.addEventListener(
         );
 
 
-      if (!habit) {
+      if (
+        !habit
+      ) {
+
         return;
       }
 
 
       const resetChanged =
+
         habit.barReset
         !== editorBarReset;
 
@@ -4565,31 +5014,51 @@ document.addEventListener(
       habit.name =
         name;
 
+
       habit.icon =
         editorIcon;
+
 
       habit.category =
         editorCategory;
 
+
       habit.goal =
         editorGoal;
+
 
       habit.barReset =
         editorBarReset;
 
 
-      if (resetChanged) {
+      if (
+        resetChanged
+      ) {
 
         habit.barResetKey =
+
           editorBarReset
           === "none"
-          ? null
-          : getBarPeriodKey(
-              habit
-            );
+
+          ?
+
+          null
+
+          :
+
+          getBarPeriodKey(
+            habit
+          );
       }
 
-    } else {
+    }
+
+
+    /*
+      新規
+    */
+
+    else {
 
       const habit = {
 
@@ -4629,6 +5098,7 @@ document.addEventListener(
       ) {
 
         habit.barResetKey =
+
           getBarPeriodKey(
             habit
           );
@@ -4668,9 +5138,9 @@ document.addEventListener(
   }
 
 
-  /* ==========================================
-     編集中習慣削除
-  ========================================== */
+  /* ========================================
+     習慣削除
+  ======================================== */
 
   function deleteEditingHabit() {
 
@@ -4683,6 +5153,7 @@ document.addEventListener(
 
 
     const habit =
+
       data.habits.find(
         item =>
           item.id
@@ -4690,15 +5161,22 @@ document.addEventListener(
       );
 
 
-    if (!habit) {
+    if (
+      !habit
+    ) {
+
       return;
     }
 
 
     if (
+
       !confirm(
+
         `「${habit.name}」を削除しますか？`
+
       )
+
     ) {
 
       return;
@@ -4706,6 +5184,7 @@ document.addEventListener(
 
 
     data.habits =
+
       data.habits.filter(
         item =>
           item.id
@@ -4736,28 +5215,35 @@ document.addEventListener(
   }
 
 
-  /* ==========================================
+  /* ========================================
      ルーレット
-  ========================================== */
+  ======================================== */
 
   function initGoalPicker() {
 
     const wheel =
+
       document.getElementById(
         "goalWheel"
       );
 
 
-    wheel.innerHTML = "";
+    wheel.innerHTML =
+      "";
 
 
     for (
+
       let number = 1;
+
       number <= MAX_GOAL;
+
       number++
+
     ) {
 
       const item =
+
         document.createElement(
           "div"
         );
@@ -4782,12 +5268,20 @@ document.addEventListener(
 
 
     wheel.addEventListener(
+
       "scroll",
+
       handleWheelScroll,
+
       {
-        passive: true
+        passive:
+          true
       }
+
     );
+
+
+    updateWheelHighlight();
   }
 
 
@@ -4817,12 +5311,16 @@ document.addEventListener(
           () => {
 
             scrollWheelToValue(
+
               pendingGoal,
+
               false
+
             );
 
           }
         );
+
       }
     );
   }
@@ -4834,6 +5332,7 @@ document.addEventListener(
   ) {
 
     const wheel =
+
       document.getElementById(
         "goalWheel"
       );
@@ -4842,14 +5341,24 @@ document.addEventListener(
     wheel.scrollTo({
 
       top:
+
         (value - 1)
+
         *
+
         WHEEL_ITEM_HEIGHT,
 
       behavior:
+
         smooth
-        ? "smooth"
-        : "auto"
+
+        ?
+
+        "smooth"
+
+        :
+
+        "auto"
 
     });
 
@@ -4864,7 +5373,9 @@ document.addEventListener(
 
   function handleWheelScroll() {
 
-    if (wheelFrame) {
+    if (
+      wheelFrame
+    ) {
 
       cancelAnimationFrame(
         wheelFrame
@@ -4873,30 +5384,44 @@ document.addEventListener(
 
 
     wheelFrame =
+
       requestAnimationFrame(
         () => {
 
           const wheel =
+
             document.getElementById(
               "goalWheel"
             );
 
 
           let index =
+
             Math.round(
+
               wheel.scrollTop
+
               /
+
               WHEEL_ITEM_HEIGHT
+
             );
 
 
           index =
+
             Math.max(
+
               0,
+
               Math.min(
+
                 MAX_GOAL - 1,
+
                 index
+
               )
+
             );
 
 
@@ -4922,12 +5447,19 @@ document.addEventListener(
 
           item.classList
             .toggle(
+
               "selected",
+
               Number(
                 item.dataset.value
               )
-              === pendingGoal
+
+              ===
+
+              pendingGoal
+
             );
+
         }
       );
   }
@@ -4937,7 +5469,9 @@ document.addEventListener(
     save
   ) {
 
-    if (save) {
+    if (
+      save
+    ) {
 
       editorGoal =
         pendingGoal;
@@ -4977,13 +5511,14 @@ document.addEventListener(
   }
 
 
-  /* ==========================================
-     オーバーレイ時スクロール固定
-  ========================================== */
+  /* ========================================
+     オーバーレイ表示中
+  ======================================== */
 
   function syncBodyLock() {
 
     const editorOpen =
+
       document
         .getElementById(
           "habitEditorOverlay"
@@ -4995,6 +5530,7 @@ document.addEventListener(
 
 
     const pickerOpen =
+
       document
         .getElementById(
           "goalPickerOverlay"
@@ -5007,23 +5543,32 @@ document.addEventListener(
 
     document.body.style
       .overflow =
+
         editorOpen
         ||
         pickerOpen
-        ? "hidden"
-        : "";
+
+        ?
+
+        "hidden"
+
+        :
+
+        "";
   }
 
 
-  /* ==========================================
+  /* ========================================
      HTML安全化
-  ========================================== */
+  ======================================== */
 
   function escapeHtml(
     text
   ) {
 
-    return String(text)
+    return String(
+      text
+    )
 
       .replaceAll(
         "&",
@@ -5052,9 +5597,53 @@ document.addEventListener(
   }
 
 
-  /* ==========================================
+  /* ========================================
+     万一ドラッグ操作が中断された場合
+  ======================================== */
+
+  window.addEventListener(
+    "blur",
+    () => {
+
+      if (
+        dragState
+      ) {
+
+        finishDrag(
+          true
+        );
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "visibilitychange",
+    () => {
+
+      if (
+
+        document.hidden
+
+        &&
+
+        dragState
+
+      ) {
+
+        finishDrag(
+          true
+        );
+      }
+
+    }
+  );
+
+
+  /* ========================================
      Service Worker
-  ========================================== */
+  ======================================== */
 
   if (
     "serviceWorker"
@@ -5074,9 +5663,13 @@ document.addEventListener(
             error => {
 
               console.log(
+
                 "Service Worker:",
+
                 error
+
               );
+
             }
           );
 
@@ -5085,9 +5678,9 @@ document.addEventListener(
   }
 
 
-  /* ==========================================
+  /* ========================================
      起動
-  ========================================== */
+  ======================================== */
 
   initGoalPicker();
 
@@ -5099,16 +5692,21 @@ document.addEventListener(
 
 
   /*
-    0時・4時を跨いだとき、
-    開きっぱなしでも表示を更新
+    開きっぱなしの場合も
+    0時 / 4時更新を反映
   */
 
   setInterval(
     () => {
 
-      checkBarResets();
+      if (
+        !dragState
+      ) {
 
-      render();
+        checkBarResets();
+
+        render();
+      }
 
     },
     30000
