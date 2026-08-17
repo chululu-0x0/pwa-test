@@ -11,20 +11,40 @@
 
   <title>HABITS</title>
 
-  <!-- iPhoneでホーム画面から開いたときのアプリ感を強める -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="HABITS">
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
 
-  <!-- あとで作ったウサギアイコンを icon.png として置けば使える -->
-  <link rel="apple-touch-icon" href="icon.png">
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default"
+  >
 
+  <meta
+    name="apple-mobile-web-app-title"
+    content="HABITS"
+  >
+
+  <link
+    rel="apple-touch-icon"
+    href="icon.png"
+  >
+
+
+  <!-- =========================
+       フォント
+  ========================== -->
 
   <style>
+    @import url(
+      'https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap'
+    );
+
 
     /* =========================
-       全体
-    ========================= */
+       基本
+    ========================== */
 
     * {
       box-sizing: border-box;
@@ -38,17 +58,21 @@
       margin: 0;
       min-height: 100vh;
 
+      background: #f6cbd8;
+      color: #51464a;
+
       font-family:
+        "Zen Maru Gothic",
         -apple-system,
         BlinkMacSystemFont,
-        "Segoe UI",
         sans-serif;
 
-      background: #f6cbd8;
-      color: #4f4549;
+      -webkit-tap-highlight-color:
+        transparent;
 
-      -webkit-tap-highlight-color: transparent;
+      overscroll-behavior-y: none;
     }
+
 
     .app {
       width: 100%;
@@ -64,8 +88,30 @@
 
 
     /* =========================
+       UI系フォント
+    ========================== */
+
+    button,
+    input,
+    select,
+    .count,
+    .reset-label,
+    .reset-toggle,
+    .field-label,
+    .goal-picker-button,
+    .picker-sheet,
+    .reset-info {
+      font-family:
+        "M PLUS Rounded 1c",
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+    }
+
+
+    /* =========================
        ヘッダー
-    ========================= */
+    ========================== */
 
     header {
       margin-bottom: 26px;
@@ -74,8 +120,10 @@
     h1 {
       margin: 0;
 
-      font-size: 30px;
-      letter-spacing: 0.06em;
+      font-size: 31px;
+      font-weight: 700;
+
+      letter-spacing: 0.08em;
 
       color: white;
     }
@@ -84,15 +132,21 @@
       margin-top: 6px;
 
       font-size: 14px;
+      font-weight: 500;
 
       color:
-        rgba(255, 255, 255, 0.92);
+        rgba(
+          255,
+          255,
+          255,
+          0.92
+        );
     }
 
 
     /* =========================
        習慣一覧
-    ========================= */
+    ========================== */
 
     .habit-list {
       display: flex;
@@ -112,15 +166,23 @@
 
       box-shadow:
         0 7px 20px
-        rgba(105, 70, 80, 0.08);
+        rgba(
+          105,
+          70,
+          80,
+          0.08
+        );
     }
 
 
-    /* 新しく追加されたカード */
+    /* =========================
+       新規カード落下
+    ========================== */
 
     .habit-card.new-card {
       animation:
-        cardDrop 0.65s
+        cardDrop
+        0.65s
         cubic-bezier(
           0.22,
           1.25,
@@ -133,6 +195,7 @@
 
       0% {
         opacity: 0;
+
         transform:
           translateY(-90px)
           scale(0.96);
@@ -140,6 +203,7 @@
 
       65% {
         opacity: 1;
+
         transform:
           translateY(10px)
           scale(1.015);
@@ -153,6 +217,7 @@
 
       100% {
         opacity: 1;
+
         transform:
           translateY(0)
           scale(1);
@@ -161,8 +226,8 @@
 
 
     /* =========================
-       カード上部
-    ========================= */
+       カード上
+    ========================== */
 
     .habit-top {
       display: flex;
@@ -188,7 +253,7 @@
       flex-shrink: 0;
 
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
 
       color: #8d7f84;
     }
@@ -196,7 +261,7 @@
 
     /* =========================
        進捗バー
-    ========================= */
+    ========================== */
 
     .progress-bg {
       width: 100%;
@@ -204,16 +269,15 @@
 
       margin-top: 16px;
 
+      overflow: hidden;
+
       background: #f3e5e9;
 
       border-radius: 999px;
-
-      overflow: hidden;
     }
 
     .progress-bar {
       height: 100%;
-
       width: 0%;
 
       background:
@@ -225,12 +289,9 @@
 
       border-radius: 999px;
 
-      /*
-        1を少し超えるカーブにして
-        「びよーん」と伸びる感じ
-      */
       transition:
-        width 0.55s
+        width
+        0.55s
         cubic-bezier(
           0.34,
           1.56,
@@ -240,11 +301,15 @@
     }
 
 
-    /* 達成した瞬間 */
+    /* =========================
+       達成ぽよん
+    ========================== */
 
     .habit-card.completed-pop {
       animation:
-        completedPop 0.45s ease;
+        completedPop
+        0.45s
+        ease;
     }
 
     @keyframes completedPop {
@@ -268,8 +333,8 @@
 
 
     /* =========================
-       カード下部
-    ========================= */
+       カード下
+    ========================== */
 
     .habit-bottom {
       margin-top: 15px;
@@ -285,10 +350,14 @@
     }
 
     .done {
+      font-family:
+        "M PLUS Rounded 1c",
+        sans-serif;
+
       font-size: 13px;
       font-weight: 800;
 
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
 
       color: #d97796;
 
@@ -311,8 +380,8 @@
 
 
     /* =========================
-       ＋ − ボタン
-    ========================= */
+       ＋ −
+    ========================== */
 
     .buttons {
       display: flex;
@@ -320,8 +389,6 @@
     }
 
     button {
-      font: inherit;
-
       touch-action: manipulation;
 
       -webkit-user-select: none;
@@ -349,7 +416,7 @@
       color: #7e646d;
 
       font-size: 22px;
-      line-height: 1;
+      font-weight: 700;
 
       cursor: pointer;
 
@@ -364,41 +431,47 @@
     }
 
     .round-button:active {
-      transform: scale(0.82);
+      transform:
+        scale(0.82);
     }
 
     .round-button.button-pop {
       animation:
-        buttonPop 0.32s ease;
+        buttonPop
+        0.32s
+        ease;
     }
 
     @keyframes buttonPop {
 
       0% {
-        transform: scale(0.82);
+        transform:
+          scale(0.82);
       }
 
       55% {
-        transform: scale(1.18);
+        transform:
+          scale(1.18);
       }
 
       75% {
-        transform: scale(0.95);
+        transform:
+          scale(0.95);
       }
 
       100% {
-        transform: scale(1);
+        transform:
+          scale(1);
       }
     }
 
 
     /* =========================
        リセット設定
-    ========================= */
+    ========================== */
 
     .habit-settings {
       margin-top: 15px;
-
       padding-top: 13px;
 
       border-top:
@@ -428,10 +501,9 @@
       padding: 7px 11px;
 
       background: #f7dce4;
-
       color: #c66d88;
 
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
 
       cursor: pointer;
@@ -445,7 +517,7 @@
 
     /* =========================
        削除
-    ========================= */
+    ========================== */
 
     .delete-button {
       margin-top: 12px;
@@ -455,7 +527,6 @@
       border: none;
 
       background: transparent;
-
       color: #c2b3b8;
 
       font-size: 11px;
@@ -465,8 +536,8 @@
 
 
     /* =========================
-       習慣追加
-    ========================= */
+       追加カード
+    ========================== */
 
     .add-card {
       margin-top: 20px;
@@ -487,8 +558,20 @@
     .add-title {
       margin-bottom: 15px;
 
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 700;
+    }
+
+    .field-label {
+      display: block;
+
+      margin:
+        5px 0 7px;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      color: #917b82;
     }
 
     input {
@@ -504,35 +587,72 @@
       font-size: 16px;
 
       background: white;
-
       color: #4f4549;
 
       appearance: none;
     }
 
     #habitName {
-      margin-bottom: 10px;
-    }
-
-    .field-label {
-      display: block;
-
-      margin:
-        5px 0 7px;
-
-      font-size: 12px;
-      font-weight: 600;
-
-      color: #917b82;
+      margin-bottom: 12px;
     }
 
 
     /* =========================
-       追加時リセット選択
-    ========================= */
+       目標回数ボタン
+    ========================== */
+
+    .goal-picker-button {
+      width: 100%;
+
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      align-items: center;
+
+      padding: 13px 15px;
+
+      border: none;
+      border-radius: 14px;
+
+      background: white;
+      color: #594b50;
+
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.12s ease;
+    }
+
+    .goal-picker-button:active {
+      transform:
+        scale(0.98);
+    }
+
+    .goal-picker-value {
+      color: #d77492;
+
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .goal-picker-arrow {
+      color: #beaab0;
+
+      font-size: 18px;
+    }
+
+
+    /* =========================
+       リセットON/OFFスイッチ
+    ========================== */
 
     .reset-choice {
-      margin-top: 14px;
+      margin-top: 16px;
 
       display: flex;
 
@@ -546,6 +666,7 @@
 
     .reset-choice-text {
       font-size: 13px;
+
       color: #735f66;
     }
 
@@ -594,10 +715,11 @@
 
       box-shadow:
         0 2px 5px
-        rgba(0,0,0,0.12);
+        rgba(0, 0, 0, 0.12);
 
       transition:
-        transform 0.25s
+        transform
+        0.25s
         cubic-bezier(
           0.34,
           1.56,
@@ -608,13 +730,11 @@
 
     .switch input:checked
     + .slider {
-
       background: #ee9fb6;
     }
 
     .switch input:checked
     + .slider::before {
-
       transform:
         translateX(20px);
     }
@@ -622,7 +742,7 @@
 
     /* =========================
        追加ボタン
-    ========================= */
+    ========================== */
 
     .add-button {
       width: 100%;
@@ -638,7 +758,7 @@
       color: #d56f8e;
 
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 800;
 
       cursor: pointer;
 
@@ -647,13 +767,14 @@
     }
 
     .add-button:active {
-      transform: scale(0.97);
+      transform:
+        scale(0.96);
     }
 
 
     /* =========================
        空表示
-    ========================= */
+    ========================== */
 
     .empty {
       padding: 30px 20px;
@@ -685,8 +806,294 @@
           255,
           255,
           255,
-          0.86
+          0.87
         );
+    }
+
+
+    /* =========================================
+       回数ルーレット 背景
+    ========================================== */
+
+    .picker-overlay {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 1000;
+
+      display: flex;
+
+      justify-content: center;
+      align-items: flex-end;
+
+      padding:
+        20px
+        14px
+        max(
+          14px,
+          env(safe-area-inset-bottom)
+        );
+
+      background:
+        rgba(
+          90,
+          60,
+          70,
+          0.18
+        );
+
+      backdrop-filter:
+        blur(4px);
+
+      -webkit-backdrop-filter:
+        blur(4px);
+
+      opacity: 0;
+
+      visibility: hidden;
+
+      transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+    }
+
+    .picker-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+
+    /* =========================
+       下から出るパネル
+    ========================== */
+
+    .picker-sheet {
+      width: 100%;
+      max-width: 480px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.97
+        );
+
+      border-radius:
+        28px;
+
+      padding:
+        18px 18px 22px;
+
+      box-shadow:
+        0 18px 50px
+        rgba(
+          90,
+          60,
+          70,
+          0.16
+        );
+
+      transform:
+        translateY(110%)
+        scale(0.98);
+
+      transition:
+        transform
+        0.38s
+        cubic-bezier(
+          0.34,
+          1.3,
+          0.64,
+          1
+        );
+    }
+
+    .picker-overlay.open
+    .picker-sheet {
+      transform:
+        translateY(0)
+        scale(1);
+    }
+
+
+    /* =========================
+       ルーレット上部
+    ========================== */
+
+    .picker-header {
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      align-items: center;
+
+      margin-bottom: 8px;
+    }
+
+    .picker-title {
+      font-size: 15px;
+      font-weight: 800;
+
+      color: #66565c;
+    }
+
+    .picker-header-button {
+      border: none;
+
+      background: transparent;
+
+      padding: 8px;
+
+      color: #d37491;
+
+      font-size: 14px;
+      font-weight: 800;
+
+      cursor: pointer;
+    }
+
+    .picker-header-button.cancel {
+      color: #aa9ba0;
+    }
+
+
+    /* =========================
+       ルーレット本体
+    ========================== */
+
+    .wheel-container {
+      position: relative;
+
+      height: 260px;
+
+      overflow: hidden;
+
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          to bottom,
+          #fff7f9,
+          white 30%,
+          white 70%,
+          #fff7f9
+        );
+    }
+
+
+    .picker-wheel {
+      position: relative;
+
+      height: 260px;
+
+      overflow-y: scroll;
+      overflow-x: hidden;
+
+      padding:
+        104px 0;
+
+      scroll-snap-type:
+        y mandatory;
+
+      -webkit-overflow-scrolling:
+        touch;
+
+      scrollbar-width: none;
+
+      touch-action: pan-y;
+    }
+
+    .picker-wheel::-webkit-scrollbar {
+      display: none;
+    }
+
+
+    .wheel-item {
+      height: 52px;
+
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      scroll-snap-align: center;
+
+      color: #b4a4aa;
+
+      font-size: 19px;
+      font-weight: 500;
+
+      transition:
+        transform 0.18s ease,
+        color 0.18s ease,
+        opacity 0.18s ease;
+
+      opacity: 0.55;
+    }
+
+    .wheel-item.selected {
+      color: #dc7896;
+
+      font-size: 25px;
+      font-weight: 800;
+
+      transform:
+        scale(1.08);
+
+      opacity: 1;
+    }
+
+
+    /* 中央選択部分 */
+
+    .wheel-highlight {
+      position: absolute;
+
+      pointer-events: none;
+
+      left: 18px;
+      right: 18px;
+
+      top: 104px;
+
+      height: 52px;
+
+      border-top:
+        1px solid #f0c7d3;
+
+      border-bottom:
+        1px solid #f0c7d3;
+
+      background:
+        rgba(
+          247,
+          207,
+          219,
+          0.12
+        );
+    }
+
+
+    .wheel-unit {
+      position: absolute;
+
+      pointer-events: none;
+
+      top: 50%;
+
+      left:
+        calc(50% + 38px);
+
+      transform:
+        translateY(-50%);
+
+      color: #aa929a;
+
+      font-size: 14px;
+      font-weight: 700;
     }
 
   </style>
@@ -711,15 +1118,15 @@
     </header>
 
 
-    <!-- 習慣一覧 -->
-
     <section
       class="habit-list"
       id="habitList"
     ></section>
 
 
-    <!-- 習慣追加 -->
+    <!-- =========================
+         習慣追加
+    ========================== -->
 
     <section class="add-card">
 
@@ -743,21 +1150,44 @@
         目標回数
       </label>
 
-      <input
-        id="habitGoal"
-        type="number"
-        inputmode="numeric"
-        min="1"
-        value="1"
+
+      <!-- 数字入力ではなく
+           ルーレットを開く -->
+
+      <button
+        class="goal-picker-button"
+        type="button"
+        onclick="openGoalPicker()"
       >
+
+        <span>
+          目標
+        </span>
+
+        <span>
+
+          <span
+            class="goal-picker-value"
+            id="goalPickerValue"
+          >
+            1回
+          </span>
+
+          <span
+            class="goal-picker-arrow"
+          >
+            ›
+          </span>
+
+        </span>
+
+      </button>
 
 
       <div class="reset-choice">
 
         <div class="reset-choice-text">
-
           毎日4:00にリセット
-
         </div>
 
 
@@ -780,42 +1210,106 @@
         class="add-button"
         onclick="addHabit()"
       >
-
         追加する
-
       </button>
 
     </section>
 
 
     <div class="reset-info">
-
-      「毎日リセット」がONの項目のみ、
-      午前4:00に進捗が0へ戻ります。
-
+      「毎日リセット」がONの項目のみ、午前4:00に進捗が0へ戻ります。
     </div>
 
   </main>
+
+
+  <!-- =========================================
+       回数ルーレット
+  ========================================== -->
+
+  <div
+    class="picker-overlay"
+    id="goalPickerOverlay"
+    onclick="overlayClicked(event)"
+  >
+
+    <div class="picker-sheet">
+
+      <div class="picker-header">
+
+        <button
+          class="picker-header-button cancel"
+          onclick="closeGoalPicker(false)"
+        >
+          キャンセル
+        </button>
+
+
+        <div class="picker-title">
+          目標回数
+        </div>
+
+
+        <button
+          class="picker-header-button"
+          onclick="closeGoalPicker(true)"
+        >
+          決定
+        </button>
+
+      </div>
+
+
+      <div class="wheel-container">
+
+        <div
+          class="picker-wheel"
+          id="goalWheel"
+        ></div>
+
+        <div
+          class="wheel-highlight"
+        ></div>
+
+        <div class="wheel-unit">
+          回
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 
 
   <script>
 
     /* =========================
        基本設定
-    ========================= */
+    ========================== */
 
     const STORAGE_KEY =
       "habitTrackerData";
 
     const RESET_HOUR = 4;
 
+    const WHEEL_ITEM_HEIGHT = 52;
+
+    const MAX_GOAL = 30;
+
+
     let newHabitId = null;
+
+    let selectedGoal = 1;
+
+    let pendingGoal = 1;
+
+    let wheelScrollFrame = null;
 
 
     /* =========================
-       習慣上の「今日」を取得
-       午前4時で日付を切り替える
-    ========================= */
+       4時基準の日付
+    ========================== */
 
     function getHabitDate() {
 
@@ -832,16 +1326,21 @@
           * 1000
         );
 
+
       return (
+
         shifted.getFullYear()
         + "-"
-        + String(
+        +
+        String(
           shifted.getMonth() + 1
         ).padStart(2, "0")
         + "-"
-        + String(
+        +
+        String(
           shifted.getDate()
         ).padStart(2, "0")
+
       );
     }
 
@@ -861,6 +1360,7 @@
           * 1000
         );
 
+
       return shifted
         .toLocaleDateString(
           "ja-JP",
@@ -874,8 +1374,8 @@
 
 
     /* =========================
-       ID作成
-    ========================= */
+       ID
+    ========================== */
 
     function createId() {
 
@@ -886,21 +1386,25 @@
       ) {
 
         return crypto.randomUUID();
+
       }
 
+
       return (
+
         Date.now().toString()
         +
         Math.random()
           .toString(16)
           .slice(2)
+
       );
     }
 
 
     /* =========================
-       保存データ読込
-    ========================= */
+       保存読込
+    ========================== */
 
     function loadData() {
 
@@ -909,13 +1413,16 @@
           STORAGE_KEY
         );
 
+
       if (!saved) {
 
         return {
+
           habitDate:
             getHabitDate(),
 
           habits: []
+
         };
       }
 
@@ -935,14 +1442,6 @@
           parsed.habits = [];
         }
 
-
-        /*
-          以前のバージョンで
-          登録済みの習慣を引き継ぐ
-
-          resetDaily が無ければ
-          「毎日リセットON」として扱う
-        */
 
         parsed.habits =
           parsed.habits.map(
@@ -993,10 +1492,6 @@
       loadData();
 
 
-    /* =========================
-       保存
-    ========================= */
-
     function saveData() {
 
       localStorage.setItem(
@@ -1007,8 +1502,8 @@
 
 
     /* =========================
-       午前4時リセット
-    ========================= */
+       リセット
+    ========================== */
 
     function checkReset() {
 
@@ -1028,17 +1523,13 @@
       data.habits.forEach(
         habit => {
 
-          /*
-            resetDaily が false のものは
-            日付を跨いでもそのまま
-          */
-
           if (
             habit.resetDaily
             !== false
           ) {
 
             habit.current = 0;
+
           }
 
         }
@@ -1057,7 +1548,7 @@
 
     /* =========================
        描画
-    ========================= */
+    ========================== */
 
     function render(
       progressAnimation = null
@@ -1106,19 +1597,9 @@
         habit => {
 
 
-          const index =
-            data.habits
-              .findIndex(
-                item =>
-                  item.id
-                  === habit.id
-              );
-
-
           const percent =
             Math.min(
               100,
-
               habit.current
               /
               habit.goal
@@ -1146,11 +1627,6 @@
             habit.id;
 
 
-          /*
-            今追加したカードだけ
-            落下アニメーション
-          */
-
           if (
             habit.id
             === newHabitId
@@ -1160,13 +1636,9 @@
               .add(
                 "new-card"
               );
+
           }
 
-
-          /*
-            バーを伸ばす時だけ
-            変更前の幅から開始
-          */
 
           let initialPercent =
             percent;
@@ -1181,6 +1653,7 @@
 
             initialPercent =
               progressAnimation.from;
+
           }
 
 
@@ -1214,6 +1687,7 @@
               <div
                 class="progress-bar"
                 data-progress="${habit.id}"
+
                 style="
                   width:
                   ${initialPercent}%;
@@ -1235,9 +1709,7 @@
                   }
                 "
               >
-
                 ✓ DONE
-
               </div>
 
 
@@ -1245,17 +1717,15 @@
 
                 <button
                   class="round-button"
+
                   onclick="
                     decreaseHabit(
                       '${habit.id}',
                       this
                     )
                   "
-                  aria-label="1回減らす"
                 >
-
                   −
-
                 </button>
 
 
@@ -1264,17 +1734,15 @@
                     round-button
                     plus
                   "
+
                   onclick="
                     increaseHabit(
                       '${habit.id}',
                       this
                     )
                   "
-                  aria-label="1回増やす"
                 >
-
                   ＋
-
                 </button>
 
               </div>
@@ -1304,6 +1772,7 @@
                     : "off"
                   }
                 "
+
                 onclick="
                   toggleReset(
                     '${habit.id}'
@@ -1324,6 +1793,7 @@
 
             <button
               class="delete-button"
+
               onclick="
                 deleteHabit(
                   '${habit.id}'
@@ -1346,11 +1816,6 @@
       );
 
 
-      /*
-        バーの幅を次のフレームで変更
-        → びよーんアニメーション
-      */
-
       if (
         progressAnimation
       ) {
@@ -1372,6 +1837,7 @@
                   bar.style.width =
                     progressAnimation.to
                     + "%";
+
                 }
 
               }
@@ -1383,14 +1849,11 @@
       }
 
 
-      /*
-        新規追加判定を解除
-      */
-
       if (newHabitId) {
 
         const idToClear =
           newHabitId;
+
 
         setTimeout(
           () => {
@@ -1401,11 +1864,320 @@
             ) {
 
               newHabitId = null;
+
             }
 
           },
           700
         );
+
+      }
+
+    }
+
+
+    /* =========================================
+       ルーレット初期化
+    ========================================== */
+
+    function initGoalPicker() {
+
+      const wheel =
+        document.getElementById(
+          "goalWheel"
+        );
+
+
+      wheel.innerHTML = "";
+
+
+      for (
+        let number = 1;
+        number <= MAX_GOAL;
+        number++
+      ) {
+
+        const item =
+          document.createElement(
+            "div"
+          );
+
+
+        item.className =
+          "wheel-item";
+
+
+        item.dataset.value =
+          number;
+
+
+        item.textContent =
+          number;
+
+
+        wheel.appendChild(
+          item
+        );
+
+      }
+
+
+      wheel.addEventListener(
+        "scroll",
+        handleWheelScroll,
+        {
+          passive: true
+        }
+      );
+
+
+      updateWheelHighlight();
+
+    }
+
+
+    /* =========================
+       ルーレットを開く
+    ========================== */
+
+    function openGoalPicker() {
+
+      pendingGoal =
+        selectedGoal;
+
+
+      const overlay =
+        document.getElementById(
+          "goalPickerOverlay"
+        );
+
+
+      overlay.classList
+        .add(
+          "open"
+        );
+
+
+      document.body.style
+        .overflow =
+          "hidden";
+
+
+      /*
+        下から出てきた後に
+        現在値まで移動
+      */
+
+      requestAnimationFrame(
+        () => {
+
+          requestAnimationFrame(
+            () => {
+
+              scrollWheelToValue(
+                pendingGoal,
+                false
+              );
+
+            }
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =========================
+       選択値までスクロール
+    ========================== */
+
+    function scrollWheelToValue(
+      value,
+      smooth = true
+    ) {
+
+      const wheel =
+        document.getElementById(
+          "goalWheel"
+        );
+
+
+      const top =
+        (value - 1)
+        *
+        WHEEL_ITEM_HEIGHT;
+
+
+      wheel.scrollTo({
+
+        top: top,
+
+        behavior:
+          smooth
+          ? "smooth"
+          : "auto"
+
+      });
+
+
+      pendingGoal =
+        value;
+
+
+      updateWheelHighlight();
+
+    }
+
+
+    /* =========================
+       回した時
+    ========================== */
+
+    function handleWheelScroll() {
+
+      if (
+        wheelScrollFrame
+      ) {
+
+        cancelAnimationFrame(
+          wheelScrollFrame
+        );
+
+      }
+
+
+      wheelScrollFrame =
+        requestAnimationFrame(
+          () => {
+
+            const wheel =
+              document.getElementById(
+                "goalWheel"
+              );
+
+
+            let index =
+              Math.round(
+                wheel.scrollTop
+                /
+                WHEEL_ITEM_HEIGHT
+              );
+
+
+            index =
+              Math.max(
+                0,
+                Math.min(
+                  MAX_GOAL - 1,
+                  index
+                )
+              );
+
+
+            pendingGoal =
+              index + 1;
+
+
+            updateWheelHighlight();
+
+          }
+        );
+
+    }
+
+
+    /* =========================
+       中央数字を強調
+    ========================== */
+
+    function updateWheelHighlight() {
+
+      const items =
+        document.querySelectorAll(
+          ".wheel-item"
+        );
+
+
+      items.forEach(
+        item => {
+
+          const value =
+            Number(
+              item.dataset.value
+            );
+
+
+          item.classList
+            .toggle(
+              "selected",
+              value
+              === pendingGoal
+            );
+
+        }
+      );
+
+    }
+
+
+    /* =========================
+       ルーレットを閉じる
+    ========================== */
+
+    function closeGoalPicker(
+      save
+    ) {
+
+      if (save) {
+
+        selectedGoal =
+          pendingGoal;
+
+
+        document
+          .getElementById(
+            "goalPickerValue"
+          )
+          .textContent =
+            selectedGoal
+            + "回";
+
+      }
+
+
+      const overlay =
+        document.getElementById(
+          "goalPickerOverlay"
+        );
+
+
+      overlay.classList
+        .remove(
+          "open"
+        );
+
+
+      document.body.style
+        .overflow =
+          "";
+
+    }
+
+
+    function overlayClicked(
+      event
+    ) {
+
+      if (
+        event.target.id
+        === "goalPickerOverlay"
+      ) {
+
+        closeGoalPicker(
+          false
+        );
+
       }
 
     }
@@ -1413,7 +2185,7 @@
 
     /* =========================
        習慣追加
-    ========================= */
+    ========================== */
 
     function addHabit() {
 
@@ -1422,10 +2194,6 @@
           "habitName"
         );
 
-      const goalInput =
-        document.getElementById(
-          "habitGoal"
-        );
 
       const resetInput =
         document.getElementById(
@@ -1439,30 +2207,10 @@
           .trim();
 
 
-      const goal =
-        Number(
-          goalInput.value
-        );
-
-
       if (!name) {
 
         alert(
           "習慣名を入力してね。"
-        );
-
-        return;
-      }
-
-
-      if (
-        !Number.isInteger(goal)
-        ||
-        goal < 1
-      ) {
-
-        alert(
-          "目標回数は1以上にしてね。"
         );
 
         return;
@@ -1478,7 +2226,7 @@
           name,
 
         goal:
-          goal,
+          selectedGoal,
 
         current:
           0,
@@ -1501,11 +2249,25 @@
       saveData();
 
 
-      nameInput.value = "";
+      nameInput.value =
+        "";
 
-      goalInput.value = "1";
 
-      resetInput.checked = true;
+      selectedGoal = 1;
+
+      pendingGoal = 1;
+
+
+      document
+        .getElementById(
+          "goalPickerValue"
+        )
+        .textContent =
+          "1回";
+
+
+      resetInput.checked =
+        true;
 
 
       render();
@@ -1515,7 +2277,7 @@
 
     /* =========================
        ＋
-    ========================= */
+    ========================== */
 
     function increaseHabit(
       id,
@@ -1542,7 +2304,6 @@
       const beforePercent =
         Math.min(
           100,
-
           habit.current
           /
           habit.goal
@@ -1562,7 +2323,6 @@
       const afterPercent =
         Math.min(
           100,
-
           habit.current
           /
           habit.goal
@@ -1579,11 +2339,6 @@
       saveData();
 
 
-      /*
-        ボタンの「ぽんっ」を少し見せてから
-        画面更新
-      */
-
       setTimeout(
         () => {
 
@@ -1599,11 +2354,6 @@
 
           });
 
-
-          /*
-            初めて達成した瞬間
-            カードも少しぽよん
-          */
 
           if (
             !wasCompleted
@@ -1626,6 +2376,7 @@
                     .add(
                       "completed-pop"
                     );
+
                 }
 
               }
@@ -1642,7 +2393,7 @@
 
     /* =========================
        −
-    ========================= */
+    ========================== */
 
     function decreaseHabit(
       id,
@@ -1674,7 +2425,6 @@
       const beforePercent =
         Math.min(
           100,
-
           habit.current
           /
           habit.goal
@@ -1689,7 +2439,6 @@
       const afterPercent =
         Math.min(
           100,
-
           habit.current
           /
           habit.goal
@@ -1724,8 +2473,8 @@
 
 
     /* =========================
-       ボタンぽんっ
-    ========================= */
+       ボタンぽよん
+    ========================== */
 
     function animateButton(
       button
@@ -1754,8 +2503,8 @@
 
 
     /* =========================
-       リセット ON / OFF
-    ========================= */
+       リセット切替
+    ========================== */
 
     function toggleReset(
       id
@@ -1786,7 +2535,7 @@
 
     /* =========================
        削除
-    ========================= */
+    ========================== */
 
     function deleteHabit(
       id
@@ -1840,8 +2589,8 @@
 
 
     /* =========================
-       HTML文字を安全に表示
-    ========================= */
+       HTML安全化
+    ========================== */
 
     function escapeHtml(
       text
@@ -1878,8 +2627,10 @@
 
 
     /* =========================
-       最初の描画
-    ========================= */
+       起動
+    ========================== */
+
+    initGoalPicker();
 
     checkReset();
 
@@ -1888,10 +2639,10 @@
     render();
 
 
-    /* =========================
-       開きっぱなしでも
-       4時を跨いだら更新
-    ========================= */
+    /*
+      アプリを開いたまま
+      午前4時を跨いだ場合
+    */
 
     setInterval(
       () => {
