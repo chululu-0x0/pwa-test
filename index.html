@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>おためしアプリ</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+
+      min-height: 100vh;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-family: sans-serif;
+
+      background: #f1f1f1;
+    }
+
+    .app {
+      width: 90%;
+      max-width: 420px;
+
+      padding: 32px 24px;
+
+      text-align: center;
+
+      background: white;
+
+      border-radius: 28px;
+
+      box-shadow:
+        0 10px 30px
+        rgba(0, 0, 0, 0.08);
+    }
+
+    .character {
+      font-size: 90px;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    #message {
+      min-height: 60px;
+
+      margin: 25px 0;
+
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    button {
+      padding: 14px 30px;
+
+      border: none;
+      border-radius: 999px;
+
+      background: #f0a9bd;
+      color: white;
+
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="app">
+
+    <div class="character">
+      🐰
+    </div>
+
+    <h1>
+      おためしアプリ
+    </h1>
+
+    <p id="message">
+      話しかけてみて。
+    </p>
+
+    <button onclick="talk()">
+      話しかける
+    </button>
+
+  </main>
+
+
+  <script>
+
+    const messages = [
+      "こんにちは。",
+      "ちゃんとiPhoneでも動いてる？",
+      "これはPCで作ったアプリだよ。",
+      "ホーム画面から開けたぞ。",
+      "もう一回押してみて。",
+      "PWAへの第一歩。"
+    ];
+
+
+    function talk() {
+
+      const number =
+        Math.floor(
+          Math.random() * messages.length
+        );
+
+      document
+        .getElementById("message")
+        .textContent =
+          messages[number];
+    }
+
+  </script>
+
+</body>
+
+</html>
