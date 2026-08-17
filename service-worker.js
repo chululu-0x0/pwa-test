@@ -1,5 +1,5 @@
 const CACHE_NAME =
-  "habits-cache-v1";
+  "habits-cache-v2";
 
 
 const APP_FILES = [
@@ -10,9 +10,9 @@ const APP_FILES = [
 ];
 
 
-/*
-  最初にアプリ本体を保存
-*/
+/* ==========================================
+   インストール
+========================================== */
 
 self.addEventListener(
   "install",
@@ -39,10 +39,9 @@ self.addEventListener(
 );
 
 
-/*
-  新しいService Workerを
-  すぐ有効化
-*/
+/* ==========================================
+   古いキャッシュ削除
+========================================== */
 
 self.addEventListener(
   "activate",
@@ -71,6 +70,7 @@ self.addEventListener(
                 )
 
             );
+
           }
         )
 
@@ -82,19 +82,20 @@ self.addEventListener(
 );
 
 
-/*
-  通信時
-
-  キャッシュがあればまず利用。
-  なければネットから取得して保存。
-*/
+/* ==========================================
+   通信
+========================================== */
 
 self.addEventListener(
   "fetch",
   event => {
 
+    const request =
+      event.request;
+
+
     if (
-      event.request.method
+      request.method
       !== "GET"
     ) {
 
@@ -102,33 +103,105 @@ self.addEventListener(
     }
 
 
+    /*
+      HTML画面は
+      ネットがあれば最新版優先。
+
+      オフラインなら
+      キャッシュを使う。
+    */
+
+    if (
+      request.mode
+      === "navigate"
+    ) {
+
+      event.respondWith(
+
+        fetch(request)
+
+          .then(
+            response => {
+
+              const copy =
+                response.clone();
+
+
+              caches
+                .open(
+                  CACHE_NAME
+                )
+                .then(
+                  cache => {
+
+                    cache.put(
+                      "./index.html",
+                      copy
+                    );
+
+                  }
+                );
+
+
+              return response;
+            }
+          )
+
+          .catch(
+            async () => {
+
+              return (
+                await caches.match(
+                  "./index.html"
+                )
+                ||
+                await caches.match(
+                  "./"
+                )
+              );
+
+            }
+          )
+
+      );
+
+
+      return;
+    }
+
+
+    /*
+      その他の画像・フォントなどは
+      キャッシュ優先。
+
+      裏で最新版も取りにいく。
+    */
+
     event.respondWith(
 
       caches
         .match(
-          event.request
+          request
         )
         .then(
           cached => {
 
-            if (cached) {
+            const network =
+              fetch(request)
 
-              /*
-                裏では最新版を
-                取りに行っておく
-              */
-
-              fetch(
-                event.request
-              )
                 .then(
                   response => {
 
                     if (
-                      response
-                      &&
                       response.ok
+                      ||
+                      response.type
+                      === "opaque"
                     ) {
+
+                      const copy =
+                        response.clone();
+
 
                       caches
                         .open(
@@ -138,63 +211,45 @@ self.addEventListener(
                           cache => {
 
                             cache.put(
-                              event.request,
-                              response.clone()
+                              request,
+                              copy
                             );
 
                           }
                         );
-
                     }
 
+
+                    return response;
                   }
                 )
+
                 .catch(
-                  () => {}
+                  () => null
                 );
 
+
+            if (cached) {
 
               return cached;
             }
 
 
-            return fetch(
-              event.request
-            )
+            return network
               .then(
                 response => {
 
-                  if (
-                    !response
+                  return (
+                    response
                     ||
-                    !response.ok
-                  ) {
-
-                    return response;
-                  }
-
-
-                  const copy =
-                    response.clone();
-
-
-                  caches
-                    .open(
-                      CACHE_NAME
-                    )
-                    .then(
-                      cache => {
-
-                        cache.put(
-                          event.request,
-                          copy
-                        );
-
+                    new Response(
+                      "",
+                      {
+                        status: 504
                       }
-                    );
+                    )
+                  );
 
-
-                  return response;
                 }
               );
 
