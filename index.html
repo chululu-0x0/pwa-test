@@ -3149,704 +3149,1048 @@ body.drag-active {
 
 
   /* ==========================================
-     並び替え
-  ========================================== */
+   並び替え
+========================================== */
 
-  function setupLongPressDrag(
-    card,
-    habitId
-  ) {
+function setupLongPressDrag(
+  card,
+  habitId
+) {
 
-    const handle =
-      card.querySelector(
-        ".drag-handle"
-      );
-
-
-    if (!handle) {
-      return;
-    }
-
-
-    let timer = null;
-
-    let startX = 0;
-
-    let startY = 0;
-
-    let active = false;
-
-
-    handle.addEventListener(
-      "pointerdown",
-      event => {
-
-        if (dragState) {
-          return;
-        }
-
-
-        startX =
-          event.clientX;
-
-        startY =
-          event.clientY;
-
-
-        timer =
-          setTimeout(
-            () => {
-
-              active = true;
-
-
-              beginDrag(
-                card,
-                habitId,
-                event.clientY
-              );
-
-            },
-            380
-          );
-
-      }
+  const handle =
+    card.querySelector(
+      ".drag-handle"
     );
 
 
-    handle.addEventListener(
-      "pointermove",
-      event => {
-
-        if (
-          active
-          &&
-          dragState
-        ) {
-
-          event.preventDefault();
+  if (!handle) {
+    return;
+  }
 
 
-          updateDrag(
-            event.clientY
-          );
+  let pressTimer = null;
 
-          return;
-        }
+  let pointerId = null;
+
+  let startX = 0;
+
+  let startY = 0;
 
 
-        const moved =
+  /* ------------------------------------------
+     長押し開始
+  ------------------------------------------ */
+
+  handle.addEventListener(
+    "pointerdown",
+    event => {
+
+      if (dragState) {
+        return;
+      }
+
+
+      pointerId =
+        event.pointerId;
+
+
+      startX =
+        event.clientX;
+
+      startY =
+        event.clientY;
+
+
+      /*
+        ここが今回かなり重要。
+
+        指が≡ボタンの外へ行っても、
+        このハンドルが最後まで
+        pointerイベントを受け取る。
+      */
+
+      try {
+
+        handle.setPointerCapture(
+          pointerId
+        );
+
+      } catch {}
+
+
+      pressTimer =
+        setTimeout(
+          () => {
+
+            beginDrag(
+              card,
+              habitId,
+              event.clientY,
+              pointerId,
+              handle
+            );
+
+          },
+          380
+        );
+
+    }
+  );
+
+
+  /* ------------------------------------------
+     指移動
+  ------------------------------------------ */
+
+  handle.addEventListener(
+    "pointermove",
+    event => {
+
+      /*
+        既にドラッグ中
+      */
+
+      if (
+        dragState
+        &&
+        dragState.pointerId
+        === event.pointerId
+      ) {
+
+        event.preventDefault();
+
+
+        updateDrag(
+          event.clientY
+        );
+
+
+        return;
+      }
+
+
+      /*
+        長押し成立前に
+        大きく動いた場合はキャンセル
+      */
+
+      if (pressTimer) {
+
+        const distance =
           Math.hypot(
+
             event.clientX
             - startX,
 
             event.clientY
             - startY
+
           );
 
 
         if (
-          moved > 9
+          distance > 10
         ) {
 
           clearTimeout(
-            timer
+            pressTimer
           );
+
+
+          pressTimer = null;
         }
-
       }
-    );
+
+    }
+  );
 
 
-    function finish() {
+  /* ------------------------------------------
+     指を離す
+  ------------------------------------------ */
+
+  function endPointer(
+    event
+  ) {
+
+    if (pressTimer) {
 
       clearTimeout(
-        timer
+        pressTimer
       );
 
 
+      pressTimer = null;
+    }
+
+
+    if (
+      dragState
+      &&
+      dragState.pointerId
+      === event.pointerId
+    ) {
+
+      finishDrag();
+    }
+
+
+    try {
+
       if (
-        active
-        &&
-        dragState
+        handle.hasPointerCapture(
+          event.pointerId
+        )
       ) {
 
-        active = false;
+        handle.releasePointerCapture(
+          event.pointerId
+        );
+      }
+
+    } catch {}
+
+  }
+
+
+  handle.addEventListener(
+    "pointerup",
+    endPointer
+  );
+
+
+  handle.addEventListener(
+    "pointercancel",
+    endPointer
+  );
+
+
+  /*
+    iOS側からpointerを
+    強制的に奪われた場合も終了
+  */
+
+  handle.addEventListener(
+    "lostpointercapture",
+    event => {
+
+      if (
+        dragState
+        &&
+        dragState.pointerId
+        === event.pointerId
+      ) {
 
         finishDrag();
       }
+
     }
+  );
 
 
-    handle.addEventListener(
-      "pointerup",
-      finish
-    );
+  /*
+    長押しメニューを出さない
+  */
 
-    handle.addEventListener(
-      "pointercancel",
-      finish
-    );
+  handle.addEventListener(
+    "contextmenu",
+    event => {
+
+      event.preventDefault();
+
+    }
+  );
+
+}
+
+
+/* ==========================================
+   カードを持ち上げる
+========================================== */
+
+function beginDrag(
+  card,
+  habitId,
+  pointerY,
+  pointerId,
+  handle
+) {
+
+  if (dragState) {
+    return;
   }
 
 
-  function beginDrag(
-    card,
-    habitId,
+  const rect =
+    card.getBoundingClientRect();
+
+
+  const placeholder =
+    document.createElement(
+      "div"
+    );
+
+
+  placeholder.className =
+    "drag-placeholder";
+
+
+  placeholder.style.height =
+    rect.height
+    + "px";
+
+
+  /*
+    元の場所に
+    空席を作る
+  */
+
+  card.parentNode
+    .insertBefore(
+      placeholder,
+      card
+    );
+
+
+  /*
+    カード自体はbodyに移して
+    画面上を自由に動けるようにする
+  */
+
+  document.body
+    .appendChild(
+      card
+    );
+
+
+  card.classList
+    .add(
+      "dragging"
+    );
+
+
+  card.style.left =
+    rect.left
+    + "px";
+
+
+  card.style.top =
+    rect.top
+    + "px";
+
+
+  card.style.width =
+    rect.width
+    + "px";
+
+
+  card.style.height =
+    rect.height
+    + "px";
+
+
+  /*
+    指がカードのどの位置を
+    掴んだかを記録
+  */
+
+  const pointerOffsetY =
     pointerY
+    - rect.top;
+
+
+  dragState = {
+
+    id:
+      habitId,
+
+    card:
+      card,
+
+    placeholder:
+      placeholder,
+
+    pointerId:
+      pointerId,
+
+    handle:
+      handle,
+
+    pointerOffsetY:
+      pointerOffsetY,
+
+    currentTop:
+      rect.top,
+
+    height:
+      rect.height,
+
+    finishing:
+      false
+
+  };
+
+
+  document.body
+    .classList
+    .add(
+      "drag-active"
+    );
+}
+
+
+/* ==========================================
+   持っているカードを動かす
+========================================== */
+
+function updateDrag(
+  pointerY
+) {
+
+  if (
+    !dragState
+    ||
+    dragState.finishing
+  ) {
+
+    return;
+  }
+
+
+  let top =
+    pointerY
+    -
+    dragState.pointerOffsetY;
+
+
+  /*
+    画面外へ飛びすぎないよう制限
+  */
+
+  top =
+    Math.max(
+      6,
+
+      Math.min(
+
+        window.innerHeight
+        -
+        dragState.height
+        -
+        6,
+
+        top
+
+      )
+    );
+
+
+  dragState.currentTop =
+    top;
+
+
+  dragState.card.style.top =
+    top
+    + "px";
+
+
+  checkDragReorder();
+}
+
+
+/* ==========================================
+   他カードへの重なりを判定
+========================================== */
+
+function checkDragReorder() {
+
+  if (!dragState) {
+    return;
+  }
+
+
+  const placeholder =
+    dragState.placeholder;
+
+
+  const dragTop =
+    dragState.currentTop;
+
+
+  const dragBottom =
+    dragTop
+    +
+    dragState.height;
+
+
+  /* ------------------------------------------
+     下方向
+  ------------------------------------------ */
+
+  let next =
+    placeholder
+      .nextElementSibling;
+
+
+  while (
+    next
+    &&
+    next.classList
+      .contains(
+        "habit-card"
+      )
   ) {
 
     const rect =
-      card.getBoundingClientRect();
-
-
-    const placeholder =
-      document.createElement(
-        "div"
-      );
-
-
-    placeholder.className =
-      "drag-placeholder";
-
-
-    placeholder.style.height =
-      rect.height + "px";
-
-
-    card.parentNode
-      .insertBefore(
-        placeholder,
-        card
-      );
-
-
-    document.body
-      .appendChild(
-        card
-      );
-
-
-    card.classList
-      .add(
-        "dragging"
-      );
-
-
-    card.style.left =
-      rect.left + "px";
-
-    card.style.top =
-      rect.top + "px";
-
-    card.style.width =
-      rect.width + "px";
-
-    card.style.height =
-      rect.height + "px";
-
-
-    dragState = {
-
-      id:
-        habitId,
-
-      card:
-        card,
-
-      placeholder:
-        placeholder,
-
-      startPointerY:
-        pointerY,
-
-      lastPointerY:
-        pointerY,
-
-      startTop:
-        rect.top,
-
-      currentTop:
-        rect.top,
-
-      height:
-        rect.height
-
-    };
-  }
-
-
-  function updateDrag(
-    pointerY
-  ) {
-
-    if (!dragState) {
-      return;
-    }
-
-
-    const direction =
-      pointerY
-      -
-      dragState.lastPointerY;
-
-
-    dragState.lastPointerY =
-      pointerY;
-
-
-    const delta =
-      pointerY
-      -
-      dragState.startPointerY;
-
-
-    let newTop =
-      dragState.startTop
-      +
-      delta;
-
-
-    newTop =
-      Math.max(
-        8,
-        Math.min(
-          window.innerHeight
-          -
-          dragState.height
-          -
-          8,
-
-          newTop
-        )
-      );
-
-
-    dragState.currentTop =
-      newTop;
-
-
-    dragState.card.style.top =
-      newTop + "px";
-
-
-    if (
-      direction > 0
-    ) {
-
-      movePlaceholderDown();
-
-    } else if (
-      direction < 0
-    ) {
-
-      movePlaceholderUp();
-    }
-  }
-
-
-  /* 少し被った段階で下のカードが逃げる */
-
-  function movePlaceholderDown() {
-
-    if (!dragState) {
-      return;
-    }
-
-
-    let next =
-      dragState.placeholder
-        .nextElementSibling;
-
-
-    while (
       next
-      &&
-      next.classList
-        .contains(
-          "habit-card"
-        )
-    ) {
-
-      const rect =
-        next.getBoundingClientRect();
-
-
-      const dragBottom =
-        dragState.currentTop
-        +
-        dragState.height;
-
-
-      const threshold =
-        rect.top
-        +
-        rect.height
-        * 0.24;
-
-
-      if (
-        dragBottom
-        <= threshold
-      ) {
-
-        break;
-      }
-
-
-      animateListShift(
-        () => {
-
-          next.after(
-            dragState.placeholder
-          );
-
-        }
-      );
-
-
-      next =
-        dragState.placeholder
-          .nextElementSibling;
-    }
-  }
-
-
-  function movePlaceholderUp() {
-
-    if (!dragState) {
-      return;
-    }
-
-
-    let previous =
-      dragState.placeholder
-        .previousElementSibling;
-
-
-    while (
-      previous
-      &&
-      previous.classList
-        .contains(
-          "habit-card"
-        )
-    ) {
-
-      const rect =
-        previous
-          .getBoundingClientRect();
-
-
-      const threshold =
-        rect.bottom
-        -
-        rect.height
-        * 0.24;
-
-
-      if (
-        dragState.currentTop
-        >= threshold
-      ) {
-
-        break;
-      }
-
-
-      animateListShift(
-        () => {
-
-          previous.before(
-            dragState.placeholder
-          );
-
-        }
-      );
-
-
-      previous =
-        dragState.placeholder
-          .previousElementSibling;
-    }
-  }
-
-
-  /* にゅるん移動 */
-
-  function animateListShift(
-    changeLayout
-  ) {
-
-    const cards =
-      Array.from(
-        document.querySelectorAll(
-          "#habitList .habit-card"
-        )
-      );
-
-
-    const before =
-      new Map();
-
-
-    cards.forEach(
-      card => {
-
-        before.set(
-          card,
-          card.getBoundingClientRect()
-        );
-      }
-    );
-
-
-    changeLayout();
-
-
-    cards.forEach(
-      card => {
-
-        const oldRect =
-          before.get(
-            card
-          );
-
-
-        const newRect =
-          card.getBoundingClientRect();
-
-
-        if (!oldRect) {
-          return;
-        }
-
-
-        const dy =
-          oldRect.top
-          -
-          newRect.top;
-
-
-        if (
-          Math.abs(dy)
-          < 1
-        ) {
-
-          return;
-        }
-
-
-        card.animate(
-
-          [
-            {
-              transform:
-                `translateY(${dy}px)`
-            },
-
-            {
-              transform:
-                "translateY(0)"
-            }
-          ],
-
-          {
-            duration: 250,
-
-            easing:
-              "cubic-bezier(0.22, 1, 0.36, 1)"
-          }
-
-        );
-
-      }
-    );
-  }
-
-
-  function finishDrag() {
-
-    if (!dragState) {
-      return;
-    }
-
-
-    const state =
-      dragState;
-
-
-    const targetRect =
-      state.placeholder
         .getBoundingClientRect();
 
 
-    state.card.style.transition =
-      "top 0.18s cubic-bezier(0.22,1,0.36,1), left 0.18s ease";
+    /*
+      次のカードへ約25%ほど
+      被ったら入れ替える
+    */
 
-
-    state.card.style.top =
-      targetRect.top + "px";
-
-    state.card.style.left =
-      targetRect.left + "px";
-
-
-    setTimeout(
-      () => {
-
-        state.card.style.transition =
-          "";
-
-
-        state.card.style.position =
-          "";
-
-        state.card.style.left =
-          "";
-
-        state.card.style.top =
-          "";
-
-        state.card.style.width =
-          "";
-
-        state.card.style.height =
-          "";
-
-        state.card.style.zIndex =
-          "";
-
-        state.card.style.pointerEvents =
-          "";
-
-
-        state.card.classList
-          .remove(
-            "dragging"
-          );
-
-
-        state.placeholder
-          .replaceWith(
-            state.card
-          );
-
-
-        state.card.classList
-          .add(
-            "landing"
-          );
-
-
-        updateDataOrderFromDom();
-
-
-        saveData();
-
-
-        setTimeout(
-          () => {
-
-            state.card.classList
-              .remove(
-                "landing"
-              );
-
-          },
-          450
-        );
-
-
-        dragState = null;
-
-      },
-      185
-    );
-  }
-
-
-  /* DOMの並びを保存 */
-
-  function updateDataOrderFromDom() {
-
-    const ids =
-      Array.from(
-        document.querySelectorAll(
-          "#habitList .habit-card"
-        )
-      )
-      .map(
-        card =>
-          card.dataset.id
-      );
+    const threshold =
+      rect.top
+      +
+      rect.height
+      * 0.25;
 
 
     if (
-      currentTab === "all"
+      dragBottom
+      <= threshold
     ) {
 
-      data.habits =
-        ids
-          .map(
-            id =>
-              data.habits.find(
-                habit =>
-                  habit.id === id
-              )
-          )
-          .filter(Boolean);
-
-
-      return;
+      break;
     }
 
 
-    const visibleIndexes =
-      [];
+    animateListShift(
+      () => {
 
-
-    data.habits.forEach(
-      (habit, index) => {
-
-        if (
-          habit.category
-          === currentTab
-        ) {
-
-          visibleIndexes.push(
-            index
-          );
-        }
+        next.after(
+          placeholder
+        );
 
       }
     );
 
 
-    const orderedHabits =
-      ids
+    next =
+      placeholder
+        .nextElementSibling;
+  }
+
+
+  /* ------------------------------------------
+     上方向
+  ------------------------------------------ */
+
+  let previous =
+    placeholder
+      .previousElementSibling;
+
+
+  while (
+    previous
+    &&
+    previous.classList
+      .contains(
+        "habit-card"
+      )
+  ) {
+
+    const rect =
+      previous
+        .getBoundingClientRect();
+
+
+    /*
+      上のカードへ約25%ほど
+      被ったら入れ替える
+    */
+
+    const threshold =
+      rect.bottom
+      -
+      rect.height
+      * 0.25;
+
+
+    if (
+      dragTop
+      >= threshold
+    ) {
+
+      break;
+    }
+
+
+    animateListShift(
+      () => {
+
+        previous.before(
+          placeholder
+        );
+
+      }
+    );
+
+
+    previous =
+      placeholder
+        .previousElementSibling;
+  }
+
+}
+
+
+/* ==========================================
+   周りのカードを「にゅるん」と移動
+========================================== */
+
+function animateListShift(
+  changeLayout
+) {
+
+  const cards =
+    Array.from(
+
+      document.querySelectorAll(
+        "#habitList .habit-card"
+      )
+
+    );
+
+
+  const before =
+    new Map();
+
+
+  cards.forEach(
+    card => {
+
+      before.set(
+        card,
+        card.getBoundingClientRect()
+      );
+
+    }
+  );
+
+
+  /*
+    placeholderの場所を変更
+  */
+
+  changeLayout();
+
+
+  /*
+    FLIPアニメーション
+  */
+
+  cards.forEach(
+    card => {
+
+      const oldRect =
+        before.get(
+          card
+        );
+
+
+      if (!oldRect) {
+        return;
+      }
+
+
+      const newRect =
+        card.getBoundingClientRect();
+
+
+      const moveY =
+        oldRect.top
+        -
+        newRect.top;
+
+
+      if (
+        Math.abs(
+          moveY
+        ) < 1
+      ) {
+
+        return;
+      }
+
+
+      card.animate(
+
+        [
+
+          {
+            transform:
+              `translateY(${moveY}px)`
+          },
+
+          {
+            transform:
+              "translateY(0)"
+          }
+
+        ],
+
+        {
+          duration: 260,
+
+          easing:
+            "cubic-bezier(0.22, 1, 0.36, 1)"
+        }
+
+      );
+
+    }
+  );
+
+}
+
+
+/* ==========================================
+   指を離す
+========================================== */
+
+function finishDrag() {
+
+  if (
+    !dragState
+    ||
+    dragState.finishing
+  ) {
+
+    return;
+  }
+
+
+  dragState.finishing =
+    true;
+
+
+  const state =
+    dragState;
+
+
+  const target =
+    state.placeholder
+      .getBoundingClientRect();
+
+
+  /*
+    今いる場所から
+    placeholderへ吸い込まれる
+  */
+
+  state.card.style.transition =
+    `
+      top
+      180ms
+      cubic-bezier(0.22,1,0.36,1),
+
+      left
+      180ms
+      cubic-bezier(0.22,1,0.36,1),
+
+      transform
+      180ms
+      ease
+    `;
+
+
+  requestAnimationFrame(
+    () => {
+
+      state.card.style.top =
+        target.top
+        + "px";
+
+
+      state.card.style.left =
+        target.left
+        + "px";
+
+
+      state.card.style.transform =
+        "scale(1)";
+
+    }
+  );
+
+
+  setTimeout(
+    () => {
+
+      /*
+        通常のカードへ戻す
+      */
+
+      state.card
+        .classList
+        .remove(
+          "dragging"
+        );
+
+
+      state.card.style.position =
+        "";
+
+      state.card.style.left =
+        "";
+
+      state.card.style.top =
+        "";
+
+      state.card.style.width =
+        "";
+
+      state.card.style.height =
+        "";
+
+      state.card.style.transform =
+        "";
+
+      state.card.style.transition =
+        "";
+
+
+      /*
+        placeholderと置換
+      */
+
+      state.placeholder
+        .replaceWith(
+          state.card
+        );
+
+
+      document.body
+        .classList
+        .remove(
+          "drag-active"
+        );
+
+
+      /*
+        DOM上の順番を
+        データへ保存
+      */
+
+      updateDataOrderFromDom();
+
+
+      saveData();
+
+
+      /*
+        着地ぽよん
+      */
+
+      state.card
+        .classList
+        .add(
+          "landing"
+        );
+
+
+      setTimeout(
+        () => {
+
+          state.card
+            .classList
+            .remove(
+              "landing"
+            );
+
+        },
+        430
+      );
+
+
+      dragState = null;
+
+    },
+    190
+  );
+
+}
+
+
+/* ==========================================
+   DOM順を保存
+========================================== */
+
+function updateDataOrderFromDom() {
+
+  const orderedIds =
+    Array.from(
+
+      document.querySelectorAll(
+        "#habitList .habit-card"
+      )
+
+    )
+    .map(
+      card =>
+        card.dataset.id
+    );
+
+
+  /*
+    「すべて」タブなら
+    そのまま全体順
+  */
+
+  if (
+    currentTab
+    === "all"
+  ) {
+
+    const map =
+      new Map(
+
+        data.habits.map(
+          habit => [
+            habit.id,
+            habit
+          ]
+        )
+
+      );
+
+
+    data.habits =
+      orderedIds
+
         .map(
           id =>
-            data.habits.find(
-              habit =>
-                habit.id === id
-            )
+            map.get(id)
         )
+
         .filter(Boolean);
 
 
-    visibleIndexes.forEach(
-      (realIndex, index) => {
+    return;
+  }
+
+
+  /*
+    カテゴリタブ内なら
+    そのカテゴリだけ並び替える
+  */
+
+  const categoryIndexes =
+    [];
+
+
+  data.habits.forEach(
+    (habit, index) => {
+
+      if (
+        habit.category
+        === currentTab
+      ) {
+
+        categoryIndexes.push(
+          index
+        );
+      }
+
+    }
+  );
+
+
+  const map =
+    new Map(
+
+      data.habits.map(
+        habit => [
+          habit.id,
+          habit
+        ]
+      )
+
+    );
+
+
+  const orderedCategoryHabits =
+    orderedIds
+
+      .map(
+        id =>
+          map.get(id)
+      )
+
+      .filter(Boolean);
+
+
+  categoryIndexes.forEach(
+    (dataIndex, orderIndex) => {
+
+      if (
+        orderedCategoryHabits[
+          orderIndex
+        ]
+      ) {
 
         data.habits[
-          realIndex
+          dataIndex
         ] =
-          orderedHabits[
-            index
+          orderedCategoryHabits[
+            orderIndex
           ];
       }
-    );
+
+    }
+  );
+
+}
+
+
+/* ==========================================
+   万一操作が中断された場合
+
+   ホームへ戻る・画面切替などでも
+   浮きっぱなしを防ぐ
+========================================== */
+
+window.addEventListener(
+  "blur",
+  () => {
+
+    if (dragState) {
+
+      finishDrag();
+    }
+
   }
+);
+
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+
+    if (
+      document.hidden
+      &&
+      dragState
+    ) {
+
+      finishDrag();
+    }
+
+  }
+);
 
 
   /* ==========================================
