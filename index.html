@@ -9,7 +9,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>おためしアプリ</title>
+  <title>Habit Tracker</title>
 
   <style>
     * {
@@ -21,64 +21,257 @@
 
       min-height: 100vh;
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 
-      font-family: sans-serif;
-
-      background: #f1f1f1;
+      background: #f6cbd8;
+      color: #4f4549;
     }
 
     .app {
-      width: 90%;
-      max-width: 420px;
+      width: 100%;
+      max-width: 520px;
 
-      padding: 32px 24px;
-
-      text-align: center;
-
-      background: white;
-
-      border-radius: 28px;
-
-      box-shadow:
-        0 10px 30px
-        rgba(0, 0, 0, 0.08);
+      margin: 0 auto;
+      padding: 36px 18px 80px;
     }
 
-    .character {
-      font-size: 90px;
+    header {
+      margin-bottom: 26px;
     }
 
     h1 {
-      font-size: 24px;
+      margin: 0;
+
+      font-size: 30px;
+      letter-spacing: 0.04em;
+
+      color: white;
     }
 
-    #message {
-      min-height: 60px;
+    .date {
+      margin-top: 6px;
 
-      margin: 25px 0;
+      font-size: 14px;
+      color: rgba(255,255,255,0.9);
+    }
 
+    .habit-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .habit-card {
+      background: white;
+
+      border-radius: 24px;
+      padding: 20px;
+
+      box-shadow:
+        0 6px 18px
+        rgba(100, 65, 75, 0.08);
+    }
+
+    .habit-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 12px;
+    }
+
+    .habit-name {
       font-size: 18px;
-      line-height: 1.6;
+      font-weight: 700;
+
+      word-break: break-word;
+    }
+
+    .count {
+      flex-shrink: 0;
+
+      font-size: 14px;
+      color: #8d7f84;
+    }
+
+    .progress-bg {
+      width: 100%;
+      height: 12px;
+
+      margin-top: 16px;
+
+      background: #f3e5e9;
+
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+
+      background: #ee9fb6;
+
+      border-radius: 999px;
+
+      transition: width 0.3s ease;
+    }
+
+    .habit-bottom {
+      margin-top: 16px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .done {
+      font-size: 13px;
+      font-weight: 700;
+
+      color: #d97796;
+
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .done.visible {
+      opacity: 1;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 8px;
     }
 
     button {
-      padding: 14px 30px;
-
-      border: none;
-      border-radius: 999px;
-
-      background: #f0a9bd;
-      color: white;
-
-      font-size: 17px;
-      font-weight: bold;
+      font: inherit;
     }
 
-    button:active {
-      transform: scale(0.95);
+    .round-button {
+      width: 42px;
+      height: 42px;
+
+      border: none;
+      border-radius: 50%;
+
+      background: #f5d7df;
+      color: #7e646d;
+
+      font-size: 22px;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.1s ease,
+        background 0.2s ease;
+    }
+
+    .round-button.plus {
+      background: #ee9fb6;
+      color: white;
+    }
+
+    .round-button:active {
+      transform: scale(0.92);
+    }
+
+    .add-card {
+      margin-top: 20px;
+
+      background: rgba(255,255,255,0.65);
+
+      border-radius: 24px;
+      padding: 20px;
+    }
+
+    .add-title {
+      margin-bottom: 14px;
+
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+
+      border: none;
+      outline: none;
+
+      border-radius: 14px;
+
+      padding: 13px 14px;
+
+      margin-bottom: 10px;
+
+      font-size: 16px;
+
+      background: white;
+      color: #4f4549;
+    }
+
+    .goal-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .goal-row input {
+      margin: 0;
+    }
+
+    .add-button {
+      width: 100%;
+
+      margin-top: 12px;
+
+      border: none;
+      border-radius: 16px;
+
+      padding: 14px;
+
+      background: white;
+      color: #d56f8e;
+
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+    .delete-button {
+      margin-top: 14px;
+
+      border: none;
+      background: transparent;
+
+      color: #b6a6ab;
+
+      font-size: 12px;
+
+      cursor: pointer;
+    }
+
+    .empty {
+      padding: 30px 20px;
+
+      text-align: center;
+
+      color: rgba(255,255,255,0.95);
+
+      font-size: 14px;
+    }
+
+    .reset-info {
+      margin-top: 16px;
+
+      text-align: center;
+
+      font-size: 12px;
+      color: rgba(255,255,255,0.85);
     }
   </style>
 </head>
@@ -87,49 +280,513 @@
 
   <main class="app">
 
-    <div class="character">
-      🐰
+    <header>
+      <h1>HABITS</h1>
+
+      <div
+        class="date"
+        id="dateText"
+      ></div>
+    </header>
+
+
+    <section
+      class="habit-list"
+      id="habitList"
+    ></section>
+
+
+    <section class="add-card">
+
+      <div class="add-title">
+        ＋ 習慣を追加
+      </div>
+
+      <input
+        id="habitName"
+        type="text"
+        placeholder="例：水を飲む"
+      >
+
+      <div class="goal-row">
+
+        <input
+          id="habitGoal"
+          type="number"
+          min="1"
+          value="1"
+          placeholder="目標回数"
+        >
+
+      </div>
+
+      <button
+        class="add-button"
+        onclick="addHabit()"
+      >
+        追加する
+      </button>
+
+    </section>
+
+
+    <div class="reset-info">
+      毎日 午前4:00 に進捗をリセット
     </div>
-
-    <h1>
-      おためしアプリ
-    </h1>
-
-    <p id="message">
-      話しかけてみて。
-    </p>
-
-    <button onclick="talk()">
-      話しかける
-    </button>
 
   </main>
 
 
   <script>
 
-    const messages = [
-      "こんにちは。",
-      "ちゃんとiPhoneでも動いてる？",
-      "これはPCで作ったアプリだよ。",
-      "ホーム画面から開けたぞ。",
-      "もう一回押してみて。",
-      "PWAへの第一歩。"
-    ];
+    const STORAGE_KEY = "habitTrackerData";
+    const RESET_HOUR = 4;
+
+    let data = loadData();
 
 
-    function talk() {
+    function getHabitDate() {
 
-      const number =
-        Math.floor(
-          Math.random() * messages.length
+      const now = new Date();
+
+      const shifted =
+        new Date(
+          now.getTime()
+          - RESET_HOUR * 60 * 60 * 1000
         );
 
-      document
-        .getElementById("message")
-        .textContent =
-          messages[number];
+      return (
+        shifted.getFullYear()
+        + "-"
+        + String(
+          shifted.getMonth() + 1
+        ).padStart(2, "0")
+        + "-"
+        + String(
+          shifted.getDate()
+        ).padStart(2, "0")
+      );
     }
+
+
+    function getDisplayDate() {
+
+      const now = new Date();
+
+      const shifted =
+        new Date(
+          now.getTime()
+          - RESET_HOUR * 60 * 60 * 1000
+        );
+
+      return shifted.toLocaleDateString(
+        "ja-JP",
+        {
+          month: "long",
+          day: "numeric",
+          weekday: "short"
+        }
+      );
+    }
+
+
+    function loadData() {
+
+      const saved =
+        localStorage.getItem(
+          STORAGE_KEY
+        );
+
+      if (!saved) {
+
+        return {
+          habitDate: getHabitDate(),
+          habits: []
+        };
+      }
+
+      try {
+
+        return JSON.parse(saved);
+
+      } catch {
+
+        return {
+          habitDate: getHabitDate(),
+          habits: []
+        };
+      }
+    }
+
+
+    function saveData() {
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(data)
+      );
+    }
+
+
+    function checkReset() {
+
+      const today =
+        getHabitDate();
+
+      if (
+        data.habitDate
+        !== today
+      ) {
+
+        data.habits.forEach(
+          habit => {
+            habit.current = 0;
+          }
+        );
+
+        data.habitDate = today;
+
+        saveData();
+      }
+    }
+
+
+    function render() {
+
+      checkReset();
+
+      document
+        .getElementById(
+          "dateText"
+        )
+        .textContent =
+          getDisplayDate();
+
+
+      const list =
+        document.getElementById(
+          "habitList"
+        );
+
+      list.innerHTML = "";
+
+
+      if (
+        data.habits.length === 0
+      ) {
+
+        list.innerHTML =
+          `
+          <div class="empty">
+            まだ習慣がありません。<br>
+            下から追加してみてね。
+          </div>
+          `;
+
+        return;
+      }
+
+
+      data.habits.forEach(
+        (habit, index) => {
+
+          const percent =
+            Math.min(
+              100,
+              habit.current
+              / habit.goal
+              * 100
+            );
+
+          const completed =
+            habit.current
+            >= habit.goal;
+
+
+          const card =
+            document.createElement(
+              "article"
+            );
+
+          card.className =
+            "habit-card";
+
+
+          card.innerHTML =
+            `
+            <div class="habit-top">
+
+              <div class="habit-name">
+                ${escapeHtml(
+                  habit.name
+                )}
+              </div>
+
+              <div class="count">
+                ${habit.current}
+                /
+                ${habit.goal}
+              </div>
+
+            </div>
+
+
+            <div class="progress-bg">
+
+              <div
+                class="progress-bar"
+                style="
+                  width:
+                  ${percent}%
+                "
+              ></div>
+
+            </div>
+
+
+            <div class="habit-bottom">
+
+              <div
+                class="
+                  done
+                  ${
+                    completed
+                    ? "visible"
+                    : ""
+                  }
+                "
+              >
+                ✓ DONE
+              </div>
+
+
+              <div class="buttons">
+
+                <button
+                  class="round-button"
+                  onclick="
+                    decreaseHabit(
+                      ${index}
+                    )
+                  "
+                >
+                  −
+                </button>
+
+                <button
+                  class="
+                    round-button
+                    plus
+                  "
+                  onclick="
+                    increaseHabit(
+                      ${index}
+                    )
+                  "
+                >
+                  ＋
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="delete-button"
+              onclick="
+                deleteHabit(
+                  ${index}
+                )
+              "
+            >
+              この習慣を削除
+            </button>
+            `;
+
+          list.appendChild(card);
+        }
+      );
+    }
+
+
+    function addHabit() {
+
+      const nameInput =
+        document.getElementById(
+          "habitName"
+        );
+
+      const goalInput =
+        document.getElementById(
+          "habitGoal"
+        );
+
+
+      const name =
+        nameInput.value.trim();
+
+      const goal =
+        Number(
+          goalInput.value
+        );
+
+
+      if (!name) {
+
+        alert(
+          "習慣名を入力してね。"
+        );
+
+        return;
+      }
+
+
+      if (
+        !Number.isInteger(goal)
+        || goal < 1
+      ) {
+
+        alert(
+          "目標回数は1以上にしてね。"
+        );
+
+        return;
+      }
+
+
+      data.habits.push(
+        {
+          name: name,
+          goal: goal,
+          current: 0
+        }
+      );
+
+
+      saveData();
+
+      nameInput.value = "";
+      goalInput.value = "1";
+
+      render();
+    }
+
+
+    function increaseHabit(
+      index
+    ) {
+
+      data.habits[index]
+        .current++;
+
+      saveData();
+
+      render();
+    }
+
+
+    function decreaseHabit(
+      index
+    ) {
+
+      if (
+        data.habits[index]
+        .current > 0
+      ) {
+
+        data.habits[index]
+          .current--;
+      }
+
+      saveData();
+
+      render();
+    }
+
+
+    function deleteHabit(
+      index
+    ) {
+
+      const habit =
+        data.habits[index];
+
+
+      const ok =
+        confirm(
+          "「"
+          + habit.name
+          + "」を削除しますか？"
+        );
+
+
+      if (!ok) {
+        return;
+      }
+
+
+      data.habits.splice(
+        index,
+        1
+      );
+
+      saveData();
+
+      render();
+    }
+
+
+    function escapeHtml(
+      text
+    ) {
+
+      return text
+        .replaceAll(
+          "&",
+          "&amp;"
+        )
+        .replaceAll(
+          "<",
+          "&lt;"
+        )
+        .replaceAll(
+          ">",
+          "&gt;"
+        )
+        .replaceAll(
+          '"',
+          "&quot;"
+        )
+        .replaceAll(
+          "'",
+          "&#039;"
+        );
+    }
+
+
+    render();
+
+
+    setInterval(
+      () => {
+
+        const before =
+          data.habitDate;
+
+        checkReset();
+
+        if (
+          before
+          !== data.habitDate
+        ) {
+
+          render();
+        }
+
+      },
+      30000
+    );
 
   </script>
 
