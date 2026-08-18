@@ -18,28 +18,33 @@
     @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
 
     :root {
-      --pink-bg: #f6cbd8;
-      --pink: #e889a7;
-      --pink-dark: #d9678d;
-      --pink-soft: #fbe7ee;
+      /* ===== 色 =====
+         ここを変えるとアプリ全体の配色をまとめて調整できます。 */
+      --pink-bg: #f6cbd8;   /* 画面いちばん後ろの背景色 */
+      --pink: #e889a7;      /* バーや小さな装飾に使う基本ピンク */
+      --pink-dark: #d9678d; /* 強調文字・選択中・主要ボタンの濃いピンク */
+      --pink-soft: #fbe7ee; /* アイコン背景やボタン背景の薄いピンク */
 
-      --white: #ffffff;
-      --text: #554850;
-      --muted: #a18f97;
+      --white: #ffffff;     /* カードの白 */
+      --text: #554850;      /* 通常文字 */
+      --muted: #a18f97;     /* 補助文字・カテゴリー名 */
 
-      --line: #f0d8e0;
-      --delete: #ef5f68;
+      --line: #f0d8e0;      /* 入力欄などの薄い境界線 */
+      --delete: #ef5f68;    /* スワイプ削除ボタン */
 
-      --mint: #bde8d7;
-      --yellow: #f7df9c;
+      --mint: #bde8d7;      /* 今後の差し色用 */
+      --yellow: #f7df9c;    /* 今後の差し色用 */
 
-      --radius: 22px;
-      --small-radius: 15px;
+      /* ===== 角丸・影 ===== */
+      --radius: 22px;       /* ハビットカードなど、大きめカードの角丸 */
+      --small-radius: 15px; /* 小さな入力欄・ボタンの角丸 */
 
       --shadow:
         0 7px 18px rgba(136, 86, 104, 0.08),
         0 2px 6px rgba(136, 86, 104, 0.05);
 
+      /* 左スワイプした時に見える「削除」領域の横幅。
+         JS側の DELETE_REVEAL_WIDTH も同じ 88 にしてあります。 */
       --delete-width: 88px;
     }
 
@@ -93,7 +98,7 @@
     }
 
     /* ------------------------------
-       HEADER
+       ヘッダー
     ------------------------------ */
 
     .header {
@@ -130,7 +135,7 @@
     }
 
     /* ------------------------------
-       MAIN NAV
+       メインナビゲーション
     ------------------------------ */
 
     .nav-sticky {
@@ -150,11 +155,25 @@
 
     .main-tabs {
       display: grid;
-      grid-template-columns: repeat(3, 1fr) 48px;
+
+      /* ハビット / Todo / メモ / タイマー の4タブ + 右端の＋ボタン。
+         48px が「＋」ボタンの横幅です。 */
+      grid-template-columns: repeat(4, minmax(0, 1fr)) 48px;
+
       gap: 6px;
       padding: 6px;
       border-radius: 20px;
       background: rgba(255, 255, 255, 0.45);
+    }
+
+    /* タイマー画面では追加する項目がないため＋ボタンを隠し、
+       4タブだけで均等に横幅を使います。 */
+    .main-tabs.timer-mode {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .main-tabs.timer-mode .main-add {
+      display: none;
     }
 
     .main-tab,
@@ -193,7 +212,7 @@
     }
 
     /* ------------------------------
-       CONTENT
+       メインコンテンツ
     ------------------------------ */
 
     .content {
@@ -221,7 +240,7 @@
     }
 
     /* ------------------------------
-       HABIT TOOLBAR
+       ハビット：フィルター・表示切り替え
     ------------------------------ */
 
     .habit-toolbar {
@@ -297,7 +316,7 @@
     }
 
     /* ------------------------------
-       BADGE PERMISSION
+       ホーム画面バッジの案内
     ------------------------------ */
 
     .badge-panel {
@@ -327,7 +346,7 @@
     }
 
     /* ------------------------------
-       GENERIC SWIPE ROW
+       共通：左スワイプで削除ボタン表示
     ------------------------------ */
 
     .swipe-row {
@@ -369,8 +388,18 @@
       will-change: transform;
     }
 
+    /* ハビットカードは角丸が大きいため、閉じた状態でも
+       右端の丸い角から赤い削除ボタンが数pxだけ見えることがあります。
+       ハビット行だけ削除ボタンを2px内側に入れて、その「赤い縁」を隠します。
+       Todo・メモ側の見え方には影響しません。 */
+    .habit-row > .swipe-delete-button {
+      right: 2px;
+      top: 2px;
+      bottom: 2px;
+    }
+
     /* ------------------------------
-       HABIT LARGE CARD
+       ハビット：カード表示
     ------------------------------ */
 
     .habit-card {
@@ -454,8 +483,19 @@
       touch-action: none;
     }
 
-    .today-badge.new-today {
+    .today-badge.new-today,
+    .compact-today.new-today {
+      /* TODAYが初めて付いた瞬間の「ぽこん」と出る演出。
+         .43s を大きくすると、出現がゆっくりになります。 */
       animation: todayPicon .43s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    .today-badge.today-disappear,
+    .compact-today.today-disappear {
+      /* 長押し解除時の「しゅわん」と消える演出。
+         JS側の TODAY_DISAPPEAR_MS とほぼ同じ長さにしてあります。 */
+      animation: todayShuwan .34s ease-in forwards;
+      pointer-events: none;
     }
 
     @keyframes todayPicon {
@@ -473,6 +513,24 @@
       100% {
         opacity: 1;
         transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes todayShuwan {
+      0% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0) scale(1);
+      }
+      38% {
+        opacity: .9;
+        filter: blur(.4px);
+        transform: translateY(-2px) scale(1.08);
+      }
+      100% {
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateY(-6px) scale(.45);
       }
     }
 
@@ -516,8 +574,12 @@
           #f1a9bf,
           #e889a7
         );
+
+      /* ハビットの＋／−を押した時にバーが「びよーん」と伸縮する速度。
+         .55s を .35s にすると速く、.75s にするとゆっくりになります。 */
       transition:
         width .55s cubic-bezier(.34,1.56,.64,1);
+      will-change: width;
     }
 
     .habit-controls {
@@ -560,7 +622,7 @@
     }
 
     /* ------------------------------
-       HABIT COMPACT VIEW
+       ハビット：一覧表示
     ------------------------------ */
 
     .habit-card.compact {
@@ -590,6 +652,10 @@
 
     .compact-main {
       min-width: 0;
+
+      /* 一覧表示で「左アイコン」と「タイトル」が近すぎないようにする余白。
+         4px を増減すると、この2つの間隔だけを調整できます。 */
+      margin-left: 4px;
     }
 
     .compact-line1 {
@@ -645,8 +711,12 @@
       height: 100%;
       border-radius: inherit;
       background: var(--pink);
+
+      /* 一覧表示側のバー伸縮。
+         カード表示より少しだけ速い .5s にしています。 */
       transition:
         width .5s cubic-bezier(.34,1.56,.64,1);
+      will-change: width;
     }
 
     .compact-controls {
@@ -676,7 +746,7 @@
     }
 
     /* ------------------------------
-       DRAG
+       ハビット：長押し並び替え
     ------------------------------ */
 
     .drag-placeholder {
@@ -712,7 +782,7 @@
     }
 
     /* ------------------------------
-       TODO
+       Todo
     ------------------------------ */
 
     .todo-card {
@@ -811,58 +881,410 @@
     }
 
     /* ------------------------------
-       MEMO
+       メモ
     ------------------------------ */
 
     .memo-card {
-      padding: 13px 15px 14px;
+      /* カード左端の余白。
+         8px を小さくすると、ハートと本文全体がさらに左へ寄ります。 */
+      padding: 12px 14px 13px 8px;
       border-radius: 19px;
       background: white;
       box-shadow: var(--shadow);
-    }
 
-    .memo-meta {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 7px;
+      /* 左：小さなハート / 右：日付＋本文。
+         本文を丸ごと右列に入れることで、1行目も2行目以降も必ず同じ位置から始まります。 */
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr);
+      column-gap: 4px;
+      align-items: start;
     }
 
     .memo-edit {
-      width: 25px;
-      height: 25px;
+      width: 18px;
+      height: 20px;
       padding: 0;
+      margin: 0;
       background: transparent;
-      color: var(--pink);
-      font-size: 17px;
-      line-height: 1;
+      border-radius: 7px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
       transition:
         transform .18s cubic-bezier(.34,1.56,.64,1),
-        color .18s ease;
+        opacity .18s ease;
     }
 
     .memo-edit:active {
-      transform: scale(.72);
-      color: var(--pink-dark);
+      transform: scale(.76);
+      opacity: .72;
+    }
+
+    .memo-heart-image {
+      /* memo_heart.png の表示サイズ。18px が現在の大きさです。 */
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+
+    .memo-body {
+      min-width: 0;
+      padding-top: 0;
     }
 
     .memo-date {
+      margin: 0 0 5px;
+      min-height: 18px;
+      display: flex;
+      align-items: center;
       color: var(--pink-dark);
       font-family: "M PLUS Rounded 1c", sans-serif;
       font-size: 11px;
+      line-height: 1.35;
       font-weight: 800;
       letter-spacing: .04em;
     }
 
     .memo-text {
+      margin: 0;
+      padding: 0;
       font-size: 14px;
       line-height: 1.7;
       white-space: pre-wrap;
       overflow-wrap: anywhere;
+
+      /* 重要：HTML側でも本文をタグ直下に置いています。
+         テンプレートコードの字下げ空白を拾わないため、折り返した2行目が左へずれるのを防ぎます。 */
     }
 
     /* ------------------------------
-       EMPTY
+       インターバルタイマー
+    ------------------------------ */
+
+    .timer-card {
+      padding: 20px 16px 18px;
+      border-radius: 24px;
+      background: white;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .timer-kicker {
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+
+    .timer-ring-wrap {
+      /* 円形タイマー全体の大きさ。220px を変えると円ごと拡大・縮小します。 */
+      width: min(220px, 68vw);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .timer-ring {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .timer-ring-bg,
+    .timer-ring-progress {
+      fill: none;
+      stroke-width: 12;
+    }
+
+    .timer-ring-bg {
+      stroke: #f5ebef;
+    }
+
+    .timer-ring-progress {
+      stroke: var(--pink);
+      stroke-linecap: round;
+
+      /* SVG側で pathLength=100 にしているため、100が円一周ぶんです。 */
+      stroke-dasharray: 100;
+      stroke-dashoffset: 0;
+      transform: rotate(-90deg);
+      transform-origin: 100px 100px;
+      transition: stroke-dashoffset .1s linear;
+    }
+
+    .timer-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .timer-display {
+      /* 円の真ん中に出る「残り秒数」。 */
+      min-width: 3ch;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: clamp(54px, 17vw, 74px);
+      line-height: .95;
+      font-weight: 800;
+      letter-spacing: -.04em;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+    }
+
+    .timer-seconds-label {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+
+    .timer-position {
+      margin-top: 11px;
+      min-height: 20px;
+      color: var(--pink-dark);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .timer-flow-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 11px;
+    }
+
+    .timer-flow-step {
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: #fff7f9;
+      color: var(--muted);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      transition: background .18s ease, color .18s ease, transform .18s ease;
+    }
+
+    .timer-flow-step.active {
+      background: var(--pink-soft);
+      color: var(--pink-dark);
+      transform: scale(1.05);
+    }
+
+    .timer-flow-arrow {
+      color: #d9bec8;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .timer-main-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 92px;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .timer-main-button {
+      min-height: 47px;
+      border-radius: 14px;
+      background: var(--pink-dark);
+      color: white;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      transition:
+        transform .17s cubic-bezier(.34,1.56,.64,1),
+        background .17s ease;
+    }
+
+    .timer-main-button.paused {
+      background: #ca8098;
+    }
+
+    .timer-reset-button {
+      min-height: 47px;
+      border-radius: 14px;
+      background: #fff0f5;
+      color: var(--pink-dark);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .timer-main-button:active,
+    .timer-reset-button:active,
+    .timer-config-button:active,
+    .timer-phase-delete:active,
+    .timer-set-button:active {
+      transform: scale(.94);
+    }
+
+    .timer-status {
+      min-height: 22px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .timer-config {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid #f4e2e8;
+      text-align: left;
+    }
+
+    .timer-config-title {
+      margin-bottom: 8px;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .timer-phase-editor {
+      display: grid;
+      gap: 6px;
+    }
+
+    .timer-phase-row {
+      display: grid;
+      grid-template-columns: 50px minmax(0, 1fr) 32px 34px;
+      align-items: center;
+      gap: 6px;
+      min-height: 42px;
+      padding: 5px 6px 5px 10px;
+      border-radius: 13px;
+      background: #fff7f9;
+    }
+
+    .timer-phase-label {
+      color: var(--muted);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .timer-phase-input {
+      width: 100%;
+      min-width: 0;
+      height: 32px;
+      border: 0;
+      outline: 0;
+      border-radius: 9px;
+      background: white;
+      color: var(--text);
+      text-align: right;
+      padding: 0 8px;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-phase-unit {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .timer-phase-delete {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: white;
+      color: #c7a9b4;
+      font-size: 16px;
+      font-weight: 800;
+      transition: transform .17s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    .timer-phase-delete:disabled {
+      opacity: .35;
+    }
+
+    .timer-config-button {
+      width: 100%;
+      min-height: 38px;
+      margin-top: 7px;
+      border-radius: 12px;
+      background: white;
+      border: 2px solid #f2dfe5;
+      color: var(--pink-dark);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      transition: transform .17s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    .timer-config-button:disabled {
+      opacity: .45;
+    }
+
+    .timer-set-editor {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr) 40px;
+      align-items: center;
+      gap: 7px;
+      margin-top: 12px;
+    }
+
+    .timer-set-button {
+      height: 38px;
+      border-radius: 11px;
+      background: var(--pink-soft);
+      color: var(--pink-dark);
+      font-size: 18px;
+      font-weight: 800;
+      transition: transform .17s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    .timer-set-count {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 11px;
+      background: #fff7f9;
+      color: var(--text);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .timer-set-number {
+      min-width: 2ch;
+      text-align: right;
+      color: var(--pink-dark);
+      font-size: 15px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-card.timer-finished {
+      animation: timerFinishPop .46s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    @keyframes timerFinishPop {
+      0% { transform: scale(1); }
+      42% { transform: scale(1.025); }
+      72% { transform: scale(.992); }
+      100% { transform: scale(1); }
+    }
+
+    /* ------------------------------
+       空データ表示
     ------------------------------ */
 
     .empty {
@@ -880,7 +1302,7 @@
     }
 
     /* ------------------------------
-       NEW ITEM
+       新規追加時の出現演出
     ------------------------------ */
 
     .new-row {
@@ -903,7 +1325,7 @@
     }
 
     /* ------------------------------
-       SHEETS
+       編集シート
     ------------------------------ */
 
     .sheet-backdrop {
@@ -1037,6 +1459,42 @@
       transform: scale(1.08);
     }
 
+    /* ハビット編集画面の「カテゴリー」「進捗リセット」で使う選択ボタン。
+       select（プルダウン）ではなく、選択肢をそのまま見せる形式です。 */
+    .choice-button-group {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .choice-button {
+      min-height: 44px;
+      padding: 8px 5px;
+      border: 2px solid #f2dfe5;
+      border-radius: 13px;
+      background: white;
+      color: var(--muted);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.35;
+      transition:
+        transform .17s cubic-bezier(.34,1.56,.64,1),
+        border-color .17s ease,
+        background .17s ease,
+        color .17s ease;
+    }
+
+    .choice-button.selected {
+      border-color: #efadc2;
+      background: var(--pink-soft);
+      color: var(--pink-dark);
+    }
+
+    .choice-button:active {
+      transform: scale(.94);
+    }
+
     .goal-button {
       width: 100%;
       padding: 12px;
@@ -1083,7 +1541,7 @@
     }
 
     /* ------------------------------
-       WHEEL PICKER
+       目標回数：回転式ピッカー
     ------------------------------ */
 
     .wheel-sheet {
@@ -1131,23 +1589,32 @@
       justify-content: center;
       scroll-snap-align: center;
 
+      /* 数字の横幅を揃え、1桁→2桁になっても中央位置がぶれにくくします。 */
+      width: 100%;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+
       font-family: "M PLUS Rounded 1c", sans-serif;
       font-size: 17px;
       font-weight: 700;
       color: #baa8ae;
 
       transition:
-        transform .15s ease,
-        color .15s ease;
+        font-size .15s ease,
+        color .15s ease,
+        opacity .15s ease;
     }
 
     .wheel-item.selected {
       color: var(--pink-dark);
-      transform: scale(1.2);
+
+      /* transform: scale() を使うと端末によって数字が左右に揺れて見えるため、
+         選択中はフォントサイズだけを大きくします。 */
+      font-size: 21px;
     }
 
     /* ------------------------------
-       SMALL HELPERS
+       共通：小さな補助ボタン
     ------------------------------ */
 
     .soft-button {
@@ -1163,6 +1630,12 @@
     }
 
     @media (max-width: 410px) {
+      /* 小さいiPhone幅では4つのタブ文字が窮屈になりやすいので、
+         タブ文字だけ少し小さくします。 */
+      .main-tab {
+        font-size: 10px;
+      }
+
       .habit-card.compact {
         grid-template-columns: 22px 33px minmax(0,1fr) auto;
         gap: 5px;
@@ -1180,6 +1653,10 @@
       .icon-grid {
         grid-template-columns: repeat(6, 1fr);
       }
+
+      .timer-ring-wrap {
+        width: min(205px, 66vw);
+      }
     }
   </style>
 </head>
@@ -1194,17 +1671,18 @@
     </header>
 
     <div class="nav-sticky">
-      <nav class="main-tabs">
+      <nav class="main-tabs" id="mainTabs">
         <button class="main-tab active" data-tab="habits">ハビット</button>
         <button class="main-tab" data-tab="todos">Todo</button>
         <button class="main-tab" data-tab="memos">メモ</button>
+        <button class="main-tab" data-tab="timer">タイマー</button>
         <button class="main-add" id="mainAddButton" aria-label="追加">＋</button>
       </nav>
     </div>
 
     <main class="content">
 
-      <!-- HABITS -->
+      <!-- ハビット -->
       <section class="section active" id="habitsSection">
 
         <div class="habit-toolbar">
@@ -1238,21 +1716,93 @@
         <div id="habitList"></div>
       </section>
 
-      <!-- TODO -->
+      <!-- Todo -->
       <section class="section" id="todosSection">
         <div id="todoList"></div>
       </section>
 
-      <!-- MEMO -->
+      <!-- メモ -->
       <section class="section" id="memosSection">
         <div id="memoList"></div>
+      </section>
+
+      <!-- タイマー -->
+      <section class="section" id="timerSection">
+        <div class="timer-card" id="timerCard">
+
+          <div class="timer-kicker">INTERVAL TIMER</div>
+
+          <!-- 円周が「今のステップ」の残り時間に合わせて減っていく表示。 -->
+          <div class="timer-ring-wrap" aria-label="残り時間">
+            <svg class="timer-ring" viewBox="0 0 200 200" aria-hidden="true">
+              <circle class="timer-ring-bg"
+                      cx="100" cy="100" r="82"></circle>
+              <circle class="timer-ring-progress"
+                      id="timerProgressCircle"
+                      cx="100" cy="100" r="82"
+                      pathLength="100"></circle>
+            </svg>
+
+            <div class="timer-center">
+              <div class="timer-display" id="timerDisplay">30</div>
+              <div class="timer-seconds-label">SECONDS</div>
+            </div>
+          </div>
+
+          <div class="timer-position" id="timerPosition">
+            セット 1 / 1 ・ ステップ 1 / 3
+          </div>
+
+          <!-- 例：30秒 → 10秒 → 30秒 の流れを小さく表示します。 -->
+          <div class="timer-flow-preview" id="timerFlowPreview"></div>
+
+          <div class="timer-main-actions">
+            <button class="timer-main-button" id="timerStartPauseButton">
+              スタート
+            </button>
+            <button class="timer-reset-button" id="timerResetButton">
+              リセット
+            </button>
+          </div>
+
+          <div class="timer-status" id="timerStatus">
+            30秒 → 10秒 → 30秒で1セット。
+          </div>
+
+          <!--
+            タイマー設定。
+            各ステップの秒数と、同じ流れを何セット繰り返すかをここで変更できます。
+          -->
+          <div class="timer-config">
+            <div class="timer-config-title">1セットの流れ</div>
+            <div class="timer-phase-editor" id="timerPhaseEditor"></div>
+
+            <button class="timer-config-button" id="timerAddPhaseButton">
+              ＋ ステップを追加
+            </button>
+
+            <div class="timer-config-title" style="margin-top:14px; margin-bottom:6px;">
+              セット数
+            </div>
+
+            <div class="timer-set-editor">
+              <button class="timer-set-button" id="timerSetMinusButton" aria-label="セット数を減らす">−</button>
+              <div class="timer-set-count">
+                <span class="timer-set-number" id="timerSetCount">1</span>
+                <span>セット</span>
+              </div>
+              <button class="timer-set-button" id="timerSetPlusButton" aria-label="セット数を増やす">＋</button>
+            </div>
+          </div>
+
+        </div>
       </section>
 
     </main>
   </div>
 
 
-  <!-- HABIT EDITOR -->
+  <!-- ハビット追加・編集シート -->
   <div class="sheet-backdrop" id="habitSheetBackdrop">
     <div class="sheet" role="dialog" aria-modal="true">
       <div class="sheet-handle"></div>
@@ -1273,12 +1823,18 @@
       </div>
 
       <div class="field">
-        <label class="field-label" for="habitCategoryInput">カテゴリー</label>
-        <select class="select-input" id="habitCategoryInput">
-          <option value="daily">日常</option>
-          <option value="creative">創作</option>
-          <option value="game">ゲーム</option>
-        </select>
+        <div class="field-label">カテゴリー</div>
+
+        <!--
+          ハビットのカテゴリー選択。
+          data-category の値はJS側のカテゴリー識別に使うため、
+          表示文字だけ変える場合はボタン内の「日常」などだけ変更してください。
+        -->
+        <div class="choice-button-group" id="habitCategoryButtons">
+          <button class="choice-button selected" data-category="daily">日常</button>
+          <button class="choice-button" data-category="creative">創作</button>
+          <button class="choice-button" data-category="game">ゲーム</button>
+        </div>
       </div>
 
       <div class="field">
@@ -1289,12 +1845,24 @@
       </div>
 
       <div class="field">
-        <label class="field-label" for="barResetInput">進捗バーのリセット</label>
-        <select class="select-input" id="barResetInput">
-          <option value="none">リセットしない</option>
-          <option value="midnight">毎日 0:00</option>
-          <option value="four">毎日 4:00</option>
-        </select>
+        <div class="field-label">進捗バーのリセット</div>
+
+        <!--
+          進捗バーの自動リセット時刻。
+          none = リセットなし / midnight = 0:00 / four = 4:00
+          data-reset の英字はJSが使う値なので、基本はそのままにしてください。
+        -->
+        <div class="choice-button-group" id="barResetButtons">
+          <button class="choice-button selected" data-reset="none">
+            なし
+          </button>
+          <button class="choice-button" data-reset="midnight">
+            毎日<br>0:00
+          </button>
+          <button class="choice-button" data-reset="four">
+            毎日<br>4:00
+          </button>
+        </div>
       </div>
 
       <div class="sheet-actions">
@@ -1307,7 +1875,7 @@
   </div>
 
 
-  <!-- TODO EDITOR -->
+  <!-- Todo追加・編集シート -->
   <div class="sheet-backdrop" id="todoSheetBackdrop">
     <div class="sheet" role="dialog" aria-modal="true">
       <div class="sheet-handle"></div>
@@ -1344,7 +1912,7 @@
   </div>
 
 
-  <!-- MEMO EDITOR -->
+  <!-- メモ追加・編集シート -->
   <div class="sheet-backdrop" id="memoSheetBackdrop">
     <div class="sheet" role="dialog" aria-modal="true">
       <div class="sheet-handle"></div>
@@ -1372,7 +1940,7 @@
   </div>
 
 
-  <!-- GOAL WHEEL -->
+  <!-- 目標回数の回転式ピッカー -->
   <div class="sheet-backdrop" id="wheelBackdrop">
     <div class="sheet wheel-sheet" role="dialog" aria-modal="true">
       <div class="sheet-handle"></div>
@@ -1397,19 +1965,51 @@
   "use strict";
 
   /* =========================================================
-     CONSTANTS
+     設定値（あとで数字を調整しやすい場所）
   ========================================================= */
 
+  /* localStorage に保存するときの名前。
+     ここを変えると「別アプリのデータ」として扱われ、今までの保存内容を読まなくなるため注意。 */
   const STORAGE_KEY = "habitTrackerData";
 
+  /* 目標回数ピッカーの最大値。
+     30 → 50 にすると、回転式ピッカーで50回まで選べます。 */
   const MAX_GOAL = 30;
+
+  /* 回転式ピッカー1行ぶんの高さ。CSSの .wheel-item の 52px と揃える必要があります。 */
   const WHEEL_ITEM_HEIGHT = 52;
 
+  /* 左スワイプで見せる削除ボタンの横幅。
+     CSSの --delete-width: 88px と同じ数字にしてください。 */
   const DELETE_REVEAL_WIDTH = 88;
+
+  /* 何px左へ動かしたら削除ボタンを開いた状態にするか。
+     小さくすると軽いスワイプでも開きます。 */
   const SWIPE_OPEN_THRESHOLD = 34;
 
+  /* TODAYマークを何ミリ秒長押しすると解除するか。550ms = 0.55秒。 */
+  const TODAY_LONG_PRESS_MS = 550;
+
+  /* TODAYを長押し解除したときの「しゅわん」演出を待つ時間。 */
+  const TODAY_DISAPPEAR_MS = 340;
+
+  /* 並び替え中、隣カードへ何割重なったら順番を交換するか。0.25 = 25%。 */
   const SWAP_OVERLAP_RATIO = 0.25;
+
+  /* 並び替えで進行方向を急に逆へ戻した時の誤交換を防ぐ距離。単位はpx。 */
   const REVERSE_UNLOCK_DISTANCE = 46;
+
+  /* インターバルタイマー1ステップの最小・最大秒数。
+     1〜600秒（10分）まで入力できる設定です。 */
+  const TIMER_MIN_SECONDS = 1;
+  const TIMER_MAX_SECONDS = 600;
+
+  /* 1セットに登録できるステップ数。現在は最大8個。 */
+  const TIMER_MAX_PHASES = 8;
+
+  /* 同じ流れを繰り返せるセット数。 */
+  const TIMER_MIN_SETS = 1;
+  const TIMER_MAX_SETS = 20;
 
   const ICONS = [
     "🌷","💗","💧","🎨","✏️","📖","🧹","🛁",
@@ -1424,7 +2024,7 @@
 
 
   /* =========================================================
-     STATE
+     画面内で一時的に使う状態
   ========================================================= */
 
   let data = loadData();
@@ -1438,6 +2038,14 @@
 
   let selectedHabitIcon = ICONS[0];
   let selectedGoal = 1;
+
+  /* ハビット編集画面のボタン式選択値。 */
+  let selectedHabitCategory = "daily";
+  let selectedBarReset = "none";
+
+  /* バーを再描画しても「前の長さ → 新しい長さ」を覚えておくための記録。
+     これが「びよーん」と伸縮させるためのポイントです。 */
+  const habitProgressHistory = new Map();
 
   let newHabitId = null;
   let newTodoId = null;
@@ -1454,9 +2062,13 @@
 
   let todayPress = null;
 
+  /* タイマー設定欄は0.1秒更新で毎回作り直すと入力中のフォーカスが外れるため、
+     「設定内容が本当に変わった時だけ」再生成するための印です。 */
+  let timerEditorSignature = "";
+
 
   /* =========================================================
-     DOM
+     HTML要素の取得
   ========================================================= */
 
   const dateMain = document.getElementById("dateMain");
@@ -1466,7 +2078,22 @@
   const todoList = document.getElementById("todoList");
   const memoList = document.getElementById("memoList");
 
+  const mainTabs = document.getElementById("mainTabs");
   const mainAddButton = document.getElementById("mainAddButton");
+
+  const timerCard = document.getElementById("timerCard");
+  const timerDisplay = document.getElementById("timerDisplay");
+  const timerProgressCircle = document.getElementById("timerProgressCircle");
+  const timerPosition = document.getElementById("timerPosition");
+  const timerFlowPreview = document.getElementById("timerFlowPreview");
+  const timerPhaseEditor = document.getElementById("timerPhaseEditor");
+  const timerAddPhaseButton = document.getElementById("timerAddPhaseButton");
+  const timerSetMinusButton = document.getElementById("timerSetMinusButton");
+  const timerSetPlusButton = document.getElementById("timerSetPlusButton");
+  const timerSetCount = document.getElementById("timerSetCount");
+  const timerStartPauseButton = document.getElementById("timerStartPauseButton");
+  const timerResetButton = document.getElementById("timerResetButton");
+  const timerStatus = document.getElementById("timerStatus");
 
   const cardViewButton = document.getElementById("cardViewButton");
   const compactViewButton = document.getElementById("compactViewButton");
@@ -1484,11 +2111,11 @@
   const habitNameInput =
     document.getElementById("habitNameInput");
 
-  const habitCategoryInput =
-    document.getElementById("habitCategoryInput");
+  const habitCategoryButtons =
+    document.getElementById("habitCategoryButtons");
 
-  const barResetInput =
-    document.getElementById("barResetInput");
+  const barResetButtons =
+    document.getElementById("barResetButtons");
 
   const iconGrid =
     document.getElementById("iconGrid");
@@ -1549,7 +2176,7 @@
 
 
   /* =========================================================
-     DATA
+     保存データの読み書き
   ========================================================= */
 
   function defaultData() {
@@ -1557,6 +2184,23 @@
       habits: [],
       todos: [],
       memos: [],
+
+      /* インターバルタイマー。
+         phases = 1セット内の各ステップ秒数。初期値は 30秒 → 10秒 → 30秒。
+         sets = その流れを何回繰り返すか。
+         currentPhaseIndex = 現在何番目のステップか（0始まり）。
+         currentSet = 現在何セット目か（1始まり）。 */
+      timer: {
+        phases: [30, 10, 30],
+        sets: 1,
+        currentPhaseIndex: 0,
+        currentSet: 1,
+        remainingSeconds: 30,
+        running: false,
+        endAt: null,
+        finished: false
+      },
+
       settings: {
         habitView: "card"
       }
@@ -1592,6 +2236,86 @@
 
       if (!["card","compact"].includes(parsed.settings.habitView)) {
         parsed.settings.habitView = "card";
+      }
+
+      /* 旧版の「○分カウントダウン」タイマーから、新しいインターバル式へ安全に移行。
+         ハビット / Todo / メモの保存内容には触れません。 */
+      const defaultTimerPhases = [30, 10, 30];
+
+      if (!parsed.timer || typeof parsed.timer !== "object") {
+        parsed.timer = {};
+      }
+
+      /* durationSeconds があるのは前回の「○分タイマー」形式。
+         その動作中状態だけは引き継がず、新しい30→10→30の先頭から始めます。 */
+      const isLegacyTimer =
+        "durationSeconds" in parsed.timer ||
+        !Array.isArray(parsed.timer.phases);
+
+      if (!Array.isArray(parsed.timer.phases) || parsed.timer.phases.length === 0) {
+        parsed.timer.phases = [...defaultTimerPhases];
+      }
+
+      parsed.timer.phases =
+        parsed.timer.phases
+          .slice(0, TIMER_MAX_PHASES)
+          .map((seconds) =>
+            clamp(
+              Math.round(Number(seconds) || 30),
+              TIMER_MIN_SECONDS,
+              TIMER_MAX_SECONDS
+            )
+          );
+
+      parsed.timer.sets =
+        clamp(
+          Math.round(Number(parsed.timer.sets) || 1),
+          TIMER_MIN_SETS,
+          TIMER_MAX_SETS
+        );
+
+      parsed.timer.currentPhaseIndex =
+        clamp(
+          Math.round(Number(parsed.timer.currentPhaseIndex) || 0),
+          0,
+          parsed.timer.phases.length - 1
+        );
+
+      parsed.timer.currentSet =
+        clamp(
+          Math.round(Number(parsed.timer.currentSet) || 1),
+          1,
+          parsed.timer.sets
+        );
+
+      const currentPhaseSeconds =
+        parsed.timer.phases[parsed.timer.currentPhaseIndex];
+
+      parsed.timer.remainingSeconds =
+        clamp(
+          Number(parsed.timer.remainingSeconds) || currentPhaseSeconds,
+          0,
+          currentPhaseSeconds
+        );
+
+      parsed.timer.running = Boolean(parsed.timer.running);
+      parsed.timer.endAt = Number(parsed.timer.endAt) || null;
+      parsed.timer.finished = Boolean(parsed.timer.finished);
+
+      if (isLegacyTimer) {
+        parsed.timer.currentPhaseIndex = 0;
+        parsed.timer.currentSet = 1;
+        parsed.timer.remainingSeconds = parsed.timer.phases[0];
+        parsed.timer.running = false;
+        parsed.timer.endAt = null;
+        parsed.timer.finished = false;
+
+        /* 旧形式専用の値は今後使わないため削除。 */
+        delete parsed.timer.durationSeconds;
+      }
+
+      if (parsed.timer.running && !parsed.timer.endAt) {
+        parsed.timer.running = false;
       }
 
       parsed.habits = parsed.habits.map((habit) => ({
@@ -1672,7 +2396,7 @@
 
 
   /* =========================================================
-     HELPERS
+     共通の補助関数
   ========================================================= */
 
   function escapeHTML(value) {
@@ -1701,7 +2425,7 @@
 
 
   /* =========================================================
-     DATE
+     画面上部の日付
   ========================================================= */
 
   function renderDate() {
@@ -1721,7 +2445,7 @@
 
 
   /* =========================================================
-     PERIOD / RESET
+     日付境界・進捗リセット
   ========================================================= */
 
   function getPeriodKey(timestamp, resetHour) {
@@ -1813,7 +2537,7 @@
 
 
   /* =========================================================
-     MAIN RENDER
+     画面全体の描画
   ========================================================= */
 
   function renderAll() {
@@ -1823,6 +2547,7 @@
     renderHabits();
     renderTodos();
     renderMemos();
+    renderTimer();
     renderBadgePanel();
     updateAppBadge();
   }
@@ -1846,17 +2571,24 @@
     const sectionMap = {
       habits: "habitsSection",
       todos: "todosSection",
-      memos: "memosSection"
+      memos: "memosSection",
+      timer: "timerSection"
     };
 
     document
       .getElementById(sectionMap[currentTab])
       .classList.add("active");
+
+    /* タイマーには「新規追加」が無いため、タイマータブだけ＋ボタンを隠します。 */
+    mainTabs.classList.toggle(
+      "timer-mode",
+      currentTab === "timer"
+    );
   }
 
 
   /* =========================================================
-     HABITS RENDER
+     ハビットの描画
   ========================================================= */
 
   function renderHabits() {
@@ -1914,6 +2646,10 @@
 
     bindSwipeSurfaces(habitList);
 
+    /* innerHTMLでカードを作り直した直後はCSSが「前のバー長」を知らないため、
+       JSで前回の長さから今回の長さへ移動させます。 */
+    animateHabitProgressBars(visible);
+
     if (newHabitId) {
       setTimeout(() => {
         newHabitId = null;
@@ -1934,6 +2670,11 @@
         0,
         100
       );
+
+    const previousPercent =
+      habitProgressHistory.has(habit.id)
+        ? habitProgressHistory.get(habit.id)
+        : 0;
 
     const done =
       habit.count >= habit.goal;
@@ -2015,7 +2756,9 @@
 
             <div class="progress-track">
               <div class="progress-fill"
-                   style="width:${percent}%"></div>
+                   data-habit-progress="${habit.id}"
+                   data-target-percent="${percent}"
+                   style="width:${previousPercent}%"></div>
             </div>
 
             <div class="habit-controls">
@@ -2049,6 +2792,11 @@
         100
       );
 
+    const previousPercent =
+      habitProgressHistory.has(habit.id)
+        ? habitProgressHistory.get(habit.id)
+        : 0;
+
     const done =
       habit.count >= habit.goal;
 
@@ -2058,6 +2806,11 @@
     const newRowClass =
       habit.id === newHabitId
         ? " new-row"
+        : "";
+
+    const newTodayClass =
+      habit.id === newTodayHabitId
+        ? " new-today"
         : "";
 
     return `
@@ -2095,7 +2848,7 @@
               ${
                 today
                   ? `
-                    <div class="compact-today"
+                    <div class="compact-today${newTodayClass}"
                          data-action="today-badge"
                          data-id="${habit.id}">
                       TODAY
@@ -2119,7 +2872,9 @@
 
               <div class="compact-track">
                 <div class="compact-fill"
-                     style="width:${percent}%">
+                     data-habit-progress="${habit.id}"
+                     data-target-percent="${percent}"
+                     style="width:${previousPercent}%">
                 </div>
               </div>
             </div>
@@ -2152,8 +2907,41 @@
   }
 
 
+  /* バーを「前回の長さ → 今回の長さ」へ動かす。
+     画面を丸ごと再描画しても伸縮演出が消えないようにするための処理です。 */
+  function animateHabitProgressBars(visibleHabits) {
+    const fills =
+      habitList.querySelectorAll("[data-habit-progress]");
+
+    /* 1フレーム待ってからwidthを変えることで、
+       ブラウザに「開始位置」と「終了位置」を別々に認識させます。 */
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        fills.forEach((fill) => {
+          fill.style.width =
+            `${Number(fill.dataset.targetPercent) || 0}%`;
+        });
+      });
+    });
+
+    visibleHabits.forEach((habit) => {
+      const percent =
+        clamp(
+          (habit.count / habit.goal) * 100,
+          0,
+          100
+        );
+
+      habitProgressHistory.set(
+        habit.id,
+        percent
+      );
+    });
+  }
+
+
   /* =========================================================
-     TODO RENDER
+     Todoの描画
   ========================================================= */
 
   function renderTodos() {
@@ -2242,7 +3030,7 @@
 
 
   /* =========================================================
-     MEMO RENDER
+     メモの描画
   ========================================================= */
 
   function renderMemos() {
@@ -2285,24 +3073,27 @@
 
             <article class="memo-card swipe-surface">
 
-              <div class="memo-meta">
+              <!--
+                日付左のハート画像。
+                index.html と同じ階層に memo_heart.png を置く想定です。
+              -->
+              <button class="memo-edit"
+                      data-action="edit-memo"
+                      data-id="${memo.id}"
+                      aria-label="メモを編集"
+                      title="編集">
+                <img class="memo-heart-image"
+                     src="./memo_heart.png"
+                     alt="">
+              </button>
 
-                <button class="memo-edit"
-                        data-action="edit-memo"
-                        data-id="${memo.id}"
-                        aria-label="メモを編集"
-                        title="編集">
-                  ♡
-                </button>
-
+              <!-- 日付と本文を同じ列に入れることで、本文が複数行でも左端が揃います。 -->
+              <div class="memo-body">
                 <div class="memo-date">
                   ${formatMemoDate(memo.createdAt)}
                 </div>
 
-              </div>
-
-              <div class="memo-text">
-                ${escapeHTML(memo.text)}
+                <div class="memo-text">${escapeHTML(memo.text)}</div>
               </div>
 
             </article>
@@ -2332,7 +3123,411 @@
 
 
   /* =========================================================
-     NAVIGATION
+     インターバルタイマーの描画・操作
+  ========================================================= */
+
+  function getCurrentTimerPhaseSeconds() {
+    return (
+      data.timer.phases[data.timer.currentPhaseIndex] ||
+      data.timer.phases[0] ||
+      30
+    );
+  }
+
+  function getTimerRemainingMilliseconds() {
+    if (data.timer.running && data.timer.endAt) {
+      return Math.max(
+        0,
+        data.timer.endAt - Date.now()
+      );
+    }
+
+    return Math.max(
+      0,
+      Number(data.timer.remainingSeconds || 0) * 1000
+    );
+  }
+
+  function resetTimerProgress() {
+    data.timer.running = false;
+    data.timer.endAt = null;
+    data.timer.finished = false;
+    data.timer.currentPhaseIndex = 0;
+    data.timer.currentSet = 1;
+    data.timer.remainingSeconds = data.timer.phases[0] || 30;
+  }
+
+  /* 今のステップが終わったとき、次のステップ／次セットへ進みます。
+     もう次が無ければ true を返して「全セット終了」にします。 */
+  function moveTimerToNextPhase() {
+    const lastPhaseIndex =
+      data.timer.phases.length - 1;
+
+    if (data.timer.currentPhaseIndex < lastPhaseIndex) {
+      data.timer.currentPhaseIndex += 1;
+    } else if (data.timer.currentSet < data.timer.sets) {
+      data.timer.currentSet += 1;
+      data.timer.currentPhaseIndex = 0;
+    } else {
+      data.timer.running = false;
+      data.timer.endAt = null;
+      data.timer.remainingSeconds = 0;
+      data.timer.finished = true;
+      return true;
+    }
+
+    data.timer.remainingSeconds =
+      getCurrentTimerPhaseSeconds();
+
+    return false;
+  }
+
+  /* アプリを閉じていた間にステップ終了時刻を過ぎていた場合も、
+     経過したぶんだけ次のステップへ追いつかせます。 */
+  function syncTimerState() {
+    if (!data.timer.running || !data.timer.endAt) {
+      return { changed: false, finishedNow: false };
+    }
+
+    let changed = false;
+    let finishedNow = false;
+    const now = Date.now();
+
+    while (data.timer.running && data.timer.endAt <= now) {
+      const overflowMilliseconds =
+        now - data.timer.endAt;
+
+      const finished =
+        moveTimerToNextPhase();
+
+      changed = true;
+
+      if (finished) {
+        finishedNow = true;
+        break;
+      }
+
+      const nextDurationMilliseconds =
+        getCurrentTimerPhaseSeconds() * 1000;
+
+      data.timer.endAt =
+        now +
+        nextDurationMilliseconds -
+        overflowMilliseconds;
+
+      /* 1回の同期で複数ステップぶん時間が過ぎていれば、whileでさらに先へ進みます。 */
+    }
+
+    if (data.timer.running) {
+      data.timer.remainingSeconds =
+        Math.max(
+          0,
+          Math.ceil(
+            (data.timer.endAt - Date.now()) / 1000
+          )
+        );
+    }
+
+    if (changed) {
+      saveData();
+    }
+
+    return { changed, finishedNow };
+  }
+
+  function renderTimerFlowPreview() {
+    timerFlowPreview.innerHTML =
+      data.timer.phases
+        .map((seconds, index) => {
+          const activeClass =
+            index === data.timer.currentPhaseIndex &&
+            !data.timer.finished
+              ? " active"
+              : "";
+
+          const arrow =
+            index < data.timer.phases.length - 1
+              ? `<span class="timer-flow-arrow">→</span>`
+              : "";
+
+          return `
+            <span class="timer-flow-step${activeClass}">
+              ${seconds}秒
+            </span>
+            ${arrow}
+          `;
+        })
+        .join("");
+  }
+
+  function renderTimerPhaseEditor() {
+    const signature =
+      `${data.timer.phases.join(",")}|sets:${data.timer.sets}`;
+
+    /* 円周アニメーションは0.1秒ごとに描画しますが、
+       設定欄まで毎回作り直すと数字入力中にカーソルが飛ぶため、
+       秒数やセット数が変わった時だけHTMLを更新します。 */
+    if (
+      signature === timerEditorSignature &&
+      timerPhaseEditor.children.length > 0
+    ) {
+      return;
+    }
+
+    timerEditorSignature = signature;
+
+    timerPhaseEditor.innerHTML =
+      data.timer.phases
+        .map((seconds, index) => `
+          <div class="timer-phase-row" data-phase-index="${index}">
+            <div class="timer-phase-label">STEP ${index + 1}</div>
+
+            <input class="timer-phase-input"
+                   type="number"
+                   inputmode="numeric"
+                   min="${TIMER_MIN_SECONDS}"
+                   max="${TIMER_MAX_SECONDS}"
+                   value="${seconds}"
+                   data-action="timer-phase-seconds"
+                   data-phase-index="${index}"
+                   aria-label="ステップ${index + 1}の秒数">
+
+            <div class="timer-phase-unit">秒</div>
+
+            <button class="timer-phase-delete"
+                    data-action="timer-delete-phase"
+                    data-phase-index="${index}"
+                    aria-label="ステップ${index + 1}を削除"
+                    ${data.timer.phases.length <= 1 ? "disabled" : ""}>
+              ×
+            </button>
+          </div>
+        `)
+        .join("");
+
+    timerAddPhaseButton.disabled =
+      data.timer.phases.length >= TIMER_MAX_PHASES;
+
+    timerAddPhaseButton.textContent =
+      data.timer.phases.length >= TIMER_MAX_PHASES
+        ? `最大 ${TIMER_MAX_PHASES} ステップ`
+        : "＋ ステップを追加";
+
+    timerSetCount.textContent =
+      data.timer.sets;
+  }
+
+  function renderTimer() {
+    const syncResult =
+      syncTimerState();
+
+    const phaseSeconds =
+      Math.max(1, getCurrentTimerPhaseSeconds());
+
+    const remainingMilliseconds =
+      data.timer.finished
+        ? 0
+        : getTimerRemainingMilliseconds();
+
+    const remainingSeconds =
+      Math.max(
+        0,
+        Math.ceil(remainingMilliseconds / 1000)
+      );
+
+    const progressPercent =
+      clamp(
+        (remainingMilliseconds / (phaseSeconds * 1000)) * 100,
+        0,
+        100
+      );
+
+    /* pathLength=100 なので、0 = 円が全部見える / 100 = 全部消える。 */
+    timerProgressCircle.style.strokeDashoffset =
+      String(100 - progressPercent);
+
+    timerDisplay.textContent =
+      remainingSeconds;
+
+    timerPosition.textContent =
+      data.timer.finished
+        ? `全 ${data.timer.sets} セット終了`
+        : `セット ${data.timer.currentSet} / ${data.timer.sets} ・ ステップ ${data.timer.currentPhaseIndex + 1} / ${data.timer.phases.length}`;
+
+    renderTimerFlowPreview();
+    renderTimerPhaseEditor();
+
+    if (data.timer.running) {
+      timerStartPauseButton.textContent = "一時停止";
+      timerStartPauseButton.classList.add("paused");
+      timerStatus.textContent =
+        "カウント中。ステップ終了後は自動で次へ進みます。";
+
+    } else if (data.timer.finished) {
+      timerStartPauseButton.textContent = "もう一度";
+      timerStartPauseButton.classList.remove("paused");
+      timerStatus.textContent = "全セット終了！";
+
+    } else if (
+      remainingSeconds < phaseSeconds ||
+      data.timer.currentPhaseIndex > 0 ||
+      data.timer.currentSet > 1
+    ) {
+      timerStartPauseButton.textContent = "再開";
+      timerStartPauseButton.classList.remove("paused");
+      timerStatus.textContent = "一時停止中。";
+
+    } else {
+      timerStartPauseButton.textContent = "スタート";
+      timerStartPauseButton.classList.remove("paused");
+      timerStatus.textContent =
+        data.timer.phases.map((seconds) => `${seconds}秒`).join(" → ") +
+        ` で1セット × ${data.timer.sets}`;
+    }
+
+    if (syncResult.finishedNow) {
+      timerCard.classList.remove("timer-finished");
+      void timerCard.offsetWidth;
+      timerCard.classList.add("timer-finished");
+      navigator.vibrate?.([35, 45, 35]);
+    } else if (syncResult.changed) {
+      navigator.vibrate?.(18);
+    }
+  }
+
+  function applyTimerConfigurationChange() {
+    /* 設定を触ったら、途中経過は一旦先頭へ戻します。
+       「設定変更したのに途中ステップから始まる」を防ぐためです。 */
+    resetTimerProgress();
+    saveData();
+    renderTimer();
+  }
+
+  timerPhaseEditor.addEventListener("change", (event) => {
+    const input =
+      event.target.closest('[data-action="timer-phase-seconds"]');
+
+    if (!input) return;
+
+    const index =
+      Number(input.dataset.phaseIndex);
+
+    if (!Number.isInteger(index) || !data.timer.phases[index]) {
+      return;
+    }
+
+    data.timer.phases[index] =
+      clamp(
+        Math.round(Number(input.value) || 30),
+        TIMER_MIN_SECONDS,
+        TIMER_MAX_SECONDS
+      );
+
+    applyTimerConfigurationChange();
+  });
+
+  timerPhaseEditor.addEventListener("click", (event) => {
+    const button =
+      event.target.closest('[data-action="timer-delete-phase"]');
+
+    if (!button || data.timer.phases.length <= 1) {
+      return;
+    }
+
+    const index =
+      Number(button.dataset.phaseIndex);
+
+    if (!Number.isInteger(index)) return;
+
+    data.timer.phases.splice(index, 1);
+    applyTimerConfigurationChange();
+  });
+
+  timerAddPhaseButton.addEventListener("click", () => {
+    if (data.timer.phases.length >= TIMER_MAX_PHASES) {
+      return;
+    }
+
+    /* 新しいステップは30秒で追加。あとから数字欄を直接変更できます。 */
+    data.timer.phases.push(30);
+    applyTimerConfigurationChange();
+  });
+
+  function changeTimerSetCount(amount) {
+    const nextSets =
+      clamp(
+        data.timer.sets + amount,
+        TIMER_MIN_SETS,
+        TIMER_MAX_SETS
+      );
+
+    if (nextSets === data.timer.sets) {
+      return;
+    }
+
+    data.timer.sets = nextSets;
+    applyTimerConfigurationChange();
+  }
+
+  timerSetMinusButton.addEventListener("click", () => {
+    changeTimerSetCount(-1);
+  });
+
+  timerSetPlusButton.addEventListener("click", () => {
+    changeTimerSetCount(1);
+  });
+
+  timerStartPauseButton.addEventListener("click", () => {
+    if (data.timer.running) {
+      /* 一時停止：現在の残り秒数を確定して保存。 */
+      data.timer.remainingSeconds =
+        Math.max(
+          0,
+          Math.ceil(
+            getTimerRemainingMilliseconds() / 1000
+          )
+        );
+
+      data.timer.running = false;
+      data.timer.endAt = null;
+
+    } else {
+      if (data.timer.finished) {
+        resetTimerProgress();
+      }
+
+      let remainingSeconds =
+        Math.max(
+          0,
+          Number(data.timer.remainingSeconds) || 0
+        );
+
+      if (remainingSeconds <= 0) {
+        remainingSeconds =
+          getCurrentTimerPhaseSeconds();
+
+        data.timer.remainingSeconds =
+          remainingSeconds;
+      }
+
+      data.timer.finished = false;
+      data.timer.running = true;
+      data.timer.endAt =
+        Date.now() + remainingSeconds * 1000;
+    }
+
+    saveData();
+    renderTimer();
+  });
+
+  timerResetButton.addEventListener("click", () => {
+    resetTimerProgress();
+    saveData();
+    renderTimer();
+  });
+
+  /* =========================================================
+     タブ・表示切り替え操作
   ========================================================= */
 
   document
@@ -2403,7 +3598,7 @@
 
 
   /* =========================================================
-     HABIT ACTIONS
+     ハビットの＋／−・編集・削除
   ========================================================= */
 
   habitList.addEventListener("click", (event) => {
@@ -2501,7 +3696,7 @@
 
 
   /* =========================================================
-     HABIT EDITOR
+     ハビット追加・編集シート
   ========================================================= */
 
   function renderIconGrid() {
@@ -2526,6 +3721,57 @@
     renderIconGrid();
   });
 
+  function renderHabitOptionButtons() {
+    habitCategoryButtons
+      .querySelectorAll("[data-category]")
+      .forEach((button) => {
+        button.classList.toggle(
+          "selected",
+          button.dataset.category === selectedHabitCategory
+        );
+      });
+
+    barResetButtons
+      .querySelectorAll("[data-reset]")
+      .forEach((button) => {
+        button.classList.toggle(
+          "selected",
+          button.dataset.reset === selectedBarReset
+        );
+      });
+  }
+
+  habitCategoryButtons.addEventListener(
+    "click",
+    (event) => {
+      const button =
+        event.target.closest("[data-category]");
+
+      if (!button) return;
+
+      selectedHabitCategory =
+        button.dataset.category;
+
+      renderHabitOptionButtons();
+    }
+  );
+
+  barResetButtons.addEventListener(
+    "click",
+    (event) => {
+      const button =
+        event.target.closest("[data-reset]");
+
+      if (!button) return;
+
+      selectedBarReset =
+        button.dataset.reset;
+
+      renderHabitOptionButtons();
+    }
+  );
+
+
   function openHabitEditor(id = null) {
     editingHabitId = id;
 
@@ -2549,10 +3795,10 @@
       selectedGoal =
         habit.goal;
 
-      habitCategoryInput.value =
+      selectedHabitCategory =
         habit.category;
 
-      barResetInput.value =
+      selectedBarReset =
         habit.barReset;
 
       deleteHabitFromEditor.hidden = false;
@@ -2564,13 +3810,14 @@
       habitNameInput.value = "";
       selectedHabitIcon = ICONS[0];
       selectedGoal = 1;
-      habitCategoryInput.value = "daily";
-      barResetInput.value = "none";
+      selectedHabitCategory = "daily";
+      selectedBarReset = "none";
 
       deleteHabitFromEditor.hidden = true;
     }
 
     renderIconGrid();
+    renderHabitOptionButtons();
     updateGoalButton();
 
     habitSheetBackdrop.classList.add("open");
@@ -2610,9 +3857,9 @@
       habit.icon = selectedHabitIcon;
       habit.goal = selectedGoal;
       habit.category =
-        habitCategoryInput.value;
+        selectedHabitCategory;
       habit.barReset =
-        barResetInput.value;
+        selectedBarReset;
 
       if (
         oldReset !== habit.barReset &&
@@ -2639,11 +3886,11 @@
         name,
         icon: selectedHabitIcon,
         category:
-          habitCategoryInput.value,
+          selectedHabitCategory,
         goal: selectedGoal,
         count: 0,
         barReset:
-          barResetInput.value,
+          selectedBarReset,
         barResetKey: null,
         lastDoneAt: null
       };
@@ -2681,7 +3928,7 @@
 
 
   /* =========================================================
-     GOAL WHEEL
+     目標回数の回転式ピッカー
   ========================================================= */
 
   function buildWheel() {
@@ -2759,7 +4006,7 @@
 
 
   /* =========================================================
-     TODO ACTIONS
+     Todoの完了・編集・削除
   ========================================================= */
 
   todoList.addEventListener("click", (event) => {
@@ -2929,7 +4176,7 @@
 
 
   /* =========================================================
-     MEMO ACTIONS
+     メモの編集・削除
   ========================================================= */
 
   memoList.addEventListener("click", (event) => {
@@ -3072,7 +4319,7 @@
 
 
   /* =========================================================
-     SHEET DISMISS
+     編集シートを背景タップで閉じる
   ========================================================= */
 
   [
@@ -3092,7 +4339,7 @@
 
 
   /* =========================================================
-     SWIPE TO REVEAL
+     左スワイプで削除ボタンを出す処理
   ========================================================= */
 
   function bindSwipeSurfaces(container) {
@@ -3361,7 +4608,7 @@
 
 
   /* =========================================================
-     TODAY LONG PRESS
+     TODAYマーク長押し解除
   ========================================================= */
 
   habitList.addEventListener(
@@ -3383,17 +4630,20 @@
       todayPress = {
         pointerId: event.pointerId,
         id,
+        badge,
         startX: event.clientX,
         startY: event.clientY,
-        fired: false,
         timer: setTimeout(() => {
 
           if (!todayPress) return;
 
+          const press =
+            todayPress;
+
           const habit =
             data.habits.find(
               (item) =>
-                item.id === todayPress.id
+                item.id === press.id
             );
 
           if (!habit) {
@@ -3401,17 +4651,25 @@
             return;
           }
 
-          habit.lastDoneAt = null;
+          /* 先にデータを消さず、画面上のTODAYへ「しゅわん」classを付けます。
+             アニメーションが終わってからlastDoneAtを消すので、パッと消えません。 */
+          press.badge.classList.add(
+            "today-disappear"
+          );
 
-          todayPress.fired = true;
-
-          saveData();
-          renderHabits();
-          updateAppBadge();
+          navigator.vibrate?.(18);
 
           todayPress = null;
 
-        }, 550)
+          setTimeout(() => {
+            habit.lastDoneAt = null;
+
+            saveData();
+            renderHabits();
+            updateAppBadge();
+          }, TODAY_DISAPPEAR_MS);
+
+        }, TODAY_LONG_PRESS_MS)
       };
     }
   );
@@ -3485,7 +4743,7 @@
 
 
   /* =========================================================
-     HABIT DRAG REORDER
+     ハビットの長押し並び替え
   ========================================================= */
 
   habitList.addEventListener(
@@ -4028,7 +5286,7 @@
 
 
   /* =========================================================
-     APP BADGE
+     ホーム画面アイコンのバッジ
   ========================================================= */
 
   function getRemainingTodayCount() {
@@ -4129,7 +5387,7 @@
 
 
   /* =========================================================
-     PERIODIC REFRESH
+     定期更新
   ========================================================= */
 
   setInterval(() => {
@@ -4157,11 +5415,24 @@
 
     updateAppBadge();
 
-  }, 30000);
+  }, 30000); /* 30,000ms = 30秒 */
+
+
+  /* 円周バーをなめらかに減らすため、タイマー画面は0.1秒ごとに更新します。
+     実際の残り時間は endAt（終了予定時刻）から計算するので、
+     描画が少し遅れても時計そのものはずれにくい作りです。 */
+  setInterval(() => {
+    if (
+      data.timer.running ||
+      currentTab === "timer"
+    ) {
+      renderTimer();
+    }
+  }, 100); /* 100ms = 0.1秒 */
 
 
   /* =========================================================
-     SERVICE WORKER
+     PWA用 Service Worker
   ========================================================= */
 
   if ("serviceWorker" in navigator) {
@@ -4184,7 +5455,7 @@
 
 
   /* =========================================================
-     INIT
+     初期起動処理
   ========================================================= */
 
   buildWheel();
