@@ -53,6 +53,28 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    /* =========================================================
+   スクロールバーを非表示
+   ※ スクロール操作そのものはそのまま使える
+    ========================================================= */
+
+/* Firefox */
+* {
+  scrollbar-width: none;
+}
+
+/* 古いMicrosoft系ブラウザ */
+* {
+  -ms-overflow-style: none;
+}
+
+/* Chrome / Safari / Edge / iPhone */
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
     html {
       background: var(--pink-bg);
     }
