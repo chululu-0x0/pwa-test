@@ -119,6 +119,17 @@
       padding-bottom: calc(42px + env(safe-area-inset-bottom));
     }
 
+    /* =========================================================
+   iPhoneの入力時自動ズーム防止
+   入力欄が16px未満だとSafariが画面を拡大することがあります
+========================================================= */
+
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
     /* ------------------------------
        ヘッダー
     ------------------------------ */
@@ -1438,7 +1449,9 @@
       background: white;
       color: var(--text);
       padding: 12px 13px;
-      font-size: 15px;
+    /* iPhoneで入力時に画面が勝手にズームされるのを防ぐため、
+     入力欄は16px以上にしておく */
+      font-size: 16px;
       transition: border-color .15s ease;
     }
 
