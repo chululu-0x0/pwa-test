@@ -1,3069 +1,2034 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="theme-color" content="#f6cbd8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icon.png" />
 
   <title>HABITS</title>
 
-  <meta
-    name="theme-color"
-    content="#f6cbd8"
-  >
-
-  <meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
-  >
-
-  <meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="default"
-  >
-
-  <meta
-    name="apple-mobile-web-app-title"
-    content="HABITS"
-  >
-
-  <link
-    rel="apple-touch-icon"
-    href="icon.png"
-  >
-
-  <link
-    rel="manifest"
-    href="manifest.json"
-  >
-
-
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
 
-    @import url(
-      'https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap'
-    );
+    :root {
+      --pink-bg: #f6cbd8;
+      --pink: #e889a7;
+      --pink-dark: #d9678d;
+      --pink-soft: #fbe7ee;
 
+      --white: #ffffff;
+      --text: #554850;
+      --muted: #a18f97;
 
-    /* ========================================
-       基本
-    ======================================== */
+      --line: #f0d8e0;
+      --delete: #ef5f68;
+
+      --mint: #bde8d7;
+      --yellow: #f7df9c;
+
+      --radius: 22px;
+      --small-radius: 15px;
+
+      --shadow:
+        0 7px 18px rgba(136, 86, 104, 0.08),
+        0 2px 6px rgba(136, 86, 104, 0.05);
+
+      --delete-width: 88px;
+    }
 
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    html,
+    html {
+      background: var(--pink-bg);
+    }
+
     body {
       margin: 0;
-      min-height: 100%;
-      background: #f6cbd8;
-    }
-
-    body {
-      color: #51464a;
-
-      font-family:
-        "Zen Maru Gothic",
-        -apple-system,
-        BlinkMacSystemFont,
-        sans-serif;
-
-      -webkit-tap-highlight-color: transparent;
+      min-height: 100vh;
+      background: var(--pink-bg);
+      color: var(--text);
+      font-family: "Zen Maru Gothic", sans-serif;
 
       -webkit-user-select: none;
       user-select: none;
-
       -webkit-touch-callout: none;
+
+      overscroll-behavior-y: none;
     }
 
     input,
-    textarea {
+    textarea,
+    select {
       -webkit-user-select: text;
       user-select: text;
-
       -webkit-touch-callout: default;
     }
 
     button,
-    input {
-      font-family:
-        "M PLUS Rounded 1c",
-        -apple-system,
-        BlinkMacSystemFont,
-        sans-serif;
+    input,
+    textarea,
+    select {
+      font: inherit;
     }
 
     button {
-      -webkit-tap-highlight-color: transparent;
-
-      -webkit-user-select: none;
-      user-select: none;
-
-      -webkit-touch-callout: none;
-
-      touch-action: manipulation;
+      border: 0;
+      color: inherit;
     }
 
     .app {
-      width: 100%;
-      max-width: 520px;
-
+      width: min(100%, 640px);
       margin: 0 auto;
+      padding-bottom: calc(42px + env(safe-area-inset-bottom));
+    }
 
+    /* ------------------------------
+       HEADER
+    ------------------------------ */
+
+    .header {
       padding:
-        max(
-          32px,
-          env(safe-area-inset-top)
-        )
-        18px
-        max(
-          80px,
-          env(safe-area-inset-bottom)
-        );
+        calc(22px + env(safe-area-inset-top))
+        20px
+        17px;
     }
 
-
-
-    /* ========================================
-       ヘッダー
-    ======================================== */
-
-    header {
-      padding-bottom: 20px;
-    }
-
-    .app-title {
-      color: white;
-
-      font-family:
-        "M PLUS Rounded 1c",
-        sans-serif;
-
-      font-size: 18px;
+    .app-name {
+      margin: 0 0 2px;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 12px;
       font-weight: 800;
-
       letter-spacing: 0.18em;
-
-      opacity: 0.88;
+      color: var(--pink-dark);
     }
 
-    .big-date {
-      margin-top: 5px;
-
-      color: white;
-
+    .date-main {
+      margin: 0;
+      font-family: "M PLUS Rounded 1c", sans-serif;
       font-size: 35px;
-      font-weight: 700;
-
-      line-height: 1.25;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -0.03em;
     }
 
     .date-sub {
-      margin-top: 3px;
-
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          0.88
-        );
-
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-
-
-    /* ========================================
-       バッジ許可
-    ======================================== */
-
-    .badge-permission {
-      margin-top: 16px;
-
-      padding: 11px 12px;
-
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          0.29
-        );
-
-      border-radius: 16px;
-
-      color: white;
-    }
-
-    .badge-permission[hidden] {
-      display: none;
-    }
-
-    .badge-permission-button {
-      width: 100%;
-
-      border: none;
-      border-radius: 999px;
-
-      padding: 10px 12px;
-
-      background: white;
-      color: #d46f8d;
-
-      font-size: 12px;
-      font-weight: 800;
-
-      transition:
-        transform 0.15s ease;
-    }
-
-    .badge-permission-button:active {
-      transform: scale(0.96);
-    }
-
-    .badge-permission-text {
-      margin-top: 7px;
-
-      text-align: center;
-
-      font-size: 10px;
-      line-height: 1.5;
-
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          0.91
-        );
-    }
-
-
-
-    /* ========================================
-       固定タブ
-    ======================================== */
-
-    .tabs-sticky {
-      position: sticky;
-
-      top:
-        env(
-          safe-area-inset-top
-        );
-
-      z-index: 100;
-
-      margin:
-        0 -18px
-        16px;
-
-      padding:
-        8px 18px;
-
-      background:
-        rgba(
-          246,
-          203,
-          216,
-          0.91
-        );
-
-      -webkit-backdrop-filter:
-        blur(14px);
-
-      backdrop-filter:
-        blur(14px);
-    }
-
-    .tabs {
-      display: grid;
-
-      grid-template-columns:
-        repeat(4, 1fr)
-        44px;
-
-      gap: 6px;
-    }
-
-    .tab-button {
-      min-width: 0;
-
-      border: none;
-      border-radius: 999px;
-
-      padding: 10px 5px;
-
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          0.36
-        );
-
-      color: white;
-
-      font-size: 12px;
+      margin-top: 4px;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 13px;
       font-weight: 700;
-
-      transition:
-        transform 0.15s ease,
-        background 0.2s ease,
-        color 0.2s ease;
+      color: var(--muted);
     }
 
-    .tab-button.active {
-      background: white;
-      color: #d67391;
+    /* ------------------------------
+       MAIN NAV
+    ------------------------------ */
 
-      box-shadow:
-        0 5px 15px
-        rgba(
-          105,
-          70,
-          80,
-          0.07
+    .nav-sticky {
+      position: sticky;
+      top: env(safe-area-inset-top);
+      z-index: 40;
+      padding: 5px 14px 10px;
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(246, 203, 216, 0.98),
+          rgba(246, 203, 216, 0.95)
         );
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
-    .tab-button:active {
-      transform: scale(0.93);
+    .main-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) 48px;
+      gap: 6px;
+      padding: 6px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.45);
     }
 
-    .tab-add-button {
-      width: 44px;
-      height: 40px;
-
-      padding: 0;
-
-      border: none;
-      border-radius: 50%;
-
-      background: white;
-      color: #dd7896;
-
-      font-size: 24px;
-
-      box-shadow:
-        0 5px 15px
-        rgba(
-          105,
-          70,
-          80,
-          0.07
-        );
-
-      transition:
-        transform 0.15s ease;
-    }
-
-    .tab-add-button:active {
-      transform: scale(0.86);
-    }
-
-
-
-    /* ========================================
-       習慣一覧
-    ======================================== */
-
-    .habit-list {
-      display: flex;
-      flex-direction: column;
-
-      gap: 14px;
-
-      min-height: 100px;
-    }
-
-    .empty {
-      padding: 50px 20px;
-
-      text-align: center;
-
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          0.93
-        );
-
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-
-
-    /* ========================================
-       習慣カード
-    ======================================== */
-
-    .habit-card {
-      position: relative;
-
-      padding: 0;
-
-      overflow: hidden;
-
-      background: #ef5f68;
-
-      border-radius: 24px;
-
-      box-shadow:
-        0 7px 20px
-        rgba(
-          105,
-          70,
-          80,
-          0.08
-        );
-    }
-
-    /*
-      白いカード部分。
-
-      左へスライドすると
-      下にある赤い削除ボタンが見える。
-    */
-
-    .habit-card-surface {
-      position: relative;
-
-      z-index: 2;
-
-      padding:
-        18px 18px
-        16px;
-
-      background: white;
-
-      border-radius: 24px;
-
-      transform:
-        translateX(0);
-
-      transition:
-        transform
-        0.34s
-        cubic-bezier(
-          0.34,
-          1.25,
-          0.64,
-          1
-        );
-
-      touch-action: pan-y;
-
-      will-change: transform;
-    }
-
-    .habit-card-surface.swiping {
-      transition: none;
-    }
-
-
-
-    /* ========================================
-       スワイプ削除
-    ======================================== */
-
-    .swipe-delete-button {
-      position: absolute;
-
-      top: 0;
-      right: 0;
-      bottom: 0;
-
-      z-index: 1;
-
-      width: 88px;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      gap: 4px;
-
-      padding: 0;
-
-      border: none;
-
-      background: #ef5f68;
-      color: white;
-
+    .main-tab,
+    .main-add {
+      min-height: 42px;
+      border-radius: 15px;
+      background: transparent;
+      font-family: "M PLUS Rounded 1c", sans-serif;
       font-size: 12px;
       font-weight: 800;
-
-      letter-spacing: 0.03em;
-
-      touch-action: manipulation;
-
+      cursor: pointer;
       transition:
-        background 0.15s ease,
-        transform 0.15s ease;
+        transform 0.18s cubic-bezier(.34,1.56,.64,1),
+        background 0.18s ease,
+        color 0.18s ease;
     }
 
-    .swipe-delete-button:active {
-      background: #d94f59;
+    .main-tab.active {
+      background: var(--white);
+      color: var(--pink-dark);
+      box-shadow: 0 4px 12px rgba(140, 82, 105, 0.08);
     }
 
-    .swipe-delete-icon {
-      font-size: 20px;
+    .main-add {
+      background: var(--pink-dark);
+      color: white;
+      font-size: 22px;
       line-height: 1;
     }
 
-
-
-    /* ========================================
-       カードアニメーション
-    ======================================== */
-
-    .habit-card.new-card {
-      animation:
-        cardDrop
-        0.65s
-        cubic-bezier(
-          0.22,
-          1.25,
-          0.45,
-          1
-        );
+    .main-tab:active,
+    .main-add:active,
+    .soft-button:active,
+    .round-button:active {
+      transform: scale(0.9);
     }
 
-    @keyframes cardDrop {
+    /* ------------------------------
+       CONTENT
+    ------------------------------ */
 
-      0% {
+    .content {
+      padding: 5px 15px 0;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+      animation: sectionIn 0.24s ease both;
+    }
+
+    @keyframes sectionIn {
+      from {
         opacity: 0;
-
-        transform:
-          translateY(-90px)
-          scale(0.95);
+        transform: translateY(5px);
       }
-
-      64% {
+      to {
         opacity: 1;
-
-        transform:
-          translateY(11px)
-          scale(1.018);
-      }
-
-      82% {
-        transform:
-          translateY(-5px)
-          scale(0.995);
-      }
-
-      100% {
-        transform:
-          translateY(0)
-          scale(1);
+        transform: translateY(0);
       }
     }
 
-    .habit-card.completed-pop {
-      animation:
-        completedPop
-        0.45s ease;
+    /* ------------------------------
+       HABIT TOOLBAR
+    ------------------------------ */
+
+    .habit-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 6px 2px 14px;
     }
 
-    @keyframes completedPop {
-
-      0% {
-        transform: scale(1);
-      }
-
-      45% {
-        transform: scale(1.026);
-      }
-
-      72% {
-        transform: scale(0.99);
-      }
-
-      100% {
-        transform: scale(1);
-      }
+    .habit-filters {
+      display: flex;
+      gap: 5px;
+      min-width: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
 
+    .habit-filters::-webkit-scrollbar {
+      display: none;
+    }
 
+    .filter-button {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.48);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted);
+      transition: 0.18s ease;
+    }
 
-    /* ========================================
-       カード上部
-    ======================================== */
+    .filter-button.active {
+      background: white;
+      color: var(--pink-dark);
+      box-shadow: 0 3px 9px rgba(140, 82, 105, 0.07);
+    }
+
+    .view-switcher {
+      flex: 0 0 auto;
+      display: flex;
+      gap: 3px;
+      padding: 3px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.5);
+    }
+
+    .view-button {
+      width: 34px;
+      height: 32px;
+      border-radius: 9px;
+      background: transparent;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #b49ba4;
+      transition:
+        transform .18s cubic-bezier(.34,1.56,.64,1),
+        background .18s ease,
+        color .18s ease;
+    }
+
+    .view-button.active {
+      background: white;
+      color: var(--pink-dark);
+      box-shadow: 0 2px 7px rgba(140,82,105,.08);
+    }
+
+    .view-button:active {
+      transform: scale(.82);
+    }
+
+    /* ------------------------------
+       BADGE PERMISSION
+    ------------------------------ */
+
+    .badge-panel {
+      margin: 0 2px 13px;
+      padding: 12px 14px;
+      border-radius: 17px;
+      background: rgba(255,255,255,.68);
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .badge-panel[hidden] {
+      display: none;
+    }
+
+    .badge-enable {
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px;
+      border-radius: 13px;
+      background: white;
+      color: var(--pink-dark);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    /* ------------------------------
+       GENERIC SWIPE ROW
+    ------------------------------ */
+
+    .swipe-row {
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    .swipe-delete-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: var(--delete-width);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 20px;
+      background: var(--delete);
+      color: white;
+
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .03em;
+
+      z-index: 1;
+    }
+
+    .swipe-surface {
+      position: relative;
+      z-index: 2;
+      transform: translateX(0);
+      transition:
+        transform .28s cubic-bezier(.22,.8,.28,1),
+        box-shadow .2s ease;
+      touch-action: pan-y;
+      will-change: transform;
+    }
+
+    /* ------------------------------
+       HABIT LARGE CARD
+    ------------------------------ */
+
+    .habit-card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .habit-card.large {
+      padding: 15px;
+    }
 
     .habit-top {
       display: flex;
       align-items: center;
-
-      gap: 9px;
+      gap: 10px;
     }
-
-
-
-    /* ========================================
-       並び替え
-    ======================================== */
 
     .drag-handle {
-      width: 33px;
-      height: 42px;
-
-      flex-shrink: 0;
-
+      flex: 0 0 auto;
+      width: 25px;
+      height: 38px;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
 
-      padding: 0;
+      background: transparent;
+      color: #ceb7bf;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-weight: 800;
+      font-size: 17px;
 
-      border: none;
-      border-radius: 13px;
-
-      background: #faf0f3;
-      color: #c9aeb6;
-
-      font-size: 19px;
-
+      cursor: grab;
       touch-action: none;
-
-      -webkit-user-select: none;
-      user-select: none;
-
-      -webkit-touch-callout: none;
     }
-
-
-
-    /* ========================================
-       アイコン
-    ======================================== */
 
     .habit-icon-button {
-      width: 46px;
-      height: 46px;
-
-      flex-shrink: 0;
-
+      flex: 0 0 auto;
+      width: 43px;
+      height: 43px;
+      border-radius: 14px;
+      background: var(--pink-soft);
+      font-size: 22px;
       display: flex;
-      justify-content: center;
       align-items: center;
-
-      padding: 0;
-
-      border: none;
-      border-radius: 15px;
-
-      background: #fff0f4;
-
-      font-size: 24px;
-
-      transition:
-        transform 0.15s ease;
+      justify-content: center;
     }
-
-    .habit-icon-button:active {
-      transform: scale(0.88);
-    }
-
-
-
-    /* ========================================
-       名前
-    ======================================== */
 
     .habit-title-area {
-      min-width: 0;
       flex: 1;
+      min-width: 0;
     }
 
     .habit-name {
-      font-size: 18px;
-      font-weight: 700;
-
-      word-break: break-word;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .habit-category {
       margin-top: 2px;
-
-      color: #b4a0a7;
-
-      font-family:
-        "M PLUS Rounded 1c",
-        sans-serif;
-
       font-size: 10px;
       font-weight: 700;
+      color: var(--muted);
     }
-
-
-
-    /* ========================================
-       TODAY
-    ======================================== */
 
     .today-badge {
-      flex-shrink: 0;
-
+      flex: 0 0 auto;
       padding: 7px 11px;
-
       border-radius: 999px;
-
-      background: #fbe4eb;
-      color: #d66e8e;
-
-      font-family:
-        "M PLUS Rounded 1c",
-        sans-serif;
-
+      background: #fff0f5;
+      color: var(--pink-dark);
+      font-family: "M PLUS Rounded 1c", sans-serif;
       font-size: 12px;
       font-weight: 800;
-
-      opacity: 0;
-      visibility: hidden;
-
-      transform: scale(0.8);
-
-      pointer-events: none;
-
-      transition:
-        opacity 0.2s ease,
-        transform 0.2s ease;
-    }
-
-    .today-badge.visible {
-      opacity: 1;
-      visibility: visible;
-
-      transform: scale(1);
-
-      pointer-events: auto;
-
       touch-action: none;
     }
 
-    .today-badge.today-pop {
-      animation:
-        todayPicon
-        0.58s
-        cubic-bezier(
-          0.34,
-          1.56,
-          0.64,
-          1
-        );
+    .today-badge.new-today {
+      animation: todayPicon .43s cubic-bezier(.34,1.56,.64,1);
     }
 
     @keyframes todayPicon {
-
       0% {
         opacity: 0;
-
-        transform:
-          translateY(3px)
-          scale(0.35);
+        transform: translateY(3px) scale(.35);
       }
-
       48% {
         opacity: 1;
-
-        transform:
-          translateY(-6px)
-          scale(1.24);
+        transform: translateY(-6px) scale(1.24);
       }
-
       72% {
-        transform:
-          translateY(1px)
-          scale(0.95);
+        transform: translateY(1px) scale(.95);
       }
-
       100% {
         opacity: 1;
-
-        transform:
-          translateY(0)
-          scale(1);
+        transform: translateY(0) scale(1);
       }
     }
 
-    .today-badge.clearing {
-      animation:
-        todayClear
-        0.24s ease
-        forwards;
+    .habit-progress-area {
+      margin: 14px 0 0 35px;
     }
-
-    @keyframes todayClear {
-
-      0% {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      45% {
-        transform: scale(1.12);
-      }
-
-      100% {
-        opacity: 0;
-
-        transform:
-          scale(0.4)
-          translateY(-5px);
-      }
-    }
-
-
-
-    /* ========================================
-       進捗
-    ======================================== */
 
     .progress-info {
-      margin-top: 15px;
-
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 7px;
     }
 
-    .done {
-      color: #d97796;
-
-      font-family:
-        "M PLUS Rounded 1c",
-        sans-serif;
-
-      font-size: 11px;
-      font-weight: 800;
-
-      opacity: 0;
-
-      transition:
-        opacity 0.25s ease;
-    }
-
-    .done.visible {
-      opacity: 1;
-    }
-
-    .count {
-      color: #8d7f84;
-
-      font-family:
-        "M PLUS Rounded 1c",
-        sans-serif;
-
+    .progress-text {
+      font-family: "M PLUS Rounded 1c", sans-serif;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
+      color: var(--muted);
     }
 
-    .progress-bg {
-      width: 100%;
-      height: 13px;
+    .done-label {
+      color: var(--pink-dark);
+    }
 
-      margin-top: 8px;
-
+    .progress-track {
+      height: 8px;
+      border-radius: 999px;
+      background: #f5ebef;
       overflow: hidden;
-
-      background: #f3e5e9;
-
-      border-radius: 999px;
     }
 
-    .progress-bar {
-      width: 0;
+    .progress-fill {
       height: 100%;
-
-      border-radius: 999px;
-
+      width: 0;
+      border-radius: inherit;
       background:
         linear-gradient(
           90deg,
-          #f2b0c2,
-          #eb8fac
+          #f1a9bf,
+          #e889a7
         );
-
       transition:
-        width
-        0.55s
-        cubic-bezier(
-          0.34,
-          1.56,
-          0.64,
-          1
-        );
+        width .55s cubic-bezier(.34,1.56,.64,1);
     }
 
-
-
-    /* ========================================
-       ＋ −
-    ======================================== */
-
-    .habit-actions {
-      margin-top: 13px;
-
+    .habit-controls {
       display: flex;
       justify-content: flex-end;
+      align-items: center;
+      gap: 7px;
+      margin-top: 11px;
+    }
 
-      gap: 8px;
+    .habit-count {
+      min-width: 46px;
+      text-align: center;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 13px;
+      font-weight: 800;
     }
 
     .round-button {
-      width: 44px;
-      height: 44px;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      padding: 0;
-
-      border: none;
-      border-radius: 50%;
-
-      background: #f5d7df;
-      color: #7e646d;
-
-      font-size: 22px;
-      font-weight: 700;
+      width: 37px;
+      height: 37px;
+      border-radius: 13px;
+      background: var(--pink-soft);
+      color: var(--pink-dark);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 19px;
+      font-weight: 800;
+      transition: transform .18s cubic-bezier(.34,1.56,.64,1);
     }
 
-    .round-button.plus {
-      background: #ee9fb6;
-      color: white;
-    }
-
-    .round-button:active {
-      transform: scale(0.82);
-    }
-
-    .round-button.button-pop {
-      animation:
-        buttonPop
-        0.32s ease;
+    .round-button.pop {
+      animation: buttonPop .34s cubic-bezier(.34,1.56,.64,1);
     }
 
     @keyframes buttonPop {
-
-      0% {
-        transform: scale(0.82);
-      }
-
-      55% {
-        transform: scale(1.18);
-      }
-
-      76% {
-        transform: scale(0.95);
-      }
-
-      100% {
-        transform: scale(1);
-      }
+      0% { transform: scale(.82); }
+      55% { transform: scale(1.18); }
+      76% { transform: scale(.95); }
+      100% { transform: scale(1); }
     }
 
+    /* ------------------------------
+       HABIT COMPACT VIEW
+    ------------------------------ */
 
+    .habit-card.compact {
+      min-height: 72px;
+      padding: 10px 11px 9px 7px;
+      display: grid;
+      grid-template-columns: 25px 36px minmax(0,1fr) auto;
+      align-items: center;
+      gap: 7px;
+    }
 
-    /* ========================================
-       ドラッグ
-    ======================================== */
+    .habit-card.compact .drag-handle {
+      width: 25px;
+      height: 48px;
+    }
+
+    .compact-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: var(--pink-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+    }
+
+    .compact-main {
+      min-width: 0;
+    }
+
+    .compact-line1 {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .compact-name {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .compact-today {
+      flex: 0 0 auto;
+      font-size: 9px;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-weight: 800;
+      color: var(--pink-dark);
+      touch-action: none;
+    }
+
+    .compact-line2 {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 5px;
+    }
+
+    .compact-category {
+      flex: 0 0 auto;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .compact-track {
+      flex: 1;
+      height: 5px;
+      border-radius: 999px;
+      background: #f5ebef;
+      overflow: hidden;
+    }
+
+    .compact-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: var(--pink);
+      transition:
+        width .5s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    .compact-controls {
+      display: grid;
+      grid-template-columns: 29px 45px 29px;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .compact-button {
+      width: 29px;
+      height: 29px;
+      border-radius: 10px;
+      background: var(--pink-soft);
+      color: var(--pink-dark);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .compact-count {
+      text-align: center;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    /* ------------------------------
+       DRAG
+    ------------------------------ */
 
     .drag-placeholder {
-      flex-shrink: 0;
-
-      border-radius: 24px;
-
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          0.20
-        );
-
-      border:
-        2px dashed
-        rgba(
-          255,
-          255,
-          255,
-          0.47
-        );
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.22);
+      border: 2px dashed rgba(255,255,255,.55);
+      margin-bottom: 10px;
     }
 
-    .habit-card.dragging {
-      position: fixed;
-
-      z-index: 9999;
-
-      margin: 0;
-
+    .habit-row.drag-floating {
+      position: fixed !important;
+      z-index: 999 !important;
+      margin: 0 !important;
       pointer-events: none;
+      transition: none !important;
+    }
 
-      opacity: 0.97;
-
-      transform: scale(1.035);
-
+    .habit-row.drag-floating .habit-card {
+      transform: scale(1.025);
       box-shadow:
-        0 24px 55px
-        rgba(
-          91,
-          55,
-          67,
-          0.25
-        );
-
-      transition: none;
+        0 16px 30px rgba(116, 68, 88, .15),
+        0 4px 10px rgba(116, 68, 88, .10);
     }
 
-    .habit-card.landing {
-      animation:
-        dragLanding
-        0.42s
-        cubic-bezier(
-          0.34,
-          1.56,
-          0.64,
-          1
-        );
+    .habit-card.land-pop {
+      animation: landPop .28s cubic-bezier(.34,1.56,.64,1);
     }
 
-    @keyframes dragLanding {
-
-      0% {
-        transform: scale(1.035);
-      }
-
-      45% {
-        transform: scale(0.975);
-      }
-
-      72% {
-        transform: scale(1.018);
-      }
-
-      100% {
-        transform: scale(1);
-      }
+    @keyframes landPop {
+      0% { transform: scale(1.025); }
+      55% { transform: scale(.98); }
+      100% { transform: scale(1); }
     }
 
+    /* ------------------------------
+       TODO
+    ------------------------------ */
 
+    .todo-card {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
 
-    /* ========================================
-       オーバーレイ
-    ======================================== */
+      padding: 10px 13px;
+      border-radius: 18px;
+      background: white;
+      box-shadow: var(--shadow);
+    }
 
-    .sheet-overlay {
-      position: fixed;
+    .todo-card.done {
+      opacity: .62;
+    }
 
-      inset: 0;
-
-      z-index: 1100;
+    .todo-check {
+      flex: 0 0 auto;
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
 
       display: flex;
+      align-items: center;
       justify-content: center;
+
+      background: #fff7f9;
+      border: 2px solid #efccd8;
+      padding: 2px;
+
+      transition:
+        transform .18s cubic-bezier(.34,1.56,.64,1),
+        background .18s ease;
+    }
+
+    .todo-check img {
+      width: 31px;
+      height: 31px;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+
+    .todo-check.checked {
+      border-color: transparent;
+      background: transparent;
+    }
+
+    .todo-check.checked img {
+      animation: hanamaruPop .42s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    @keyframes hanamaruPop {
+      0% {
+        opacity: 0;
+        transform: scale(.35) rotate(-9deg);
+      }
+      56% {
+        opacity: 1;
+        transform: scale(1.22) rotate(4deg);
+      }
+      78% {
+        transform: scale(.94) rotate(-2deg);
+      }
+      100% {
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    .todo-copy {
+      flex: 1;
+      min-width: 0;
+      cursor: pointer;
+    }
+
+    .todo-title {
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+
+    .todo-note {
+      margin-top: 3px;
+      font-size: 11px;
+      line-height: 1.4;
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+
+    .todo-note:empty {
+      display: none;
+    }
+
+    /* ------------------------------
+       MEMO
+    ------------------------------ */
+
+    .memo-card {
+      padding: 13px 15px 14px;
+      border-radius: 19px;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    .memo-meta {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 7px;
+    }
+
+    .memo-edit {
+      width: 25px;
+      height: 25px;
+      padding: 0;
+      background: transparent;
+      color: var(--pink);
+      font-size: 17px;
+      line-height: 1;
+      transition:
+        transform .18s cubic-bezier(.34,1.56,.64,1),
+        color .18s ease;
+    }
+
+    .memo-edit:active {
+      transform: scale(.72);
+      color: var(--pink-dark);
+    }
+
+    .memo-date {
+      color: var(--pink-dark);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+
+    .memo-text {
+      font-size: 14px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    /* ------------------------------
+       EMPTY
+    ------------------------------ */
+
+    .empty {
+      padding: 46px 18px;
+      text-align: center;
+      color: rgba(100,80,88,.46);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .empty-symbol {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 27px;
+    }
+
+    /* ------------------------------
+       NEW ITEM
+    ------------------------------ */
+
+    .new-row {
+      animation: cardDrop .38s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    @keyframes cardDrop {
+      0% {
+        opacity: 0;
+        transform: translateY(-9px) scale(.94);
+      }
+      68% {
+        opacity: 1;
+        transform: translateY(2px) scale(1.015);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ------------------------------
+       SHEETS
+    ------------------------------ */
+
+    .sheet-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+
+      display: flex;
       align-items: flex-end;
+      justify-content: center;
 
-      padding:
-        14px
-        14px
-        max(
-          14px,
-          env(safe-area-inset-bottom)
-        );
+      padding-top: env(safe-area-inset-top);
 
-      background:
-        rgba(
-          89,
-          57,
-          68,
-          0.20
-        );
-
-      -webkit-backdrop-filter:
-        blur(5px);
-
-      backdrop-filter:
-        blur(5px);
+      background: rgba(75, 53, 62, .19);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
 
       opacity: 0;
       visibility: hidden;
-
       transition:
-        opacity 0.24s ease,
-        visibility 0.24s ease;
+        opacity .2s ease,
+        visibility .2s ease;
     }
 
-    .sheet-overlay.open {
+    .sheet-backdrop.open {
       opacity: 1;
       visibility: visible;
     }
 
-
-
-    /* ========================================
-       編集パネル
-    ======================================== */
-
-    .editor-sheet {
-      width: 100%;
-      max-width: 500px;
-
-      max-height: 88vh;
-
+    .sheet {
+      width: min(100%, 640px);
+      max-height: min(89vh, 760px);
       overflow-y: auto;
 
+      border-radius: 28px 28px 0 0;
+      background: #fffafc;
+
       padding:
-        12px 20px
-        24px;
+        10px
+        18px
+        calc(21px + env(safe-area-inset-bottom));
 
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          0.98
-        );
-
-      border-radius: 29px;
-
-      box-shadow:
-        0 20px 60px
-        rgba(
-          90,
-          60,
-          70,
-          0.20
-        );
-
-      transform:
-        translateY(110%)
-        scale(0.98);
-
+      transform: translateY(110%);
       transition:
-        transform
-        0.4s
-        cubic-bezier(
-          0.34,
-          1.28,
-          0.64,
-          1
-        );
+        transform .38s cubic-bezier(.34,1.18,.42,1);
     }
 
-    .sheet-overlay.open
-    .editor-sheet {
-      transform:
-        translateY(0)
-        scale(1);
+    .sheet-backdrop.open .sheet {
+      transform: translateY(0);
     }
 
     .sheet-handle {
-      width: 42px;
+      width: 38px;
       height: 5px;
-
-      margin:
-        0 auto
-        14px;
-
+      margin: 0 auto 14px;
       border-radius: 999px;
-
-      background: #eadde1;
+      background: #ead6dd;
     }
 
-    .editor-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      gap: 10px;
-
-      margin-bottom: 16px;
-    }
-
-    .editor-title {
-      margin: 0;
-
-      font-size: 21px;
-      font-weight: 700;
-    }
-
-    .editor-close {
-      width: 36px;
-      height: 36px;
-
-      border: none;
-      border-radius: 50%;
-
-      background: #f6ebee;
-      color: #9f858d;
-
+    .sheet-title {
+      margin: 0 0 17px;
+      text-align: center;
+      font-family: "M PLUS Rounded 1c", sans-serif;
       font-size: 18px;
+      font-weight: 800;
+    }
+
+    .field {
+      margin-bottom: 15px;
     }
 
     .field-label {
       display: block;
-
-      margin:
-        14px 0
-        7px;
-
-      color: #917b82;
-
-      font-family:
-        "M PLUS Rounded 1c",
-        sans-serif;
-
+      margin-bottom: 6px;
+      font-family: "M PLUS Rounded 1c", sans-serif;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
+      color: var(--muted);
     }
 
-    #editorHabitName {
+    .text-input,
+    .text-area,
+    .select-input {
       width: 100%;
-
-      border: none;
-      outline: none;
-
-      border-radius: 14px;
-
-      padding:
-        13px 14px;
-
-      background: #fff4f7;
-      color: #4f4549;
-
-      font-size: 16px;
+      border: 2px solid #f2dfe5;
+      outline: 0;
+      border-radius: 15px;
+      background: white;
+      color: var(--text);
+      padding: 12px 13px;
+      font-size: 15px;
+      transition: border-color .15s ease;
     }
 
+    .text-input:focus,
+    .text-area:focus,
+    .select-input:focus {
+      border-color: #efadc2;
+    }
 
+    .text-area {
+      min-height: 105px;
+      resize: vertical;
+      line-height: 1.6;
+    }
 
-    /* ========================================
-       アイコン
-    ======================================== */
+    .field-hint {
+      margin-top: 5px;
+      font-size: 10px;
+      color: var(--muted);
+    }
 
     .icon-grid {
       display: grid;
-
-      grid-template-columns:
-        repeat(6, 1fr);
-
-      gap: 7px;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 5px;
     }
 
     .icon-choice {
       aspect-ratio: 1;
-
-      border:
-        2px solid
-        transparent;
-
-      border-radius: 13px;
-
-      background: #fff4f7;
-
-      font-size: 21px;
-
+      border-radius: 11px;
+      background: white;
+      font-size: 19px;
       transition:
-        transform 0.15s ease,
-        background 0.15s ease,
-        border-color 0.15s ease;
+        transform .17s cubic-bezier(.34,1.56,.64,1),
+        background .17s ease;
     }
 
     .icon-choice.selected {
-      background: white;
-
-      border-color: #ed9db5;
-
+      background: var(--pink-soft);
       transform: scale(1.08);
     }
 
-
-
-    /* ========================================
-       カテゴリー
-    ======================================== */
-
-    .category-choice {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 7px;
-    }
-
-    .category-button,
-    .reset-option {
-      border: none;
-      border-radius: 13px;
-
-      padding: 11px 5px;
-
-      background: #fff4f7;
-      color: #917b82;
-
-      font-size: 11px;
-      font-weight: 700;
-
-      transition:
-        transform 0.15s ease,
-        background 0.15s ease,
-        color 0.15s ease;
-    }
-
-    .category-button.selected,
-    .reset-option.selected {
-      background: #f5bfd0;
-      color: white;
-    }
-
-
-
-    /* ========================================
-       目標回数
-    ======================================== */
-
-    .goal-picker-button {
+    .goal-button {
       width: 100%;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      border: none;
-      border-radius: 14px;
-
-      padding: 13px 15px;
-
-      background: #fff4f7;
-      color: #594b50;
-
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .goal-picker-value {
-      color: #d77492;
-
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .reset-selector {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 7px;
-    }
-
-
-
-    /* ========================================
-       保存・削除
-    ======================================== */
-
-    .editor-save-button {
-      width: 100%;
-
-      margin-top: 20px;
-
-      border: none;
-      border-radius: 16px;
-
-      padding: 14px;
-
-      background: #ee9fb6;
-      color: white;
-
+      padding: 12px;
+      border-radius: 15px;
+      background: white;
+      border: 2px solid #f2dfe5;
+      color: var(--pink-dark);
+      font-family: "M PLUS Rounded 1c", sans-serif;
       font-size: 15px;
       font-weight: 800;
-
-      transition:
-        transform 0.15s ease;
     }
 
-    .editor-save-button:active {
-      transform: scale(0.96);
+    .sheet-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 20px;
     }
 
-    .editor-delete-button {
+    .primary-button {
       width: 100%;
-
-      margin-top: 12px;
-
-      border: none;
-
-      padding: 10px;
-
-      background: transparent;
-      color: #bd969f;
-
-      font-size: 11px;
-      font-weight: 700;
+      padding: 13px;
+      border-radius: 15px;
+      background: var(--pink-dark);
+      color: white;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 14px;
+      font-weight: 800;
     }
 
-    .editor-delete-button.hidden {
+    .danger-button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 15px;
+      background: #fff0f1;
+      color: var(--delete);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .danger-button[hidden] {
       display: none;
     }
 
+    /* ------------------------------
+       WHEEL PICKER
+    ------------------------------ */
 
-
-    /* ========================================
-       ルーレット
-    ======================================== */
-
-    #goalPickerOverlay {
-      z-index: 1300;
+    .wheel-sheet {
+      width: min(100%, 440px);
     }
 
-    .picker-sheet {
-      width: 100%;
-      max-width: 480px;
-
-      padding:
-        18px 18px
-        22px;
-
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          0.99
-        );
-
-      border-radius: 28px;
-
-      transform:
-        translateY(110%)
-        scale(0.98);
-
-      transition:
-        transform
-        0.38s
-        cubic-bezier(
-          0.34,
-          1.3,
-          0.64,
-          1
-        );
-    }
-
-    .sheet-overlay.open
-    .picker-sheet {
-      transform:
-        translateY(0)
-        scale(1);
-    }
-
-    .picker-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      margin-bottom: 8px;
-    }
-
-    .picker-header button {
-      border: none;
-
-      padding: 8px;
-
-      background: transparent;
-      color: #d37491;
-
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .picker-header button.cancel {
-      color: #aa9ba0;
-    }
-
-    .picker-title {
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .wheel-container {
+    .wheel-wrap {
       position: relative;
-
       height: 260px;
-
       overflow: hidden;
-
       border-radius: 20px;
-
-      background:
-        linear-gradient(
-          to bottom,
-          #fff7f9,
-          white 30%,
-          white 70%,
-          #fff7f9
-        );
+      background: white;
     }
 
-    .picker-wheel {
+    .wheel-highlight {
+      position: absolute;
+      z-index: 1;
+      top: 104px;
+      left: 14px;
+      right: 14px;
+      height: 52px;
+      border-radius: 15px;
+      background: var(--pink-soft);
+      pointer-events: none;
+    }
+
+    .wheel-list {
+      position: relative;
+      z-index: 2;
       height: 260px;
-
-      overflow-y: scroll;
-      overflow-x: hidden;
-
-      padding: 104px 0;
-
-      scroll-snap-type:
-        y mandatory;
-
-      -webkit-overflow-scrolling:
-        touch;
-
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
       scrollbar-width: none;
-
-      touch-action: pan-y;
+      padding: 104px 0;
     }
 
-    .picker-wheel::-webkit-scrollbar {
+    .wheel-list::-webkit-scrollbar {
       display: none;
     }
 
     .wheel-item {
       height: 52px;
-
       display: flex;
-      justify-content: center;
       align-items: center;
-
+      justify-content: center;
       scroll-snap-align: center;
 
-      color: #b4a4aa;
-
-      font-size: 19px;
-      font-weight: 500;
-
-      opacity: 0.5;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #baa8ae;
 
       transition:
-        transform 0.18s,
-        color 0.18s,
-        opacity 0.18s;
+        transform .15s ease,
+        color .15s ease;
     }
 
     .wheel-item.selected {
-      color: #dc7896;
+      color: var(--pink-dark);
+      transform: scale(1.2);
+    }
 
-      font-size: 25px;
+    /* ------------------------------
+       SMALL HELPERS
+    ------------------------------ */
+
+    .soft-button {
+      width: 100%;
+      padding: 11px;
+      border-radius: 14px;
+      background: white;
+      color: var(--pink-dark);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 12px;
       font-weight: 800;
-
-      opacity: 1;
-
-      transform: scale(1.08);
+      transition: transform .18s cubic-bezier(.34,1.56,.64,1);
     }
 
-    .wheel-highlight {
-      position: absolute;
+    @media (max-width: 410px) {
+      .habit-card.compact {
+        grid-template-columns: 22px 33px minmax(0,1fr) auto;
+        gap: 5px;
+      }
 
-      pointer-events: none;
+      .compact-controls {
+        grid-template-columns: 27px 37px 27px;
+      }
 
-      left: 18px;
-      right: 18px;
+      .compact-button {
+        width: 27px;
+        height: 27px;
+      }
 
-      top: 104px;
-
-      height: 52px;
-
-      border-top:
-        1px solid #f0c7d3;
-
-      border-bottom:
-        1px solid #f0c7d3;
-
-      background:
-        rgba(
-          247,
-          207,
-          219,
-          0.12
-        );
+      .icon-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
     }
-
-    .wheel-unit {
-      position: absolute;
-
-      pointer-events: none;
-
-      top: 50%;
-
-      left:
-        calc(
-          50% + 38px
-        );
-
-      transform:
-        translateY(-50%);
-
-      color: #aa929a;
-
-      font-size: 13px;
-      font-weight: 700;
-    }
-
   </style>
 </head>
 
-
 <body>
+  <div class="app">
 
-<main class="app">
+    <header class="header">
+      <p class="app-name">HABITS</p>
+      <h1 class="date-main" id="dateMain"></h1>
+      <div class="date-sub" id="dateSub"></div>
+    </header>
 
-  <header>
-
-    <div class="app-title">
-      HABITS
+    <div class="nav-sticky">
+      <nav class="main-tabs">
+        <button class="main-tab active" data-tab="habits">ハビット</button>
+        <button class="main-tab" data-tab="todos">Todo</button>
+        <button class="main-tab" data-tab="memos">メモ</button>
+        <button class="main-add" id="mainAddButton" aria-label="追加">＋</button>
+      </nav>
     </div>
 
-    <div
-      class="big-date"
-      id="bigDate"
-    ></div>
+    <main class="content">
 
-    <div
-      class="date-sub"
-      id="dateSub"
-    ></div>
+      <!-- HABITS -->
+      <section class="section active" id="habitsSection">
 
+        <div class="habit-toolbar">
+          <div class="habit-filters">
+            <button class="filter-button active" data-filter="all">すべて</button>
+            <button class="filter-button" data-filter="daily">日常</button>
+            <button class="filter-button" data-filter="creative">創作</button>
+            <button class="filter-button" data-filter="game">ゲーム</button>
+          </div>
 
-    <div
-      class="badge-permission"
-      id="badgePermissionPanel"
-      hidden
-    >
+          <div class="view-switcher" aria-label="表示切り替え">
+            <button class="view-button" id="cardViewButton"
+                    aria-label="カード表示"
+                    title="カード表示">▦</button>
 
-      <button
-        class="badge-permission-button"
-        id="badgePermissionButton"
-        onclick="requestBadgePermission()"
-      >
-        🔔 ホーム画面バッジを有効にする
-      </button>
+            <button class="view-button" id="compactViewButton"
+                    aria-label="一覧表示"
+                    title="一覧表示">≡</button>
+          </div>
+        </div>
 
-      <div
-        class="badge-permission-text"
-        id="badgePermissionText"
-      >
-        アイコンの数字に、今日まだできていない習慣数を表示します。
-      </div>
+        <div class="badge-panel" id="badgePanel" hidden>
+          <div id="badgeMessage">
+            ホーム画面アイコンに、まだTODAYになっていないハビット数を表示できます。
+          </div>
+          <button class="badge-enable" id="badgeEnableButton">
+            🔔 ホーム画面バッジを有効にする
+          </button>
+        </div>
 
-    </div>
+        <div id="habitList"></div>
+      </section>
 
-  </header>
+      <!-- TODO -->
+      <section class="section" id="todosSection">
+        <div id="todoList"></div>
+      </section>
 
+      <!-- MEMO -->
+      <section class="section" id="memosSection">
+        <div id="memoList"></div>
+      </section>
 
-  <div class="tabs-sticky">
-
-    <nav class="tabs">
-
-      <button
-        class="tab-button active"
-        data-tab="all"
-        onclick="changeTab('all')"
-      >
-        すべて
-      </button>
-
-      <button
-        class="tab-button"
-        data-tab="daily"
-        onclick="changeTab('daily')"
-      >
-        日常
-      </button>
-
-      <button
-        class="tab-button"
-        data-tab="creative"
-        onclick="changeTab('creative')"
-      >
-        創作
-      </button>
-
-      <button
-        class="tab-button"
-        data-tab="game"
-        onclick="changeTab('game')"
-      >
-        ゲーム
-      </button>
-
-      <button
-        class="tab-add-button"
-        onclick="openHabitEditor()"
-        aria-label="習慣を追加"
-      >
-        ＋
-      </button>
-
-    </nav>
-
+    </main>
   </div>
 
 
-  <section
-    class="habit-list"
-    id="habitList"
-  ></section>
+  <!-- HABIT EDITOR -->
+  <div class="sheet-backdrop" id="habitSheetBackdrop">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+      <h2 class="sheet-title" id="habitSheetTitle">ハビット追加</h2>
 
-</main>
-
-
-<!-- ========================================
-     習慣追加・編集
-======================================== -->
-
-<div
-  class="sheet-overlay"
-  id="habitEditorOverlay"
-  onclick="habitEditorBackdrop(event)"
->
-
-  <section class="editor-sheet">
-
-    <div class="sheet-handle"></div>
-
-
-    <div class="editor-header">
-
-      <h2
-        class="editor-title"
-        id="editorTitle"
-      >
-        習慣を追加
-      </h2>
-
-      <button
-        class="editor-close"
-        onclick="closeHabitEditor()"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-    <label class="field-label">
-      習慣名
-    </label>
-
-    <input
-      id="editorHabitName"
-      type="text"
-      placeholder="例：水を飲む"
-    >
-
-
-    <label class="field-label">
-      アイコン
-    </label>
-
-    <div
-      class="icon-grid"
-      id="editorIconGrid"
-    ></div>
-
-
-    <label class="field-label">
-      カテゴリー
-    </label>
-
-    <div class="category-choice">
-
-      <button
-        class="category-button"
-        data-editor-category="daily"
-        onclick="selectEditorCategory('daily')"
-      >
-        日常
-      </button>
-
-      <button
-        class="category-button"
-        data-editor-category="creative"
-        onclick="selectEditorCategory('creative')"
-      >
-        創作
-      </button>
-
-      <button
-        class="category-button"
-        data-editor-category="game"
-        onclick="selectEditorCategory('game')"
-      >
-        ゲーム
-      </button>
-
-    </div>
-
-
-    <label class="field-label">
-      目標回数
-    </label>
-
-    <button
-      class="goal-picker-button"
-      onclick="openGoalPicker()"
-    >
-
-      <span>
-        目標
-      </span>
-
-      <span
-        class="goal-picker-value"
-        id="editorGoalValue"
-      >
-        1回
-      </span>
-
-    </button>
-
-
-    <label class="field-label">
-      進捗バーのリセット
-    </label>
-
-    <div class="reset-selector">
-
-      <button
-        class="reset-option"
-        data-editor-reset="none"
-        onclick="selectEditorBarReset('none')"
-      >
-        なし
-      </button>
-
-      <button
-        class="reset-option"
-        data-editor-reset="midnight"
-        onclick="selectEditorBarReset('midnight')"
-      >
-        0:00
-      </button>
-
-      <button
-        class="reset-option"
-        data-editor-reset="four"
-        onclick="selectEditorBarReset('four')"
-      >
-        4:00
-      </button>
-
-    </div>
-
-
-    <button
-      class="editor-save-button"
-      id="editorSaveButton"
-      onclick="saveHabitEditor()"
-    >
-      追加する
-    </button>
-
-
-    <button
-      class="
-        editor-delete-button
-        hidden
-      "
-      id="editorDeleteButton"
-      onclick="deleteEditingHabit()"
-    >
-      この習慣を削除
-    </button>
-
-  </section>
-
-</div>
-
-
-<!-- ========================================
-     回数ルーレット
-======================================== -->
-
-<div
-  class="sheet-overlay"
-  id="goalPickerOverlay"
-  onclick="goalPickerBackdrop(event)"
->
-
-  <div class="picker-sheet">
-
-    <div class="picker-header">
-
-      <button
-        class="cancel"
-        onclick="closeGoalPicker(false)"
-      >
-        キャンセル
-      </button>
-
-      <div class="picker-title">
-        目標回数
+      <div class="field">
+        <label class="field-label" for="habitNameInput">ハビット名</label>
+        <input class="text-input"
+               id="habitNameInput"
+               type="text"
+               maxlength="40"
+               placeholder="例：水を飲む" />
       </div>
 
-      <button
-        onclick="closeGoalPicker(true)"
-      >
-        決定
-      </button>
-
-    </div>
-
-
-    <div class="wheel-container">
-
-      <div
-        class="picker-wheel"
-        id="goalWheel"
-      ></div>
-
-      <div
-        class="wheel-highlight"
-      ></div>
-
-      <div class="wheel-unit">
-        回
+      <div class="field">
+        <div class="field-label">アイコン</div>
+        <div class="icon-grid" id="iconGrid"></div>
       </div>
 
-    </div>
+      <div class="field">
+        <label class="field-label" for="habitCategoryInput">カテゴリー</label>
+        <select class="select-input" id="habitCategoryInput">
+          <option value="daily">日常</option>
+          <option value="creative">創作</option>
+          <option value="game">ゲーム</option>
+        </select>
+      </div>
 
+      <div class="field">
+        <div class="field-label">目標回数</div>
+        <button class="goal-button" id="goalButton">
+          1 回
+        </button>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="barResetInput">進捗バーのリセット</label>
+        <select class="select-input" id="barResetInput">
+          <option value="none">リセットしない</option>
+          <option value="midnight">毎日 0:00</option>
+          <option value="four">毎日 4:00</option>
+        </select>
+      </div>
+
+      <div class="sheet-actions">
+        <button class="primary-button" id="saveHabitButton">保存</button>
+        <button class="danger-button" id="deleteHabitFromEditor" hidden>
+          このハビットを削除
+        </button>
+      </div>
+    </div>
   </div>
 
-</div>
+
+  <!-- TODO EDITOR -->
+  <div class="sheet-backdrop" id="todoSheetBackdrop">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+      <h2 class="sheet-title" id="todoSheetTitle">Todo追加</h2>
+
+      <div class="field">
+        <label class="field-label" for="todoTitleInput">タイトル</label>
+        <input class="text-input"
+               id="todoTitleInput"
+               type="text"
+               maxlength="70"
+               placeholder="例：牛乳を買う" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="todoNoteInput">
+          一言メモ
+        </label>
+        <input class="text-input"
+               id="todoNoteInput"
+               type="text"
+               maxlength="120"
+               placeholder="入力しなくてもOK" />
+        <div class="field-hint">補足がなければ空欄のままで大丈夫。</div>
+      </div>
+
+      <div class="sheet-actions">
+        <button class="primary-button" id="saveTodoButton">保存</button>
+        <button class="danger-button" id="deleteTodoFromEditor" hidden>
+          このTodoを削除
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MEMO EDITOR -->
+  <div class="sheet-backdrop" id="memoSheetBackdrop">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+      <h2 class="sheet-title" id="memoSheetTitle">一言メモ</h2>
+
+      <div class="field">
+        <label class="field-label" for="memoTextInput">メモ</label>
+        <textarea class="text-area"
+                  id="memoTextInput"
+                  maxlength="180"
+                  placeholder="今日やったことを、ひとこと。"></textarea>
+
+        <div class="field-hint">
+          新規作成時の日付は自動で記録されます。
+        </div>
+      </div>
+
+      <div class="sheet-actions">
+        <button class="primary-button" id="saveMemoButton">保存</button>
+        <button class="danger-button" id="deleteMemoFromEditor" hidden>
+          このメモを削除
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- GOAL WHEEL -->
+  <div class="sheet-backdrop" id="wheelBackdrop">
+    <div class="sheet wheel-sheet" role="dialog" aria-modal="true">
+      <div class="sheet-handle"></div>
+      <h2 class="sheet-title">目標回数</h2>
+
+      <div class="wheel-wrap">
+        <div class="wheel-highlight"></div>
+        <div class="wheel-list" id="wheelList"></div>
+      </div>
+
+      <div class="sheet-actions">
+        <button class="primary-button" id="wheelDoneButton">
+          決定
+        </button>
+      </div>
+    </div>
+  </div>
 
 
 <script>
+(() => {
+  "use strict";
 
-  /* ========================================
-     基本
-  ======================================== */
+  /* =========================================================
+     CONSTANTS
+  ========================================================= */
 
-  const STORAGE_KEY =
-    "habitTrackerData";
+  const STORAGE_KEY = "habitTrackerData";
 
-  const MAX_GOAL =
-    30;
+  const MAX_GOAL = 30;
+  const WHEEL_ITEM_HEIGHT = 52;
 
-  const WHEEL_ITEM_HEIGHT =
-    52;
+  const DELETE_REVEAL_WIDTH = 88;
+  const SWIPE_OPEN_THRESHOLD = 34;
 
-  const SWAP_OVERLAP_RATIO =
-    0.25;
-
-  const REVERSE_UNLOCK_DISTANCE =
-    46;
-
-  /*
-    スワイプ削除
-  */
-
-  const DELETE_REVEAL_WIDTH =
-    88;
-
+  const SWAP_OVERLAP_RATIO = 0.25;
+  const REVERSE_UNLOCK_DISTANCE = 46;
 
   const ICONS = [
-
-    "🌷",
-    "💗",
-    "💧",
-    "🎨",
-    "✏️",
-    "📖",
-    "🧹",
-    "🛁",
-    "💊",
-    "🌱",
-    "⭐",
-    "🐰",
-    "🎮",
-    "🕹️",
-    "🎧",
-    "☕"
-
+    "🌷","💗","💧","🎨","✏️","📖","🧹","🛁",
+    "💊","🌱","⭐","🐰","🎮","🕹️","🎧","☕"
   ];
 
-
-  let currentTab =
-    "all";
-
-  let newHabitId =
-    null;
-
-  let todayPopId =
-    null;
+  const CATEGORY_NAMES = {
+    daily: "日常",
+    creative: "創作",
+    game: "ゲーム"
+  };
 
 
-  /* 編集 */
+  /* =========================================================
+     STATE
+  ========================================================= */
 
-  let editingHabitId =
-    null;
+  let data = loadData();
 
-  let editorIcon =
-    "🌷";
+  let currentTab = "habits";
+  let currentHabitFilter = "all";
 
-  let editorCategory =
-    "daily";
+  let editingHabitId = null;
+  let editingTodoId = null;
+  let editingMemoId = null;
 
-  let editorGoal =
-    1;
+  let selectedHabitIcon = ICONS[0];
+  let selectedGoal = 1;
 
-  let editorBarReset =
-    "four";
+  let newHabitId = null;
+  let newTodoId = null;
+  let newMemoId = null;
+  let newTodayHabitId = null;
 
+  let suppressClickUntil = 0;
 
-  /* ルーレット */
+  let openSwipeRow = null;
+  let swipeGesture = null;
 
-  let pendingGoal =
-    1;
+  let dragPending = null;
+  let dragState = null;
 
-  let wheelFrame =
-    null;
-
-
-  /* ドラッグ */
-
-  let dragState =
-    null;
-
-
-  /* スワイプ */
-
-  let swipeGestureActive =
-    false;
+  let todayPress = null;
 
 
+  /* =========================================================
+     DOM
+  ========================================================= */
 
-  /* ========================================
-     データ
-  ======================================== */
+  const dateMain = document.getElementById("dateMain");
+  const dateSub = document.getElementById("dateSub");
 
-  function createInitialData() {
+  const habitList = document.getElementById("habitList");
+  const todoList = document.getElementById("todoList");
+  const memoList = document.getElementById("memoList");
 
+  const mainAddButton = document.getElementById("mainAddButton");
+
+  const cardViewButton = document.getElementById("cardViewButton");
+  const compactViewButton = document.getElementById("compactViewButton");
+
+  const badgePanel = document.getElementById("badgePanel");
+  const badgeMessage = document.getElementById("badgeMessage");
+  const badgeEnableButton = document.getElementById("badgeEnableButton");
+
+  const habitSheetBackdrop =
+    document.getElementById("habitSheetBackdrop");
+
+  const habitSheetTitle =
+    document.getElementById("habitSheetTitle");
+
+  const habitNameInput =
+    document.getElementById("habitNameInput");
+
+  const habitCategoryInput =
+    document.getElementById("habitCategoryInput");
+
+  const barResetInput =
+    document.getElementById("barResetInput");
+
+  const iconGrid =
+    document.getElementById("iconGrid");
+
+  const goalButton =
+    document.getElementById("goalButton");
+
+  const saveHabitButton =
+    document.getElementById("saveHabitButton");
+
+  const deleteHabitFromEditor =
+    document.getElementById("deleteHabitFromEditor");
+
+
+  const todoSheetBackdrop =
+    document.getElementById("todoSheetBackdrop");
+
+  const todoSheetTitle =
+    document.getElementById("todoSheetTitle");
+
+  const todoTitleInput =
+    document.getElementById("todoTitleInput");
+
+  const todoNoteInput =
+    document.getElementById("todoNoteInput");
+
+  const saveTodoButton =
+    document.getElementById("saveTodoButton");
+
+  const deleteTodoFromEditor =
+    document.getElementById("deleteTodoFromEditor");
+
+
+  const memoSheetBackdrop =
+    document.getElementById("memoSheetBackdrop");
+
+  const memoSheetTitle =
+    document.getElementById("memoSheetTitle");
+
+  const memoTextInput =
+    document.getElementById("memoTextInput");
+
+  const saveMemoButton =
+    document.getElementById("saveMemoButton");
+
+  const deleteMemoFromEditor =
+    document.getElementById("deleteMemoFromEditor");
+
+
+  const wheelBackdrop =
+    document.getElementById("wheelBackdrop");
+
+  const wheelList =
+    document.getElementById("wheelList");
+
+  const wheelDoneButton =
+    document.getElementById("wheelDoneButton");
+
+
+  /* =========================================================
+     DATA
+  ========================================================= */
+
+  function defaultData() {
     return {
-      habits: []
+      habits: [],
+      todos: [],
+      memos: [],
+      settings: {
+        habitView: "card"
+      }
     };
   }
 
-
   function loadData() {
-
-    const saved =
-      localStorage.getItem(
-        STORAGE_KEY
-      );
-
-
-    if (!saved) {
-
-      return createInitialData();
-    }
-
-
     try {
+      const raw = localStorage.getItem(STORAGE_KEY);
 
-      const parsed =
-        JSON.parse(
-          saved
-        );
-
-
-      if (
-        !Array.isArray(
-          parsed.habits
-        )
-      ) {
-
-        return createInitialData();
+      if (!raw) {
+        return defaultData();
       }
 
+      const parsed = JSON.parse(raw);
+
+      if (!Array.isArray(parsed.habits)) {
+        parsed.habits = [];
+      }
+
+      if (!Array.isArray(parsed.todos)) {
+        parsed.todos = [];
+      }
+
+      if (!Array.isArray(parsed.memos)) {
+        parsed.memos = [];
+      }
+
+      if (!parsed.settings ||
+          typeof parsed.settings !== "object") {
+        parsed.settings = {};
+      }
+
+      if (!["card","compact"].includes(parsed.settings.habitView)) {
+        parsed.settings.habitView = "card";
+      }
+
+      parsed.habits = parsed.habits.map((habit) => ({
+        id: habit.id || createId(),
+        name: habit.name || "ハビット",
+        icon: habit.icon || "🌷",
+        category: CATEGORY_NAMES[habit.category]
+          ? habit.category
+          : "daily",
+
+        goal: Math.max(
+          1,
+          Number(habit.goal || 1)
+        ),
+
+        count: Math.max(
+          0,
+          Number(habit.count || 0)
+        ),
+
+        barReset:
+          ["none","midnight","four"].includes(habit.barReset)
+            ? habit.barReset
+            : "none",
+
+        barResetKey:
+          habit.barResetKey || null,
+
+        lastDoneAt:
+          Number(habit.lastDoneAt || 0) || null
+      }));
+
+      parsed.todos = parsed.todos.map((todo) => ({
+        id: todo.id || createId(),
+        title: String(todo.title || ""),
+        note: String(todo.note || ""),
+        done: Boolean(todo.done),
+        createdAt:
+          Number(todo.createdAt) || Date.now(),
+        completedAt:
+          Number(todo.completedAt) || null
+      }));
+
+      parsed.memos = parsed.memos.map((memo) => ({
+        id: memo.id || createId(),
+        text: String(memo.text || ""),
+        createdAt:
+          Number(memo.createdAt) || Date.now(),
+        updatedAt:
+          Number(memo.updatedAt) || null
+      }));
 
       return parsed;
 
-    } catch {
-
-      return createInitialData();
-
+    } catch (error) {
+      console.error("データ読込エラー:", error);
+      return defaultData();
     }
   }
 
-
-  let data =
-    loadData();
-
-
   function saveData() {
-
     localStorage.setItem(
-
       STORAGE_KEY,
-
-      JSON.stringify(
-        data
-      )
-
+      JSON.stringify(data)
     );
   }
 
-
-
-  /* ========================================
-     ID
-  ======================================== */
-
   function createId() {
-
-    if (
-      window.crypto
-      &&
-      crypto.randomUUID
-    ) {
-
+    if (crypto && crypto.randomUUID) {
       return crypto.randomUUID();
     }
 
-
     return (
-
-      Date.now().toString()
-
-      +
-
-      Math.random()
-        .toString(16)
-        .slice(2)
-
+      Date.now().toString(36) +
+      Math.random().toString(36).slice(2)
     );
   }
 
 
+  /* =========================================================
+     HELPERS
+  ========================================================= */
 
-  /* ========================================
-     日付
-  ======================================== */
+  function escapeHTML(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function closeAllSheets() {
+    [
+      habitSheetBackdrop,
+      todoSheetBackdrop,
+      memoSheetBackdrop,
+      wheelBackdrop
+    ].forEach((sheet) => {
+      sheet.classList.remove("open");
+    });
+  }
+
+
+  /* =========================================================
+     DATE
+  ========================================================= */
 
   function renderDate() {
+    const now = new Date();
 
-    const now =
-      new Date();
+    dateMain.textContent =
+      `${now.getMonth() + 1}月${now.getDate()}日`;
 
+    const weekdays = [
+      "日曜日","月曜日","火曜日","水曜日",
+      "木曜日","金曜日","土曜日"
+    ];
 
-    document
-      .getElementById(
-        "bigDate"
-      )
-      .textContent =
-
-        now.toLocaleDateString(
-
-          "ja-JP",
-
-          {
-            month: "long",
-            day: "numeric"
-          }
-
-        );
-
-
-    document
-      .getElementById(
-        "dateSub"
-      )
-      .textContent =
-
-        now.toLocaleDateString(
-
-          "ja-JP",
-
-          {
-            year: "numeric",
-            weekday: "long"
-          }
-
-        );
+    dateSub.textContent =
+      `${now.getFullYear()}年 ${weekdays[now.getDay()]}`;
   }
 
 
+  /* =========================================================
+     PERIOD / RESET
+  ========================================================= */
 
-  /* ========================================
-     日付境界
-  ======================================== */
-
-  function getPeriodKey(
-    resetHour
-  ) {
-
-    const now =
-      new Date();
-
+  function getPeriodKey(timestamp, resetHour) {
+    const date = new Date(timestamp);
 
     const shifted =
-
       new Date(
-
-        now.getTime()
-
-        -
-
-        resetHour
-        *
-        60
-        *
-        60
-        *
-        1000
-
+        date.getTime() -
+        resetHour * 60 * 60 * 1000
       );
 
-
-    return (
-
-      shifted.getFullYear()
-
-      + "-"
-
-      +
-
-      String(
-        shifted.getMonth() + 1
-      ).padStart(
-        2,
-        "0"
-      )
-
-      + "-"
-
-      +
-
-      String(
-        shifted.getDate()
-      ).padStart(
-        2,
-        "0"
-      )
-
-    );
+    return [
+      shifted.getFullYear(),
+      String(shifted.getMonth() + 1).padStart(2, "0"),
+      String(shifted.getDate()).padStart(2, "0")
+    ].join("-");
   }
 
-
-  function getPeriodStart(
-    resetHour
-  ) {
-
-    const now =
-      new Date();
-
-
-    const start =
-      new Date(now);
-
-
-    start.setHours(
-      resetHour,
-      0,
-      0,
-      0
-    );
-
-
-    if (
-      now < start
-    ) {
-
-      start.setDate(
-        start.getDate() - 1
-      );
-    }
-
-
-    return start.getTime();
+  function getBarResetHour(habit) {
+    if (habit.barReset === "midnight") return 0;
+    if (habit.barReset === "four") return 4;
+    return null;
   }
 
-
-
-  /* ========================================
-     TODAY
-  ======================================== */
-
-  function getTodayResetHour(
-    habit
-  ) {
-
-    if (
-      habit.category
-      === "game"
-    ) {
-
+  function getTodayResetHour(habit) {
+    if (habit.category === "game") {
       return 4;
     }
-
 
     return 0;
   }
 
-
-  function isDoneToday(
-    habit
-  ) {
-
-    if (
-      !habit.lastDoneAt
-    ) {
-
+  function isDoneToday(habit) {
+    if (!habit.lastDoneAt) {
       return false;
     }
 
-
     const resetHour =
-
-      getTodayResetHour(
-        habit
-      );
-
+      getTodayResetHour(habit);
 
     return (
-
-      habit.lastDoneAt
-
-      >=
-
-      getPeriodStart(
+      getPeriodKey(
+        habit.lastDoneAt,
+        resetHour
+      ) ===
+      getPeriodKey(
+        Date.now(),
         resetHour
       )
-
     );
   }
 
+  function applyHabitResets() {
+    let changed = false;
 
+    for (const habit of data.habits) {
+      const resetHour =
+        getBarResetHour(habit);
 
-  /* ========================================
-     ホーム画面バッジ
-  ======================================== */
-
-  function getRemainingTodayCount() {
-
-    return data.habits.filter(
-      habit =>
-        !isDoneToday(
-          habit
-        )
-    ).length;
-  }
-
-
-  async function updateAppBadge() {
-
-    if (
-      !(
-        "setAppBadge"
-        in navigator
-      )
-    ) {
-
-      return;
-    }
-
-
-    const remaining =
-      getRemainingTodayCount();
-
-
-    try {
-
-      if (
-        remaining > 0
-      ) {
-
-        await navigator
-          .setAppBadge(
-            remaining
-          );
-
-      } else {
-
-        if (
-          "clearAppBadge"
-          in navigator
-        ) {
-
-          await navigator
-            .clearAppBadge();
-
-        } else {
-
-          await navigator
-            .setAppBadge(
-              0
-            );
-        }
+      if (resetHour === null) {
+        continue;
       }
 
-    } catch (error) {
+      const nowKey =
+        getPeriodKey(
+          Date.now(),
+          resetHour
+        );
 
-      console.log(
-        "Badge:",
-        error
-      );
-    }
-  }
-
-
-  function refreshBadgePermissionUI() {
-
-    const panel =
-      document.getElementById(
-        "badgePermissionPanel"
-      );
-
-    const button =
-      document.getElementById(
-        "badgePermissionButton"
-      );
-
-    const text =
-      document.getElementById(
-        "badgePermissionText"
-      );
-
-
-    if (
-      !(
-        "setAppBadge"
-        in navigator
-      )
-      ||
-      !(
-        "Notification"
-        in window
-      )
-    ) {
-
-      panel.hidden =
-        true;
-
-      return;
-    }
-
-
-    if (
-      Notification.permission
-      === "granted"
-    ) {
-
-      panel.hidden =
-        true;
-
-      return;
-    }
-
-
-    panel.hidden =
-      false;
-
-
-    if (
-      Notification.permission
-      === "denied"
-    ) {
-
-      button.hidden =
-        true;
-
-
-      text.textContent =
-        "バッジを使うには、iPhoneの設定からHABITSの通知を許可してね。";
-
-
-      return;
-    }
-
-
-    button.hidden =
-      false;
-
-
-    text.textContent =
-      "アイコンの数字に、今日まだできていない習慣数を表示します。";
-  }
-
-
-  async function requestBadgePermission() {
-
-    if (
-      !(
-        "Notification"
-        in window
-      )
-      ||
-      !(
-        "setAppBadge"
-        in navigator
-      )
-    ) {
-
-      return;
-    }
-
-
-    try {
-
-      const permission =
-
-        await Notification
-          .requestPermission();
-
-
-      refreshBadgePermissionUI();
-
-
-      if (
-        permission
-        === "granted"
-      ) {
-
-        await updateAppBadge();
+      if (!habit.barResetKey) {
+        habit.barResetKey = nowKey;
+        changed = true;
+        continue;
       }
 
-    } catch (error) {
-
-      console.log(
-        "Notification permission:",
-        error
-      );
-    }
-  }
-
-
-
-  /* ========================================
-     バーリセット
-  ======================================== */
-
-  function getBarPeriodKey(
-    habit
-  ) {
-
-    if (
-      habit.barReset
-      === "midnight"
-    ) {
-
-      return getPeriodKey(
-        0
-      );
-    }
-
-
-    if (
-      habit.barReset
-      === "four"
-    ) {
-
-      return getPeriodKey(
-        4
-      );
-    }
-
-
-    return null;
-  }
-
-
-  function checkBarResets() {
-
-    let changed =
-      false;
-
-
-    data.habits.forEach(
-      habit => {
-
-        if (
-          habit.barReset
-          === "none"
-        ) {
-
-          return;
-        }
-
-
-        const currentKey =
-
-          getBarPeriodKey(
-            habit
-          );
-
-
-        if (
-          !habit.barResetKey
-        ) {
-
-          habit.barResetKey =
-            currentKey;
-
-          changed =
-            true;
-
-          return;
-        }
-
-
-        if (
-          habit.barResetKey
-          !== currentKey
-        ) {
-
-          habit.current =
-            0;
-
-
-          habit.barResetKey =
-            currentKey;
-
-
-          changed =
-            true;
-        }
-
+      if (habit.barResetKey !== nowKey) {
+        habit.count = 0;
+        habit.barResetKey = nowKey;
+        changed = true;
       }
-    );
+    }
 
-
-    if (
-      changed
-    ) {
-
+    if (changed) {
       saveData();
     }
-
 
     return changed;
   }
 
 
+  /* =========================================================
+     MAIN RENDER
+  ========================================================= */
 
-  /* ========================================
-     カテゴリー
-  ======================================== */
-
-  function getCategoryName(
-    category
-  ) {
-
-    if (
-      category === "creative"
-    ) {
-
-      return "創作";
-    }
-
-
-    if (
-      category === "game"
-    ) {
-
-      return "ゲーム";
-    }
-
-
-    return "日常";
+  function renderAll() {
+    applyHabitResets();
+    renderDate();
+    renderNavigation();
+    renderHabits();
+    renderTodos();
+    renderMemos();
+    renderBadgePanel();
+    updateAppBadge();
   }
 
-
-
-  /* ========================================
-     タブ
-  ======================================== */
-
-  function changeTab(
-    tab
-  ) {
-
-    closeAllSwipeCards(
-      null,
-      true
-    );
-
-
-    if (
-      dragState
-    ) {
-
-      finishDrag(
-        true
-      );
-    }
-
-
-    currentTab =
-      tab;
-
+  function renderNavigation() {
+    document
+      .querySelectorAll(".main-tab")
+      .forEach((button) => {
+        button.classList.toggle(
+          "active",
+          button.dataset.tab === currentTab
+        );
+      });
 
     document
-      .querySelectorAll(
-        ".tab-button"
-      )
-      .forEach(
-        button => {
+      .querySelectorAll(".section")
+      .forEach((section) => {
+        section.classList.remove("active");
+      });
 
-          button.classList
-            .toggle(
+    const sectionMap = {
+      habits: "habitsSection",
+      todos: "todosSection",
+      memos: "memosSection"
+    };
 
-              "active",
-
-              button.dataset.tab
-              === tab
-
-            );
-
-        }
-      );
-
-
-    render();
+    document
+      .getElementById(sectionMap[currentTab])
+      .classList.add("active");
   }
 
 
+  /* =========================================================
+     HABITS RENDER
+  ========================================================= */
 
-  /* ========================================
-     描画
-  ======================================== */
+  function renderHabits() {
+    const view =
+      data.settings.habitView;
 
-  function render(
-    progressAnimation = null
-  ) {
+    cardViewButton.classList.toggle(
+      "active",
+      view === "card"
+    );
 
-    if (
-      dragState
-    ) {
+    compactViewButton.classList.toggle(
+      "active",
+      view === "compact"
+    );
 
-      return;
-    }
+    document
+      .querySelectorAll(".filter-button")
+      .forEach((button) => {
+        button.classList.toggle(
+          "active",
+          button.dataset.filter === currentHabitFilter
+        );
+      });
 
-
-    checkBarResets();
-
-    renderDate();
-
-    refreshBadgePermissionUI();
-
-    updateAppBadge();
-
-
-    const list =
-
-      document.getElementById(
-        "habitList"
-      );
-
-
-    list.innerHTML =
-      "";
-
-
-    const visibleHabits =
-
-      data.habits.filter(
-        habit => {
-
-          if (
-            currentTab
-            === "all"
-          ) {
-
-            return true;
-          }
-
-
-          return (
-            habit.category
-            === currentTab
-          );
-
+    const visible =
+      data.habits.filter((habit) => {
+        if (currentHabitFilter === "all") {
+          return true;
         }
-      );
 
+        return habit.category === currentHabitFilter;
+      });
 
-    if (
-      visibleHabits.length
-      === 0
-    ) {
-
-      list.innerHTML =
-
-        `
+    if (visible.length === 0) {
+      habitList.innerHTML = `
         <div class="empty">
-          まだ習慣がありません。<br>
-          上の＋から追加できます。
+          <span class="empty-symbol">🌷</span>
+          まだハビットがありません。<br>
+          ＋から追加できます。
         </div>
-        `;
-
+      `;
 
       return;
     }
 
+    habitList.innerHTML =
+      visible
+        .map((habit) => {
+          return view === "card"
+            ? habitLargeHTML(habit)
+            : habitCompactHTML(habit);
+        })
+        .join("");
 
-    visibleHabits.forEach(
-      habit => {
+    bindSwipeSurfaces(habitList);
 
-        const percent =
+    if (newHabitId) {
+      setTimeout(() => {
+        newHabitId = null;
+      }, 500);
+    }
 
-          Math.min(
+    if (newTodayHabitId) {
+      setTimeout(() => {
+        newTodayHabitId = null;
+      }, 500);
+    }
+  }
 
-            100,
+  function habitLargeHTML(habit) {
+    const percent =
+      clamp(
+        (habit.count / habit.goal) * 100,
+        0,
+        100
+      );
 
-            habit.current
-            /
-            habit.goal
-            *
-            100
+    const done =
+      habit.count >= habit.goal;
 
-          );
+    const today =
+      isDoneToday(habit);
 
+    const newRowClass =
+      habit.id === newHabitId
+        ? " new-row"
+        : "";
 
-        const completed =
+    const newTodayClass =
+      habit.id === newTodayHabitId
+        ? " new-today"
+        : "";
 
-          habit.current
-          >= habit.goal;
+    return `
+      <div class="habit-row swipe-row${newRowClass}"
+           data-id="${habit.id}">
 
+        <button class="swipe-delete-button"
+                data-action="delete-habit"
+                data-id="${habit.id}">
+          削除
+        </button>
 
-        const doneToday =
+        <div class="habit-card large swipe-surface">
 
-          isDoneToday(
-            habit
-          );
+          <div class="habit-top">
 
+            <button class="drag-handle"
+                    data-action="drag"
+                    aria-label="並び替え">
+              ≡
+            </button>
 
-        let initialPercent =
-          percent;
+            <button class="habit-icon-button"
+                    data-action="edit-habit"
+                    data-id="${habit.id}"
+                    aria-label="編集">
+              ${escapeHTML(habit.icon)}
+            </button>
 
-
-        if (
-          progressAnimation
-          &&
-          progressAnimation.id
-          === habit.id
-        ) {
-
-          initialPercent =
-            progressAnimation.from;
-        }
-
-
-        const card =
-
-          document.createElement(
-            "article"
-          );
-
-
-        card.className =
-          "habit-card";
-
-
-        card.dataset.id =
-          habit.id;
-
-
-        if (
-          habit.id
-          === newHabitId
-        ) {
-
-          card.classList
-            .add(
-              "new-card"
-            );
-        }
-
-
-        card.innerHTML =
-
-          `
-
-          <button
-            class="swipe-delete-button"
-            onclick="
-              deleteHabitFromSwipe(
-                '${habit.id}'
-              )
-            "
-            aria-label="削除"
-          >
-
-            <span class="swipe-delete-icon">
-              🗑
-            </span>
-
-            <span>
-              削除
-            </span>
-
-          </button>
-
-
-          <div class="habit-card-surface">
-
-            <div class="habit-top">
-
-              <button
-                class="drag-handle"
-                aria-label="長押しして並び替え"
-              >
-                ≡
-              </button>
-
-
-              <button
-                class="habit-icon-button"
-                onclick="
-                  openHabitEditor(
-                    '${habit.id}'
-                  )
-                "
-                aria-label="習慣を編集"
-              >
-                ${habit.icon}
-              </button>
-
-
-              <div class="habit-title-area">
-
-                <div class="habit-name">
-
-                  ${escapeHtml(
-                    habit.name
-                  )}
-
-                </div>
-
-
-                <div class="habit-category">
-
-                  ${getCategoryName(
-                    habit.category
-                  )}
-
-                </div>
-
+            <div class="habit-title-area">
+              <div class="habit-name">
+                ${escapeHTML(habit.name)}
               </div>
-
-
-              <div
-                class="
-                  today-badge
-                  ${
-                    doneToday
-                    ? "visible"
-                    : ""
-                  }
-                  ${
-                    todayPopId
-                    === habit.id
-                    ? "today-pop"
-                    : ""
-                  }
-                "
-              >
-                TODAY ✓
+              <div class="habit-category">
+                ${CATEGORY_NAMES[habit.category]}
               </div>
-
             </div>
 
+            ${
+              today
+                ? `
+                  <div class="today-badge${newTodayClass}"
+                       data-action="today-badge"
+                       data-id="${habit.id}">
+                    TODAY ✓
+                  </div>
+                `
+                : ""
+            }
+
+          </div>
+
+          <div class="habit-progress-area">
 
             <div class="progress-info">
-
-              <div
-                class="
-                  done
-                  ${
-                    completed
-                    ? "visible"
-                    : ""
-                  }
-                "
-              >
-                ✓ DONE
+              <div class="progress-text ${done ? "done-label" : ""}">
+                ${done ? "✓ DONE" : "PROGRESS"}
               </div>
 
-
-              <div class="count">
-
-                ${habit.current}
-                /
-                ${habit.goal}
-
+              <div class="habit-count">
+                ${habit.count} / ${habit.goal}
               </div>
-
             </div>
 
-
-            <div class="progress-bg">
-
-              <div
-                class="progress-bar"
-                data-progress="${habit.id}"
-                style="
-                  width:
-                  ${initialPercent}%;
-                "
-              ></div>
-
+            <div class="progress-track">
+              <div class="progress-fill"
+                   style="width:${percent}%"></div>
             </div>
 
+            <div class="habit-controls">
 
-            <div class="habit-actions">
-
-              <button
-                class="round-button"
-                onclick="
-                  decreaseHabit(
-                    '${habit.id}',
-                    this
-                  )
-                "
-              >
+              <button class="round-button"
+                      data-action="habit-minus"
+                      data-id="${habit.id}">
                 −
               </button>
 
-
-              <button
-                class="
-                  round-button
-                  plus
-                "
-                onclick="
-                  increaseHabit(
-                    '${habit.id}',
-                    this
-                  )
-                "
-              >
+              <button class="round-button"
+                      data-action="habit-plus"
+                      data-id="${habit.id}">
                 ＋
               </button>
 
@@ -3071,3802 +2036,2162 @@
 
           </div>
 
-          `;
+        </div>
+      </div>
+    `;
+  }
 
+  function habitCompactHTML(habit) {
+    const percent =
+      clamp(
+        (habit.count / habit.goal) * 100,
+        0,
+        100
+      );
 
-        list.appendChild(
-          card
-        );
+    const done =
+      habit.count >= habit.goal;
 
+    const today =
+      isDoneToday(habit);
 
-        setupCardSwipe(
-          card,
-          habit.id
-        );
+    const newRowClass =
+      habit.id === newHabitId
+        ? " new-row"
+        : "";
 
+    return `
+      <div class="habit-row swipe-row${newRowClass}"
+           data-id="${habit.id}">
 
-        setupTodayLongPress(
-          card,
-          habit.id
-        );
+        <button class="swipe-delete-button"
+                data-action="delete-habit"
+                data-id="${habit.id}">
+          削除
+        </button>
 
+        <div class="habit-card compact swipe-surface">
 
-        setupLongPressDrag(
-          card,
-          habit.id
-        );
+          <button class="drag-handle"
+                  data-action="drag"
+                  aria-label="並び替え">
+            ≡
+          </button>
 
-      }
-    );
+          <button class="compact-icon"
+                  data-action="edit-habit"
+                  data-id="${habit.id}">
+            ${escapeHTML(habit.icon)}
+          </button>
 
+          <div class="compact-main">
 
-    if (
-      progressAnimation
-    ) {
+            <div class="compact-line1">
 
-      requestAnimationFrame(
-        () => {
+              <div class="compact-name">
+                ${escapeHTML(habit.name)}
+              </div>
 
-          requestAnimationFrame(
-            () => {
-
-              const bar =
-
-                document.querySelector(
-
-                  `[data-progress="${progressAnimation.id}"]`
-
-                );
-
-
-              if (
-                bar
-              ) {
-
-                bar.style.width =
-
-                  progressAnimation.to
-                  +
-                  "%";
+              ${
+                today
+                  ? `
+                    <div class="compact-today"
+                         data-action="today-badge"
+                         data-id="${habit.id}">
+                      TODAY
+                    </div>
+                  `
+                  : done
+                    ? `
+                      <div class="compact-today">
+                        DONE
+                      </div>
+                    `
+                    : ""
               }
 
-            }
-          );
+            </div>
 
-        }
-      );
-    }
+            <div class="compact-line2">
+              <div class="compact-category">
+                ${CATEGORY_NAMES[habit.category]}
+              </div>
+
+              <div class="compact-track">
+                <div class="compact-fill"
+                     style="width:${percent}%">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="compact-controls">
+
+            <button class="compact-button"
+                    data-action="habit-minus"
+                    data-id="${habit.id}">
+              −
+            </button>
+
+            <div class="compact-count">
+              ${habit.count}/${habit.goal}
+            </div>
+
+            <button class="compact-button"
+                    data-action="habit-plus"
+                    data-id="${habit.id}">
+              ＋
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+    `;
+  }
 
 
-    if (
-      newHabitId
-    ) {
+  /* =========================================================
+     TODO RENDER
+  ========================================================= */
 
-      const id =
-        newHabitId;
-
-
-      setTimeout(
-        () => {
-
-          if (
-            newHabitId
-            === id
-          ) {
-
-            newHabitId =
-              null;
+  function renderTodos() {
+    const sorted =
+      [...data.todos]
+        .sort((a, b) => {
+          if (a.done !== b.done) {
+            return Number(a.done) - Number(b.done);
           }
 
-        },
-        700
-      );
-    }
-
-
-    if (
-      todayPopId
-    ) {
-
-      const id =
-        todayPopId;
-
-
-      setTimeout(
-        () => {
-
-          if (
-            todayPopId
-            === id
-          ) {
-
-            todayPopId =
-              null;
-          }
-
-        },
-        650
-      );
-    }
-
-  }
-
-
-
-  /* ========================================
-     スワイプ削除
-  ======================================== */
-
-  function getCardSurface(
-    card
-  ) {
-
-    return card
-      ?.querySelector(
-        ".habit-card-surface"
-      );
-  }
-
-
-  function setSwipeOffset(
-    card,
-    offset,
-    animate = true
-  ) {
-
-    const surface =
-
-      getCardSurface(
-        card
-      );
-
-
-    if (
-      !surface
-    ) {
-
-      return;
-    }
-
-
-    if (
-      animate
-    ) {
-
-      surface.classList
-        .remove(
-          "swiping"
-        );
-
-    } else {
-
-      surface.classList
-        .add(
-          "swiping"
-        );
-    }
-
-
-    surface.style.transform =
-
-      `translateX(${offset}px)`;
-  }
-
-
-  function openSwipeCard(
-    card
-  ) {
-
-    if (
-      !card
-    ) {
-
-      return;
-    }
-
-
-    closeAllSwipeCards(
-      card
-    );
-
-
-    card.classList
-      .add(
-        "swipe-open"
-      );
-
-
-    setSwipeOffset(
-
-      card,
-
-      -DELETE_REVEAL_WIDTH,
-
-      true
-
-    );
-  }
-
-
-  function closeSwipeCard(
-    card,
-    immediate = false
-  ) {
-
-    if (
-      !card
-    ) {
-
-      return;
-    }
-
-
-    card.classList
-      .remove(
-        "swipe-open"
-      );
-
-
-    setSwipeOffset(
-
-      card,
-
-      0,
-
-      !immediate
-
-    );
-  }
-
-
-  function closeAllSwipeCards(
-    exceptCard = null,
-    immediate = false
-  ) {
-
-    document
-      .querySelectorAll(
-        ".habit-card.swipe-open"
-      )
-      .forEach(
-        card => {
-
-          if (
-            card !== exceptCard
-          ) {
-
-            closeSwipeCard(
-              card,
-              immediate
-            );
-          }
-
-        }
-      );
-  }
-
-
-
-  /*
-    カード本体を左へスワイプ。
-
-    縦移動の方が大きい場合は
-    通常のページスクロールとして扱う。
-  */
-
-  function setupCardSwipe(
-    card,
-    habitId
-  ) {
-
-    const surface =
-
-      getCardSurface(
-        card
-      );
-
-
-    if (
-      !surface
-    ) {
-
-      return;
-    }
-
-
-    let pointerId =
-      null;
-
-    let startX =
-      0;
-
-    let startY =
-      0;
-
-    let startOffset =
-      0;
-
-    let currentOffset =
-      0;
-
-    let intent =
-      null;
-
-    let wasOpen =
-      false;
-
-
-    function cleanup() {
-
-      window.removeEventListener(
-        "pointermove",
-        pointerMove
-      );
-
-      window.removeEventListener(
-        "pointerup",
-        pointerEnd
-      );
-
-      window.removeEventListener(
-        "pointercancel",
-        pointerCancel
-      );
-
-
-      surface.classList
-        .remove(
-          "swiping"
-        );
-
-
-      pointerId =
-        null;
-
-
-      swipeGestureActive =
-        false;
-    }
-
-
-    function pointerMove(
-      event
-    ) {
-
-      if (
-        event.pointerId
-        !== pointerId
-      ) {
-
-        return;
-      }
-
-
-      if (
-        dragState
-      ) {
-
-        cleanup();
-
-        return;
-      }
-
-
-      const dx =
-        event.clientX - startX;
-
-      const dy =
-        event.clientY - startY;
-
-
-      const absX =
-        Math.abs(
-          dx
-        );
-
-      const absY =
-        Math.abs(
-          dy
-        );
-
-
-      /*
-        まだ方向未確定
-      */
-
-      if (
-        intent === null
-      ) {
-
-        if (
-          absX < 7
-          &&
-          absY < 7
-        ) {
-
-          return;
-        }
-
-
-        /*
-          縦の方が明確に大きい
-          → スクロールとして扱う
-        */
-
-        if (
-          absY
-          >
-          absX
-          *
-          1.05
-        ) {
-
-          cleanup();
-
-          return;
-        }
-
-
-        /*
-          横方向が明確になった
-        */
-
-        if (
-          absX
-          >
-          absY
-          *
-          1.10
-        ) {
-
-          intent =
-            "horizontal";
-
-
-          swipeGestureActive =
-            true;
-
-
-          surface.classList
-            .add(
-              "swiping"
-            );
-        }
-
-
-        else {
-
-          return;
-        }
-      }
-
-
-      if (
-        intent
-        !== "horizontal"
-      ) {
-
-        return;
-      }
-
-
-      event.preventDefault();
-
-
-      let next =
-
-        startOffset
-        +
-        dx;
-
-
-      /*
-        右に引っ張りすぎた時は
-        ゴムっぽく抵抗
-      */
-
-      if (
-        next > 0
-      ) {
-
-        next =
-          next * 0.18;
-      }
-
-
-      /*
-        削除幅より左へ引っ張った時も
-        少し抵抗
-      */
-
-      if (
-        next
-        <
-        -DELETE_REVEAL_WIDTH
-      ) {
-
-        next =
-
-          -DELETE_REVEAL_WIDTH
-
-          +
-
-          (
-            next
-            +
-            DELETE_REVEAL_WIDTH
-          )
-          *
-          0.18;
-      }
-
-
-      currentOffset =
-        next;
-
-
-      setSwipeOffset(
-
-        card,
-
-        currentOffset,
-
-        false
-
-      );
-    }
-
-
-    function settleSwipe() {
-
-      /*
-        閉じた状態から始めた場合
-        約3分の1以上出せば開く
-      */
-
-      if (
-        !wasOpen
-      ) {
-
-        if (
-          currentOffset
-          <=
-          -DELETE_REVEAL_WIDTH
-          *
-          0.38
-        ) {
-
-          openSwipeCard(
-            card
-          );
-
-        } else {
-
-          closeSwipeCard(
-            card
-          );
-        }
-
-
-        return;
-      }
-
-
-      /*
-        すでに開いていた場合は、
-        右へ約3分の1戻したら閉じる
-      */
-
-      if (
-        currentOffset
-        >=
-        -DELETE_REVEAL_WIDTH
-        *
-        0.62
-      ) {
-
-        closeSwipeCard(
-          card
-        );
-
-      } else {
-
-        openSwipeCard(
-          card
-        );
-      }
-    }
-
-
-    function pointerEnd(
-      event
-    ) {
-
-      if (
-        event.pointerId
-        !== pointerId
-      ) {
-
-        return;
-      }
-
-
-      /*
-        横スワイプだった
-      */
-
-      if (
-        intent
-        === "horizontal"
-      ) {
-
-        settleSwipe();
-
-        cleanup();
-
-        return;
-      }
-
-
-      /*
-        開いたカードの白い部分を
-        軽くタップした場合は閉じる
-      */
-
-      if (
-        intent === null
-        &&
-        wasOpen
-      ) {
-
-        closeSwipeCard(
-          card
-        );
-      }
-
-
-      cleanup();
-    }
-
-
-    function pointerCancel(
-      event
-    ) {
-
-      if (
-        event.pointerId
-        !== pointerId
-      ) {
-
-        return;
-      }
-
-
-      if (
-        wasOpen
-      ) {
-
-        openSwipeCard(
-          card
-        );
-
-      } else {
-
-        closeSwipeCard(
-          card
-        );
-      }
-
-
-      cleanup();
-    }
-
-
-    surface.addEventListener(
-      "pointerdown",
-      event => {
-
-        if (
-          dragState
-          ||
-          swipeGestureActive
-        ) {
-
-          return;
-        }
-
-
-        /*
-          ボタンやTODAYから始めた操作は
-          スワイプとして扱わない
-        */
-
-        if (
-          event.target.closest(
-            "button, input, textarea, select, a, .today-badge"
-          )
-        ) {
-
-          return;
-        }
-
-
-        closeAllSwipeCards(
-          card
-        );
-
-
-        pointerId =
-          event.pointerId;
-
-
-        startX =
-          event.clientX;
-
-
-        startY =
-          event.clientY;
-
-
-        wasOpen =
-
-          card.classList
-            .contains(
-              "swipe-open"
-            );
-
-
-        startOffset =
-
-          wasOpen
-
-          ?
-
-          -DELETE_REVEAL_WIDTH
-
-          :
-
-          0;
-
-
-        currentOffset =
-          startOffset;
-
-
-        intent =
-          null;
-
-
-        window.addEventListener(
-
-          "pointermove",
-
-          pointerMove,
-
-          {
-            passive: false
-          }
-
-        );
-
-
-        window.addEventListener(
-          "pointerup",
-          pointerEnd
-        );
-
-
-        window.addEventListener(
-          "pointercancel",
-          pointerCancel
-        );
-
-      }
-    );
-  }
-
-
-
-  /* ========================================
-     スワイプから削除
-  ======================================== */
-
-  function deleteHabitFromSwipe(
-    id
-  ) {
-
-    const habit =
-
-      data.habits.find(
-        item =>
-          item.id === id
-      );
-
-
-    if (
-      !habit
-    ) {
-
-      return;
-    }
-
-
-    if (
-      !confirm(
-        `「${habit.name}」を削除しますか？`
-      )
-    ) {
-
-      const card =
-
-        document.querySelector(
-
-          `.habit-card[data-id="${id}"]`
-
-        );
-
-
-      if (
-        card
-      ) {
-
-        openSwipeCard(
-          card
-        );
-      }
-
-
-      return;
-    }
-
-
-    data.habits =
-
-      data.habits.filter(
-        item =>
-          item.id !== id
-      );
-
-
-    saveData();
-
-    updateAppBadge();
-
-    render();
-  }
-
-
-
-  /*
-    開いている削除ボタンの外を触ったら
-    自動的に閉じる。
-  */
-
-  document.addEventListener(
-
-    "pointerdown",
-
-    event => {
-
-      const openCard =
-
-        document.querySelector(
-          ".habit-card.swipe-open"
-        );
-
-
-      if (
-        !openCard
-      ) {
-
-        return;
-      }
-
-
-      if (
-        event.target.closest(
-          ".habit-card.swipe-open"
-        )
-      ) {
-
-        return;
-      }
-
-
-      closeAllSwipeCards();
-
-    },
-
-    {
-      capture: true
-    }
-
-  );
-
-
-
-  /* ========================================
-     ＋
-  ======================================== */
-
-  function increaseHabit(
-    id,
-    button
-  ) {
-
-    animateButton(
-      button
-    );
-
-
-    const habit =
-
-      data.habits.find(
-        item =>
-          item.id === id
-      );
-
-
-    if (
-      !habit
-    ) {
-
-      return;
-    }
-
-
-    const alreadyDoneToday =
-
-      isDoneToday(
-        habit
-      );
-
-
-    const beforePercent =
-
-      Math.min(
-
-        100,
-
-        habit.current
-        /
-        habit.goal
-        *
-        100
-
-      );
-
-
-    const wasCompleted =
-
-      habit.current
-      >= habit.goal;
-
-
-    habit.current++;
-
-
-    habit.lastDoneAt =
-      Date.now();
-
-
-    if (
-      habit.barReset
-      !== "none"
-    ) {
-
-      habit.barResetKey =
-
-        getBarPeriodKey(
-          habit
-        );
-    }
-
-
-    const afterPercent =
-
-      Math.min(
-
-        100,
-
-        habit.current
-        /
-        habit.goal
-        *
-        100
-
-      );
-
-
-    const nowCompleted =
-
-      habit.current
-      >= habit.goal;
-
-
-    if (
-      !alreadyDoneToday
-    ) {
-
-      todayPopId =
-        id;
-    }
-
-
-    saveData();
-
-    updateAppBadge();
-
-
-    setTimeout(
-      () => {
-
-        render({
-
-          id: id,
-
-          from:
-            beforePercent,
-
-          to:
-            afterPercent
-
+          return b.createdAt - a.createdAt;
         });
 
-
-        if (
-          !wasCompleted
-          &&
-          nowCompleted
-        ) {
-
-          requestAnimationFrame(
-            () => {
-
-              const card =
-
-                document.querySelector(
-
-                  `.habit-card[data-id="${id}"]`
-
-                );
-
-
-              if (
-                card
-              ) {
-
-                card.classList
-                  .add(
-                    "completed-pop"
-                  );
-              }
-
-            }
-          );
-
-        }
-
-      },
-      75
-    );
-  }
-
-
-
-  /* ========================================
-     −
-  ======================================== */
-
-  function decreaseHabit(
-    id,
-    button
-  ) {
-
-    animateButton(
-      button
-    );
-
-
-    const habit =
-
-      data.habits.find(
-        item =>
-          item.id === id
-      );
-
-
-    if (
-      !habit
-      ||
-      habit.current <= 0
-    ) {
-
-      return;
-    }
-
-
-    const beforePercent =
-
-      Math.min(
-
-        100,
-
-        habit.current
-        /
-        habit.goal
-        *
-        100
-
-      );
-
-
-    habit.current--;
-
-
-    const afterPercent =
-
-      Math.min(
-
-        100,
-
-        habit.current
-        /
-        habit.goal
-        *
-        100
-
-      );
-
-
-    saveData();
-
-
-    setTimeout(
-      () => {
-
-        render({
-
-          id: id,
-
-          from:
-            beforePercent,
-
-          to:
-            afterPercent
-
-        });
-
-      },
-      75
-    );
-  }
-
-
-
-  /* ========================================
-     ボタンぽよん
-  ======================================== */
-
-  function animateButton(
-    button
-  ) {
-
-    if (
-      !button
-    ) {
-
-      return;
-    }
-
-
-    button.classList
-      .remove(
-        "button-pop"
-      );
-
-
-    void button.offsetWidth;
-
-
-    button.classList
-      .add(
-        "button-pop"
-      );
-  }
-
-
-
-  /* ========================================
-     TODAY長押し
-  ======================================== */
-
-  function setupTodayLongPress(
-    card,
-    habitId
-  ) {
-
-    const badge =
-
-      card.querySelector(
-        ".today-badge"
-      );
-
-
-    if (
-      !badge
-      ||
-      !badge.classList
-        .contains(
-          "visible"
-        )
-    ) {
-
-      return;
-    }
-
-
-    let timer =
-      null;
-
-    let startX =
-      0;
-
-    let startY =
-      0;
-
-
-    badge.addEventListener(
-      "pointerdown",
-      event => {
-
-        event.preventDefault();
-
-
-        startX =
-          event.clientX;
-
-        startY =
-          event.clientY;
-
-
-        timer =
-
-          setTimeout(
-            () => {
-
-              badge.classList
-                .add(
-                  "clearing"
-                );
-
-
-              setTimeout(
-                () => {
-
-                  const habit =
-
-                    data.habits.find(
-                      item =>
-                        item.id
-                        === habitId
-                    );
-
-
-                  if (
-                    !habit
-                  ) {
-
-                    return;
-                  }
-
-
-                  habit.lastDoneAt =
-                    null;
-
-
-                  saveData();
-
-                  updateAppBadge();
-
-                  render();
-
-                },
-                220
-              );
-
-            },
-            550
-          );
-
-      }
-    );
-
-
-    badge.addEventListener(
-      "pointermove",
-      event => {
-
-        const distance =
-
-          Math.hypot(
-
-            event.clientX
-            -
-            startX,
-
-            event.clientY
-            -
-            startY
-
-          );
-
-
-        if (
-          distance > 10
-        ) {
-
-          clearTimeout(
-            timer
-          );
-
-          timer =
-            null;
-        }
-
-      }
-    );
-
-
-    function cancel() {
-
-      if (
-        timer
-      ) {
-
-        clearTimeout(
-          timer
-        );
-
-        timer =
-          null;
-      }
-    }
-
-
-    badge.addEventListener(
-      "pointerup",
-      cancel
-    );
-
-
-    badge.addEventListener(
-      "pointercancel",
-      cancel
-    );
-
-
-    badge.addEventListener(
-      "contextmenu",
-      event => {
-
-        event.preventDefault();
-
-      }
-    );
-  }
-
-
-
-  /* ========================================
-     並び替え
-  ======================================== */
-
-  function setupLongPressDrag(
-    card,
-    habitId
-  ) {
-
-    const handle =
-
-      card.querySelector(
-        ".drag-handle"
-      );
-
-
-    if (
-      !handle
-    ) {
-
-      return;
-    }
-
-
-    let longPressTimer =
-      null;
-
-    let startX =
-      0;
-
-    let startY =
-      0;
-
-    let lastPointerY =
-      0;
-
-    let pointerId =
-      null;
-
-
-    function globalPointerMove(
-      event
-    ) {
-
-      if (
-        event.pointerId
-        !== pointerId
-      ) {
-
-        return;
-      }
-
-
-      lastPointerY =
-        event.clientY;
-
-
-      if (
-        !dragState
-      ) {
-
-        const distance =
-
-          Math.hypot(
-
-            event.clientX
-            -
-            startX,
-
-            event.clientY
-            -
-            startY
-
-          );
-
-
-        if (
-          distance > 10
-        ) {
-
-          clearTimeout(
-            longPressTimer
-          );
-
-
-          longPressTimer =
-            null;
-
-
-          removeGlobalListeners();
-        }
-
-
-        return;
-      }
-
-
-      event.preventDefault();
-
-
-      updateDrag(
-        event.clientY
-      );
-
-
-      handleAutoScroll(
-        event.clientY
-      );
-    }
-
-
-    function globalPointerEnd(
-      event
-    ) {
-
-      if (
-        event.pointerId
-        !== pointerId
-      ) {
-
-        return;
-      }
-
-
-      clearTimeout(
-        longPressTimer
-      );
-
-
-      longPressTimer =
-        null;
-
-
-      if (
-        dragState
-      ) {
-
-        finishDrag();
-      }
-
-
-      removeGlobalListeners();
-    }
-
-
-    function removeGlobalListeners() {
-
-      window.removeEventListener(
-        "pointermove",
-        globalPointerMove
-      );
-
-
-      window.removeEventListener(
-        "pointerup",
-        globalPointerEnd
-      );
-
-
-      window.removeEventListener(
-        "pointercancel",
-        globalPointerEnd
-      );
-    }
-
-
-    handle.addEventListener(
-      "pointerdown",
-      event => {
-
-        if (
-          dragState
-          ||
-          swipeGestureActive
-        ) {
-
-          return;
-        }
-
-
-        /*
-          並び替え開始時は
-          スワイプ削除を閉じる
-        */
-
-        closeAllSwipeCards(
-          null,
-          true
-        );
-
-
-        event.preventDefault();
-
-
-        pointerId =
-          event.pointerId;
-
-
-        startX =
-          event.clientX;
-
-
-        startY =
-          event.clientY;
-
-
-        lastPointerY =
-          event.clientY;
-
-
-        window.addEventListener(
-
-          "pointermove",
-
-          globalPointerMove,
-
-          {
-            passive: false
-          }
-
-        );
-
-
-        window.addEventListener(
-          "pointerup",
-          globalPointerEnd
-        );
-
-
-        window.addEventListener(
-          "pointercancel",
-          globalPointerEnd
-        );
-
-
-        longPressTimer =
-
-          setTimeout(
-            () => {
-
-              beginDrag(
-
-                card,
-
-                habitId,
-
-                lastPointerY
-
-              );
-
-            },
-            380
-          );
-
-      }
-    );
-
-
-    handle.addEventListener(
-      "contextmenu",
-      event => {
-
-        event.preventDefault();
-
-      }
-    );
-  }
-
-
-
-  /* ========================================
-     ドラッグ開始
-  ======================================== */
-
-  function beginDrag(
-    card,
-    habitId,
-    pointerY
-  ) {
-
-    if (
-      dragState
-    ) {
-
-      return;
-    }
-
-
-    closeAllSwipeCards(
-      null,
-      true
-    );
-
-
-    const rect =
-
-      card.getBoundingClientRect();
-
-
-    const placeholder =
-
-      document.createElement(
-        "div"
-      );
-
-
-    placeholder.className =
-      "drag-placeholder";
-
-
-    placeholder.style.height =
-
-      rect.height
-      +
-      "px";
-
-
-    card.parentNode
-      .insertBefore(
-
-        placeholder,
-
-        card
-
-      );
-
-
-    document.body
-      .appendChild(
-        card
-      );
-
-
-    card.classList
-      .add(
-        "dragging"
-      );
-
-
-    card.style.left =
-
-      rect.left
-      +
-      "px";
-
-
-    card.style.top =
-
-      rect.top
-      +
-      "px";
-
-
-    card.style.width =
-
-      rect.width
-      +
-      "px";
-
-
-    card.style.height =
-
-      rect.height
-      +
-      "px";
-
-
-    dragState = {
-
-      id:
-        habitId,
-
-      card:
-        card,
-
-      placeholder:
-        placeholder,
-
-      pointerOffsetY:
-        pointerY
-        -
-        rect.top,
-
-      currentTop:
-        rect.top,
-
-      height:
-        rect.height,
-
-      lastPointerY:
-        pointerY,
-
-      direction:
-        null,
-
-      lastSwapDirection:
-        null,
-
-      lastSwapPointerY:
-        null,
-
-      finishing:
-        false
-
-    };
-
-
-    if (
-      navigator.vibrate
-    ) {
-
-      navigator.vibrate(
-        15
-      );
-    }
-  }
-
-
-
-  /* ========================================
-     ドラッグ移動
-  ======================================== */
-
-  function updateDrag(
-    pointerY
-  ) {
-
-    if (
-      !dragState
-      ||
-      dragState.finishing
-    ) {
-
-      return;
-    }
-
-
-    const movement =
-
-      pointerY
-      -
-      dragState.lastPointerY;
-
-
-    if (
-      Math.abs(
-        movement
-      ) >= 1.5
-    ) {
-
-      dragState.direction =
-
-        movement > 0
-
-        ?
-
-        "down"
-
-        :
-
-        "up";
-    }
-
-
-    dragState.lastPointerY =
-      pointerY;
-
-
-    let newTop =
-
-      pointerY
-
-      -
-
-      dragState.pointerOffsetY;
-
-
-    newTop =
-
-      Math.max(
-
-        4,
-
-        Math.min(
-
-          window.innerHeight
-          -
-          dragState.height
-          -
-          4,
-
-          newTop
-
-        )
-
-      );
-
-
-    dragState.currentTop =
-      newTop;
-
-
-    dragState.card.style.top =
-
-      newTop
-      +
-      "px";
-
-
-    checkDragReorder(
-      pointerY
-    );
-  }
-
-
-
-  /* ========================================
-     入れ替え判定
-  ======================================== */
-
-  function checkDragReorder(
-    pointerY
-  ) {
-
-    if (
-      !dragState
-    ) {
-
-      return;
-    }
-
-
-    const direction =
-      dragState.direction;
-
-
-    if (
-      !direction
-    ) {
-
-      return;
-    }
-
-
-    if (
-      dragState.lastSwapDirection
-      &&
-      direction
-      !== dragState.lastSwapDirection
-      &&
-      dragState.lastSwapPointerY
-      !== null
-    ) {
-
-      const reverseDistance =
-
-        Math.abs(
-
-          pointerY
-
-          -
-
-          dragState.lastSwapPointerY
-
-        );
-
-
-      if (
-        reverseDistance
-        <
-        REVERSE_UNLOCK_DISTANCE
-      ) {
-
-        return;
-      }
-    }
-
-
-    /*
-      下方向
-    */
-
-    if (
-      direction
-      === "down"
-    ) {
-
-      const next =
-
-        dragState.placeholder
-          .nextElementSibling;
-
-
-      if (
-        !next
-        ||
-        !next.classList
-          .contains(
-            "habit-card"
-          )
-      ) {
-
-        return;
-      }
-
-
-      const rect =
-
-        next.getBoundingClientRect();
-
-
-      const dragBottom =
-
-        dragState.currentTop
-
-        +
-
-        dragState.height;
-
-
-      const confirmationLine =
-
-        rect.top
-
-        +
-
-        rect.height
-
-        *
-
-        SWAP_OVERLAP_RATIO;
-
-
-      if (
-        dragBottom
-        >= confirmationLine
-      ) {
-
-        animateListShift(
-          () => {
-
-            next.after(
-              dragState.placeholder
-            );
-
-          }
-        );
-
-
-        dragState.lastSwapDirection =
-          "down";
-
-
-        dragState.lastSwapPointerY =
-          pointerY;
-
-
-        pulseDraggedCard();
-      }
-
-
-      return;
-    }
-
-
-    /*
-      上方向
-    */
-
-    if (
-      direction
-      === "up"
-    ) {
-
-      const previous =
-
-        dragState.placeholder
-          .previousElementSibling;
-
-
-      if (
-        !previous
-        ||
-        !previous.classList
-          .contains(
-            "habit-card"
-          )
-      ) {
-
-        return;
-      }
-
-
-      const rect =
-
-        previous
-          .getBoundingClientRect();
-
-
-      const dragTop =
-
-        dragState.currentTop;
-
-
-      const confirmationLine =
-
-        rect.bottom
-
-        -
-
-        rect.height
-
-        *
-
-        SWAP_OVERLAP_RATIO;
-
-
-      if (
-        dragTop
-        <= confirmationLine
-      ) {
-
-        animateListShift(
-          () => {
-
-            previous.before(
-              dragState.placeholder
-            );
-
-          }
-        );
-
-
-        dragState.lastSwapDirection =
-          "up";
-
-
-        dragState.lastSwapPointerY =
-          pointerY;
-
-
-        pulseDraggedCard();
-      }
-    }
-  }
-
-
-
-  /* ========================================
-     交換時ぷくっ
-  ======================================== */
-
-  function pulseDraggedCard() {
-
-    if (
-      !dragState
-    ) {
-
-      return;
-    }
-
-
-    dragState.card.animate(
-
-      [
-
-        {
-          transform:
-            "scale(1.035)"
-        },
-
-        {
-          transform:
-            "scale(1.055)"
-        },
-
-        {
-          transform:
-            "scale(1.035)"
-        }
-
-      ],
-
-      {
-
-        duration:
-          170,
-
-        easing:
-          "cubic-bezier(0.34,1.56,0.64,1)"
-
-      }
-
-    );
-  }
-
-
-
-  /* ========================================
-     にゅるん
-  ======================================== */
-
-  function animateListShift(
-    changeLayout
-  ) {
-
-    const cards =
-
-      Array.from(
-
-        document.querySelectorAll(
-          "#habitList .habit-card"
-        )
-
-      );
-
-
-    const before =
-      new Map();
-
-
-    cards.forEach(
-      card => {
-
-        before.set(
-
-          card,
-
-          card.getBoundingClientRect()
-
-        );
-
-      }
-    );
-
-
-    changeLayout();
-
-
-    cards.forEach(
-      card => {
-
-        const oldRect =
-
-          before.get(
-            card
-          );
-
-
-        if (
-          !oldRect
-        ) {
-
-          return;
-        }
-
-
-        const newRect =
-
-          card.getBoundingClientRect();
-
-
-        const moveY =
-
-          oldRect.top
-
-          -
-
-          newRect.top;
-
-
-        if (
-          Math.abs(
-            moveY
-          ) < 1
-        ) {
-
-          return;
-        }
-
-
-        card.animate(
-
-          [
-
-            {
-              transform:
-                `translateY(${moveY}px)`
-            },
-
-            {
-              transform:
-                "translateY(0)"
-            }
-
-          ],
-
-          {
-
-            duration:
-              270,
-
-            easing:
-              "cubic-bezier(0.22,1,0.36,1)"
-
-          }
-
-        );
-
-      }
-    );
-  }
-
-
-
-  /* ========================================
-     自動スクロール
-  ======================================== */
-
-  function handleAutoScroll(
-    pointerY
-  ) {
-
-    if (
-      !dragState
-    ) {
-
-      return;
-    }
-
-
-    const edge =
-      90;
-
-
-    if (
-      pointerY < edge
-    ) {
-
-      window.scrollBy({
-
-        top: -8,
-
-        behavior: "auto"
-
-      });
-
-
-      return;
-    }
-
-
-    if (
-      pointerY
-      >
-      window.innerHeight
-      -
-      edge
-    ) {
-
-      window.scrollBy({
-
-        top: 8,
-
-        behavior: "auto"
-
-      });
-    }
-  }
-
-
-
-  /* ========================================
-     ドラッグ終了
-  ======================================== */
-
-  function finishDrag(
-    immediate = false
-  ) {
-
-    if (
-      !dragState
-      ||
-      dragState.finishing
-    ) {
-
-      return;
-    }
-
-
-    dragState.finishing =
-      true;
-
-
-    const state =
-      dragState;
-
-
-    const target =
-
-      state.placeholder
-        .getBoundingClientRect();
-
-
-    if (
-      immediate
-    ) {
-
-      completeDragLanding(
-        state
-      );
-
-
-      return;
-    }
-
-
-    state.card.style.transition =
-
-      `
-        top
-        180ms
-        cubic-bezier(
-          0.22,
-          1,
-          0.36,
-          1
-        ),
-
-        left
-        180ms
-        cubic-bezier(
-          0.22,
-          1,
-          0.36,
-          1
-        ),
-
-        transform
-        180ms
-        ease
+    if (sorted.length === 0) {
+      todoList.innerHTML = `
+        <div class="empty">
+          <span class="empty-symbol">□</span>
+          Todoはまだありません。<br>
+          ＋から追加できます。
+        </div>
       `;
 
+      return;
+    }
 
-    requestAnimationFrame(
-      () => {
+    todoList.innerHTML =
+      sorted.map((todo) => {
 
-        state.card.style.top =
+        const newClass =
+          todo.id === newTodoId
+            ? " new-row"
+            : "";
 
-          target.top
-          +
-          "px";
+        return `
+          <div class="todo-row swipe-row${newClass}"
+               data-id="${todo.id}">
+
+            <button class="swipe-delete-button"
+                    data-action="delete-todo"
+                    data-id="${todo.id}">
+              削除
+            </button>
+
+            <div class="todo-card swipe-surface ${todo.done ? "done" : ""}">
+
+              <button class="todo-check ${todo.done ? "checked" : ""}"
+                      data-action="toggle-todo"
+                      data-id="${todo.id}"
+                      aria-label="完了切り替え">
+
+                ${
+                  todo.done
+                    ? `<img src="./hanamaru.png" alt="完了">`
+                    : ""
+                }
+
+              </button>
+
+              <div class="todo-copy"
+                   data-action="edit-todo"
+                   data-id="${todo.id}">
+
+                <div class="todo-title">
+                  ${escapeHTML(todo.title)}
+                </div>
+
+                <div class="todo-note">
+                  ${escapeHTML(todo.note)}
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        `;
+      }).join("");
+
+    bindSwipeSurfaces(todoList);
+
+    if (newTodoId) {
+      setTimeout(() => {
+        newTodoId = null;
+      }, 500);
+    }
+  }
 
 
-        state.card.style.left =
+  /* =========================================================
+     MEMO RENDER
+  ========================================================= */
 
-          target.left
-          +
-          "px";
-
-
-        state.card.style.transform =
-          "scale(1)";
-
-      }
-    );
-
-
-    setTimeout(
-      () => {
-
-        completeDragLanding(
-          state
+  function renderMemos() {
+    const sorted =
+      [...data.memos]
+        .sort(
+          (a, b) =>
+            b.createdAt - a.createdAt
         );
 
-      },
-      190
+    if (sorted.length === 0) {
+      memoList.innerHTML = `
+        <div class="empty">
+          <span class="empty-symbol">♡</span>
+          一言メモはまだありません。<br>
+          ＋から残してみてください。
+        </div>
+      `;
+
+      return;
+    }
+
+    memoList.innerHTML =
+      sorted.map((memo) => {
+
+        const newClass =
+          memo.id === newMemoId
+            ? " new-row"
+            : "";
+
+        return `
+          <div class="memo-row swipe-row${newClass}"
+               data-id="${memo.id}">
+
+            <button class="swipe-delete-button"
+                    data-action="delete-memo"
+                    data-id="${memo.id}">
+              削除
+            </button>
+
+            <article class="memo-card swipe-surface">
+
+              <div class="memo-meta">
+
+                <button class="memo-edit"
+                        data-action="edit-memo"
+                        data-id="${memo.id}"
+                        aria-label="メモを編集"
+                        title="編集">
+                  ♡
+                </button>
+
+                <div class="memo-date">
+                  ${formatMemoDate(memo.createdAt)}
+                </div>
+
+              </div>
+
+              <div class="memo-text">
+                ${escapeHTML(memo.text)}
+              </div>
+
+            </article>
+          </div>
+        `;
+      }).join("");
+
+    bindSwipeSurfaces(memoList);
+
+    if (newMemoId) {
+      setTimeout(() => {
+        newMemoId = null;
+      }, 500);
+    }
+  }
+
+  function formatMemoDate(timestamp) {
+    const date =
+      new Date(timestamp);
+
+    return (
+      date.getFullYear() + "." +
+      String(date.getMonth() + 1).padStart(2, "0") + "." +
+      String(date.getDate()).padStart(2, "0")
     );
   }
 
 
-  function completeDragLanding(
-    state
-  ) {
+  /* =========================================================
+     NAVIGATION
+  ========================================================= */
 
-    state.placeholder
-      .replaceWith(
-        state.card
+  document
+    .querySelectorAll(".main-tab")
+    .forEach((button) => {
+
+      button.addEventListener("click", () => {
+
+        closeOpenSwipe();
+
+        currentTab =
+          button.dataset.tab;
+
+        renderNavigation();
+        renderBadgePanel();
+      });
+
+    });
+
+  document
+    .querySelectorAll(".filter-button")
+    .forEach((button) => {
+
+      button.addEventListener("click", () => {
+        closeOpenSwipe();
+
+        currentHabitFilter =
+          button.dataset.filter;
+
+        renderHabits();
+      });
+
+    });
+
+  cardViewButton.addEventListener("click", () => {
+    closeOpenSwipe();
+
+    data.settings.habitView = "card";
+    saveData();
+    renderHabits();
+  });
+
+  compactViewButton.addEventListener("click", () => {
+    closeOpenSwipe();
+
+    data.settings.habitView = "compact";
+    saveData();
+    renderHabits();
+  });
+
+  mainAddButton.addEventListener("click", () => {
+    closeOpenSwipe();
+
+    if (currentTab === "habits") {
+      openHabitEditor();
+      return;
+    }
+
+    if (currentTab === "todos") {
+      openTodoEditor();
+      return;
+    }
+
+    if (currentTab === "memos") {
+      openMemoEditor();
+    }
+  });
+
+
+  /* =========================================================
+     HABIT ACTIONS
+  ========================================================= */
+
+  habitList.addEventListener("click", (event) => {
+    if (Date.now() < suppressClickUntil) {
+      return;
+    }
+
+    const target =
+      event.target.closest("[data-action]");
+
+    if (!target) return;
+
+    const action =
+      target.dataset.action;
+
+    const id =
+      target.dataset.id;
+
+    if (action === "habit-plus") {
+      changeHabitCount(id, 1, target);
+      return;
+    }
+
+    if (action === "habit-minus") {
+      changeHabitCount(id, -1, target);
+      return;
+    }
+
+    if (action === "edit-habit") {
+      openHabitEditor(id);
+      return;
+    }
+
+    if (action === "delete-habit") {
+      deleteHabit(id);
+    }
+  });
+
+  function changeHabitCount(id, amount, button) {
+    const habit =
+      data.habits.find(
+        (item) => item.id === id
       );
 
+    if (!habit) return;
 
-    state.card.classList
-      .remove(
-        "dragging"
+    const wasToday =
+      isDoneToday(habit);
+
+    habit.count =
+      Math.max(
+        0,
+        habit.count + amount
       );
 
-
-    state.card.style.position =
-      "";
-
-    state.card.style.left =
-      "";
-
-    state.card.style.top =
-      "";
-
-    state.card.style.width =
-      "";
-
-    state.card.style.height =
-      "";
-
-    state.card.style.transition =
-      "";
-
-    state.card.style.transform =
-      "";
-
-
-    updateDataOrderFromDom();
-
+    if (amount > 0 && !wasToday) {
+      habit.lastDoneAt = Date.now();
+      newTodayHabitId = habit.id;
+    }
 
     saveData();
 
+    if (button) {
+      button.classList.remove("pop");
+      void button.offsetWidth;
+      button.classList.add("pop");
+    }
 
-    state.card.classList
-      .add(
-        "landing"
-      );
-
-
-    setTimeout(
-      () => {
-
-        state.card.classList
-          .remove(
-            "landing"
-          );
-
-      },
-      430
-    );
-
-
-    dragState =
-      null;
+    renderHabits();
+    updateAppBadge();
   }
 
-
-
-  /* ========================================
-     並び順保存
-  ======================================== */
-
-  function updateDataOrderFromDom() {
-
-    const orderedIds =
-
-      Array.from(
-
-        document.querySelectorAll(
-          "#habitList .habit-card"
-        )
-
-      )
-
-      .map(
-        card =>
-          card.dataset.id
+  function deleteHabit(id) {
+    const habit =
+      data.habits.find(
+        (item) => item.id === id
       );
 
+    if (!habit) return;
 
-    const habitMap =
-
-      new Map(
-
-        data.habits.map(
-          habit => [
-
-            habit.id,
-
-            habit
-
-          ]
-        )
-
-      );
-
-
-    if (
-      currentTab
-      === "all"
-    ) {
-
-      data.habits =
-
-        orderedIds
-
-          .map(
-            id =>
-              habitMap.get(
-                id
-              )
-          )
-
-          .filter(
-            Boolean
-          );
-
-
+    if (!confirm(`「${habit.name}」を削除しますか？`)) {
       return;
     }
 
+    data.habits =
+      data.habits.filter(
+        (item) => item.id !== id
+      );
 
-    const categoryIndexes =
-      [];
-
-
-    data.habits.forEach(
-      (
-        habit,
-        index
-      ) => {
-
-        if (
-          habit.category
-          === currentTab
-        ) {
-
-          categoryIndexes.push(
-            index
-          );
-        }
-
-      }
-    );
-
-
-    const reordered =
-
-      orderedIds
-
-        .map(
-          id =>
-            habitMap.get(
-              id
-            )
-        )
-
-        .filter(
-          Boolean
-        );
-
-
-    categoryIndexes.forEach(
-      (
-        dataIndex,
-        orderIndex
-      ) => {
-
-        if (
-          reordered[
-            orderIndex
-          ]
-        ) {
-
-          data.habits[
-            dataIndex
-          ] =
-
-            reordered[
-              orderIndex
-            ];
-        }
-
-      }
-    );
+    closeOpenSwipe();
+    saveData();
+    renderHabits();
+    updateAppBadge();
   }
 
 
+  /* =========================================================
+     HABIT EDITOR
+  ========================================================= */
 
-  /* ========================================
-     習慣追加・編集
-  ======================================== */
+  function renderIconGrid() {
+    iconGrid.innerHTML =
+      ICONS.map((icon) => `
+        <button class="icon-choice ${icon === selectedHabitIcon ? "selected" : ""}"
+                data-icon="${icon}">
+          ${icon}
+        </button>
+      `).join("");
+  }
 
-  function openHabitEditor(
-    habitId = null
-  ) {
+  iconGrid.addEventListener("click", (event) => {
+    const button =
+      event.target.closest("[data-icon]");
 
-    closeAllSwipeCards(
-      null,
-      true
-    );
+    if (!button) return;
 
+    selectedHabitIcon =
+      button.dataset.icon;
 
-    if (
-      dragState
-    ) {
+    renderIconGrid();
+  });
 
-      finishDrag(
-        true
-      );
-    }
+  function openHabitEditor(id = null) {
+    editingHabitId = id;
 
-
-    editingHabitId =
-      habitId;
-
-
-    const nameInput =
-
-      document.getElementById(
-        "editorHabitName"
-      );
-
-
-    if (
-      habitId
-    ) {
-
+    if (id) {
       const habit =
-
         data.habits.find(
-          item =>
-            item.id
-            === habitId
+          (item) => item.id === id
         );
 
+      if (!habit) return;
 
-      if (
-        !habit
-      ) {
+      habitSheetTitle.textContent =
+        "ハビット編集";
 
-        return;
-      }
-
-
-      editorIcon =
-        habit.icon;
-
-
-      editorCategory =
-        habit.category;
-
-
-      editorGoal =
-        habit.goal;
-
-
-      editorBarReset =
-        habit.barReset;
-
-
-      nameInput.value =
+      habitNameInput.value =
         habit.name;
 
+      selectedHabitIcon =
+        habit.icon;
 
-      document
-        .getElementById(
-          "editorTitle"
-        )
-        .textContent =
-          "習慣を編集";
+      selectedGoal =
+        habit.goal;
 
+      habitCategoryInput.value =
+        habit.category;
 
-      document
-        .getElementById(
-          "editorSaveButton"
-        )
-        .textContent =
-          "保存する";
+      barResetInput.value =
+        habit.barReset;
 
-
-      document
-        .getElementById(
-          "editorDeleteButton"
-        )
-        .classList
-        .remove(
-          "hidden"
-        );
+      deleteHabitFromEditor.hidden = false;
 
     } else {
+      habitSheetTitle.textContent =
+        "ハビット追加";
 
-      editorIcon =
-        "🌷";
+      habitNameInput.value = "";
+      selectedHabitIcon = ICONS[0];
+      selectedGoal = 1;
+      habitCategoryInput.value = "daily";
+      barResetInput.value = "none";
 
-
-      if (
-        currentTab === "daily"
-        ||
-        currentTab === "creative"
-        ||
-        currentTab === "game"
-      ) {
-
-        editorCategory =
-          currentTab;
-
-      } else {
-
-        editorCategory =
-          "daily";
-      }
-
-
-      editorGoal =
-        1;
-
-
-      editorBarReset =
-        "four";
-
-
-      nameInput.value =
-        "";
-
-
-      document
-        .getElementById(
-          "editorTitle"
-        )
-        .textContent =
-          "習慣を追加";
-
-
-      document
-        .getElementById(
-          "editorSaveButton"
-        )
-        .textContent =
-          "追加する";
-
-
-      document
-        .getElementById(
-          "editorDeleteButton"
-        )
-        .classList
-        .add(
-          "hidden"
-        );
+      deleteHabitFromEditor.hidden = true;
     }
 
+    renderIconGrid();
+    updateGoalButton();
 
-    refreshEditorUI();
+    habitSheetBackdrop.classList.add("open");
 
-
-    document
-      .getElementById(
-        "habitEditorOverlay"
-      )
-      .classList
-      .add(
-        "open"
-      );
-
-
-    syncBodyLock();
+    setTimeout(() => {
+      habitNameInput.focus();
+    }, 390);
   }
 
-
-  function closeHabitEditor() {
-
-    document
-      .getElementById(
-        "habitEditorOverlay"
-      )
-      .classList
-      .remove(
-        "open"
-      );
-
-
-    editingHabitId =
-      null;
-
-
-    syncBodyLock();
+  function updateGoalButton() {
+    goalButton.textContent =
+      `${selectedGoal} 回`;
   }
 
-
-  function habitEditorBackdrop(
-    event
-  ) {
-
-    if (
-      event.target.id
-      === "habitEditorOverlay"
-    ) {
-
-      closeHabitEditor();
-    }
-  }
-
-
-
-  /* ========================================
-     編集UI
-  ======================================== */
-
-  function refreshEditorUI() {
-
-    renderEditorIcons();
-
-
-    document
-      .querySelectorAll(
-        "[data-editor-category]"
-      )
-      .forEach(
-        button => {
-
-          button.classList
-            .toggle(
-
-              "selected",
-
-              button.dataset
-                .editorCategory
-              === editorCategory
-
-            );
-
-        }
-      );
-
-
-    document
-      .querySelectorAll(
-        "[data-editor-reset]"
-      )
-      .forEach(
-        button => {
-
-          button.classList
-            .toggle(
-
-              "selected",
-
-              button.dataset
-                .editorReset
-              === editorBarReset
-
-            );
-
-        }
-      );
-
-
-    document
-      .getElementById(
-        "editorGoalValue"
-      )
-      .textContent =
-
-        editorGoal
-        +
-        "回";
-  }
-
-
-  function renderEditorIcons() {
-
-    const grid =
-
-      document.getElementById(
-        "editorIconGrid"
-      );
-
-
-    grid.innerHTML =
-      "";
-
-
-    ICONS.forEach(
-      icon => {
-
-        const button =
-
-          document.createElement(
-            "button"
-          );
-
-
-        button.className =
-          "icon-choice";
-
-
-        if (
-          icon
-          === editorIcon
-        ) {
-
-          button.classList
-            .add(
-              "selected"
-            );
-        }
-
-
-        button.textContent =
-          icon;
-
-
-        button.onclick =
-          () => {
-
-            editorIcon =
-              icon;
-
-
-            renderEditorIcons();
-          };
-
-
-        grid.appendChild(
-          button
-        );
-
-      }
-    );
-  }
-
-
-  function selectEditorCategory(
-    category
-  ) {
-
-    editorCategory =
-      category;
-
-
-    refreshEditorUI();
-  }
-
-
-  function selectEditorBarReset(
-    type
-  ) {
-
-    editorBarReset =
-      type;
-
-
-    refreshEditorUI();
-  }
-
-
-
-  /* ========================================
-     保存
-  ======================================== */
-
-  function saveHabitEditor() {
-
+  saveHabitButton.addEventListener("click", () => {
     const name =
+      habitNameInput.value.trim();
 
-      document
-        .getElementById(
-          "editorHabitName"
-        )
-        .value
-        .trim();
-
-
-    if (
-      !name
-    ) {
-
-      alert(
-        "習慣名を入力してね。"
-      );
-
-
+    if (!name) {
+      habitNameInput.focus();
       return;
     }
 
-
-    if (
-      editingHabitId
-    ) {
-
+    if (editingHabitId) {
       const habit =
-
         data.habits.find(
-          item =>
-            item.id
-            === editingHabitId
+          (item) =>
+            item.id === editingHabitId
         );
 
+      if (!habit) return;
 
-      if (
-        !habit
-      ) {
+      const oldReset =
+        habit.barReset;
 
-        return;
-      }
-
-
-      const resetChanged =
-
-        habit.barReset
-        !== editorBarReset;
-
-
-      habit.name =
-        name;
-
-
-      habit.icon =
-        editorIcon;
-
-
+      habit.name = name;
+      habit.icon = selectedHabitIcon;
+      habit.goal = selectedGoal;
       habit.category =
-        editorCategory;
-
-
-      habit.goal =
-        editorGoal;
-
-
+        habitCategoryInput.value;
       habit.barReset =
-        editorBarReset;
-
+        barResetInput.value;
 
       if (
-        resetChanged
+        oldReset !== habit.barReset &&
+        habit.barReset !== "none"
       ) {
+        const resetHour =
+          getBarResetHour(habit);
 
         habit.barResetKey =
-
-          editorBarReset
-          === "none"
-
-          ?
-
-          null
-
-          :
-
-          getBarPeriodKey(
-            habit
+          getPeriodKey(
+            Date.now(),
+            resetHour
           );
+      }
+
+      if (habit.barReset === "none") {
+        habit.barResetKey = null;
       }
 
     } else {
 
       const habit = {
-
-        id:
-          createId(),
-
-        name:
-          name,
-
-        icon:
-          editorIcon,
-
+        id: createId(),
+        name,
+        icon: selectedHabitIcon,
         category:
-          editorCategory,
-
-        goal:
-          editorGoal,
-
-        current:
-          0,
-
+          habitCategoryInput.value,
+        goal: selectedGoal,
+        count: 0,
         barReset:
-          editorBarReset,
-
-        barResetKey:
-          null,
-
-        lastDoneAt:
-          null
-
+          barResetInput.value,
+        barResetKey: null,
+        lastDoneAt: null
       };
 
-
-      if (
-        habit.barReset
-        !== "none"
-      ) {
+      if (habit.barReset !== "none") {
+        const resetHour =
+          getBarResetHour(habit);
 
         habit.barResetKey =
-
-          getBarPeriodKey(
-            habit
+          getPeriodKey(
+            Date.now(),
+            resetHour
           );
       }
 
-
-      data.habits.push(
-        habit
-      );
-
-
-      newHabitId =
-        habit.id;
+      data.habits.push(habit);
+      newHabitId = habit.id;
     }
-
 
     saveData();
-
+    habitSheetBackdrop.classList.remove("open");
+    renderHabits();
     updateAppBadge();
+  });
+
+  deleteHabitFromEditor.addEventListener("click", () => {
+    if (!editingHabitId) return;
+
+    const id =
+      editingHabitId;
+
+    habitSheetBackdrop.classList.remove("open");
+    deleteHabit(id);
+  });
 
 
-    document
-      .getElementById(
-        "habitEditorOverlay"
-      )
-      .classList
-      .remove(
-        "open"
-      );
+  /* =========================================================
+     GOAL WHEEL
+  ========================================================= */
 
+  function buildWheel() {
+    wheelList.innerHTML =
+      Array.from(
+        { length: MAX_GOAL },
+        (_, index) => {
+          const number = index + 1;
 
-    editingHabitId =
-      null;
-
-
-    syncBodyLock();
-
-    render();
+          return `
+            <div class="wheel-item"
+                 data-value="${number}">
+              ${number}
+            </div>
+          `;
+        }
+      ).join("");
   }
 
+  function openGoalWheel() {
+    updateWheelSelection();
+
+    wheelBackdrop.classList.add("open");
+
+    requestAnimationFrame(() => {
+      wheelList.scrollTop =
+        (selectedGoal - 1) *
+        WHEEL_ITEM_HEIGHT;
+
+      updateWheelSelection();
+    });
+  }
+
+  goalButton.addEventListener(
+    "click",
+    openGoalWheel
+  );
+
+  let wheelRAF = null;
+
+  wheelList.addEventListener("scroll", () => {
+    cancelAnimationFrame(wheelRAF);
+
+    wheelRAF =
+      requestAnimationFrame(() => {
+        selectedGoal =
+          clamp(
+            Math.round(
+              wheelList.scrollTop /
+              WHEEL_ITEM_HEIGHT
+            ) + 1,
+            1,
+            MAX_GOAL
+          );
+
+        updateWheelSelection();
+      });
+  });
+
+  function updateWheelSelection() {
+    wheelList
+      .querySelectorAll(".wheel-item")
+      .forEach((item) => {
+        item.classList.toggle(
+          "selected",
+          Number(item.dataset.value) === selectedGoal
+        );
+      });
+  }
+
+  wheelDoneButton.addEventListener("click", () => {
+    wheelBackdrop.classList.remove("open");
+    updateGoalButton();
+  });
 
 
-  /* ========================================
-     編集画面から削除
-  ======================================== */
+  /* =========================================================
+     TODO ACTIONS
+  ========================================================= */
 
-  function deleteEditingHabit() {
-
-    if (
-      !editingHabitId
-    ) {
-
+  todoList.addEventListener("click", (event) => {
+    if (Date.now() < suppressClickUntil) {
       return;
     }
 
+    const target =
+      event.target.closest("[data-action]");
 
-    const habit =
+    if (!target) return;
 
-      data.habits.find(
-        item =>
-          item.id
-          === editingHabitId
+    const action =
+      target.dataset.action;
+
+    const id =
+      target.dataset.id;
+
+    if (action === "toggle-todo") {
+      toggleTodo(id);
+      return;
+    }
+
+    if (action === "edit-todo") {
+      openTodoEditor(id);
+      return;
+    }
+
+    if (action === "delete-todo") {
+      deleteTodo(id);
+    }
+  });
+
+  function toggleTodo(id) {
+    const todo =
+      data.todos.find(
+        (item) => item.id === id
       );
 
+    if (!todo) return;
 
-    if (
-      !habit
-    ) {
+    todo.done = !todo.done;
 
-      return;
-    }
-
-
-    if (
-      !confirm(
-        `「${habit.name}」を削除しますか？`
-      )
-    ) {
-
-      return;
-    }
-
-
-    data.habits =
-
-      data.habits.filter(
-        item =>
-          item.id
-          !== editingHabitId
-      );
-
+    todo.completedAt =
+      todo.done
+        ? Date.now()
+        : null;
 
     saveData();
-
-    updateAppBadge();
-
-
-    document
-      .getElementById(
-        "habitEditorOverlay"
-      )
-      .classList
-      .remove(
-        "open"
-      );
-
-
-    editingHabitId =
-      null;
-
-
-    syncBodyLock();
-
-    render();
+    renderTodos();
   }
 
+  function openTodoEditor(id = null) {
+    editingTodoId = id;
 
-
-  /* ========================================
-     ルーレット
-  ======================================== */
-
-  function initGoalPicker() {
-
-    const wheel =
-
-      document.getElementById(
-        "goalWheel"
-      );
-
-
-    wheel.innerHTML =
-      "";
-
-
-    for (
-      let number = 1;
-      number <= MAX_GOAL;
-      number++
-    ) {
-
-      const item =
-
-        document.createElement(
-          "div"
+    if (id) {
+      const todo =
+        data.todos.find(
+          (item) => item.id === id
         );
 
+      if (!todo) return;
 
-      item.className =
-        "wheel-item";
+      todoSheetTitle.textContent =
+        "Todo編集";
 
+      todoTitleInput.value =
+        todo.title;
 
-      item.dataset.value =
-        number;
+      todoNoteInput.value =
+        todo.note;
 
+      deleteTodoFromEditor.hidden = false;
 
-      item.textContent =
-        number;
+    } else {
+      todoSheetTitle.textContent =
+        "Todo追加";
 
+      todoTitleInput.value = "";
+      todoNoteInput.value = "";
 
-      wheel.appendChild(
-        item
-      );
+      deleteTodoFromEditor.hidden = true;
     }
 
+    todoSheetBackdrop.classList.add("open");
 
-    wheel.addEventListener(
-
-      "scroll",
-
-      handleWheelScroll,
-
-      {
-        passive: true
-      }
-
-    );
-
-
-    updateWheelHighlight();
+    setTimeout(() => {
+      todoTitleInput.focus();
+    }, 390);
   }
 
+  saveTodoButton.addEventListener("click", () => {
+    const title =
+      todoTitleInput.value.trim();
 
-  function openGoalPicker() {
+    const note =
+      todoNoteInput.value.trim();
 
-    pendingGoal =
-      editorGoal;
+    if (!title) {
+      todoTitleInput.focus();
+      return;
+    }
 
-
-    document
-      .getElementById(
-        "goalPickerOverlay"
-      )
-      .classList
-      .add(
-        "open"
-      );
-
-
-    syncBodyLock();
-
-
-    requestAnimationFrame(
-      () => {
-
-        requestAnimationFrame(
-          () => {
-
-            scrollWheelToValue(
-
-              pendingGoal,
-
-              false
-
-            );
-
-          }
+    if (editingTodoId) {
+      const todo =
+        data.todos.find(
+          (item) =>
+            item.id === editingTodoId
         );
 
-      }
-    );
-  }
+      if (!todo) return;
 
+      todo.title = title;
+      todo.note = note;
 
-  function scrollWheelToValue(
-    value,
-    smooth = true
-  ) {
+    } else {
 
-    const wheel =
+      const todo = {
+        id: createId(),
+        title,
+        note,
+        done: false,
+        createdAt: Date.now(),
+        completedAt: null
+      };
 
-      document.getElementById(
-        "goalWheel"
+      data.todos.push(todo);
+      newTodoId = todo.id;
+    }
+
+    saveData();
+    todoSheetBackdrop.classList.remove("open");
+    renderTodos();
+  });
+
+  function deleteTodo(id) {
+    const todo =
+      data.todos.find(
+        (item) => item.id === id
       );
 
+    if (!todo) return;
 
-    wheel.scrollTo({
+    if (!confirm(`「${todo.title}」を削除しますか？`)) {
+      return;
+    }
 
-      top:
+    data.todos =
+      data.todos.filter(
+        (item) => item.id !== id
+      );
 
-        (value - 1)
+    closeOpenSwipe();
+    saveData();
+    renderTodos();
+  }
 
-        *
+  deleteTodoFromEditor.addEventListener("click", () => {
+    if (!editingTodoId) return;
 
-        WHEEL_ITEM_HEIGHT,
+    const id =
+      editingTodoId;
 
-      behavior:
+    todoSheetBackdrop.classList.remove("open");
+    deleteTodo(id);
+  });
 
-        smooth
 
-        ?
+  /* =========================================================
+     MEMO ACTIONS
+  ========================================================= */
 
-        "smooth"
+  memoList.addEventListener("click", (event) => {
+    if (Date.now() < suppressClickUntil) {
+      return;
+    }
 
-        :
+    const target =
+      event.target.closest("[data-action]");
 
-        "auto"
+    if (!target) return;
 
+    const action =
+      target.dataset.action;
+
+    const id =
+      target.dataset.id;
+
+    if (action === "edit-memo") {
+      openMemoEditor(id);
+      return;
+    }
+
+    if (action === "delete-memo") {
+      deleteMemo(id);
+    }
+  });
+
+  function openMemoEditor(id = null) {
+    editingMemoId = id;
+
+    if (id) {
+      const memo =
+        data.memos.find(
+          (item) => item.id === id
+        );
+
+      if (!memo) return;
+
+      memoSheetTitle.textContent =
+        "メモ編集";
+
+      memoTextInput.value =
+        memo.text;
+
+      deleteMemoFromEditor.hidden = false;
+
+    } else {
+      memoSheetTitle.textContent =
+        "一言メモ";
+
+      memoTextInput.value = "";
+      deleteMemoFromEditor.hidden = true;
+    }
+
+    memoSheetBackdrop.classList.add("open");
+
+    setTimeout(() => {
+      memoTextInput.focus();
+    }, 390);
+  }
+
+  saveMemoButton.addEventListener("click", () => {
+    const text =
+      memoTextInput.value.trim();
+
+    if (!text) {
+      memoTextInput.focus();
+      return;
+    }
+
+    if (editingMemoId) {
+
+      const memo =
+        data.memos.find(
+          (item) =>
+            item.id === editingMemoId
+        );
+
+      if (!memo) return;
+
+      memo.text = text;
+      memo.updatedAt = Date.now();
+
+      /*
+        createdAt は変更しない。
+        つまり後から編集しても
+        最初に保存した日付のまま。
+      */
+
+    } else {
+
+      const memo = {
+        id: createId(),
+        text,
+        createdAt: Date.now(),
+        updatedAt: null
+      };
+
+      data.memos.push(memo);
+      newMemoId = memo.id;
+    }
+
+    saveData();
+    memoSheetBackdrop.classList.remove("open");
+    renderMemos();
+  });
+
+  function deleteMemo(id) {
+    const memo =
+      data.memos.find(
+        (item) => item.id === id
+      );
+
+    if (!memo) return;
+
+    if (!confirm("このメモを削除しますか？")) {
+      return;
+    }
+
+    data.memos =
+      data.memos.filter(
+        (item) => item.id !== id
+      );
+
+    closeOpenSwipe();
+    saveData();
+    renderMemos();
+  }
+
+  deleteMemoFromEditor.addEventListener("click", () => {
+    if (!editingMemoId) return;
+
+    const id =
+      editingMemoId;
+
+    memoSheetBackdrop.classList.remove("open");
+    deleteMemo(id);
+  });
+
+
+  /* =========================================================
+     SHEET DISMISS
+  ========================================================= */
+
+  [
+    habitSheetBackdrop,
+    todoSheetBackdrop,
+    memoSheetBackdrop,
+    wheelBackdrop
+  ].forEach((backdrop) => {
+
+    backdrop.addEventListener("click", (event) => {
+      if (event.target === backdrop) {
+        backdrop.classList.remove("open");
+      }
     });
 
-
-    pendingGoal =
-      value;
+  });
 
 
-    updateWheelHighlight();
-  }
+  /* =========================================================
+     SWIPE TO REVEAL
+  ========================================================= */
 
+  function bindSwipeSurfaces(container) {
+    container
+      .querySelectorAll(".swipe-surface")
+      .forEach((surface) => {
 
-  function handleWheelScroll() {
-
-    if (
-      wheelFrame
-    ) {
-
-      cancelAnimationFrame(
-        wheelFrame
-      );
-    }
-
-
-    wheelFrame =
-
-      requestAnimationFrame(
-        () => {
-
-          const wheel =
-
-            document.getElementById(
-              "goalWheel"
-            );
-
-
-          let index =
-
-            Math.round(
-
-              wheel.scrollTop
-
-              /
-
-              WHEEL_ITEM_HEIGHT
-
-            );
-
-
-          index =
-
-            Math.max(
-
-              0,
-
-              Math.min(
-
-                MAX_GOAL - 1,
-
-                index
-
-              )
-
-            );
-
-
-          pendingGoal =
-            index + 1;
-
-
-          updateWheelHighlight();
-
-        }
-      );
-  }
-
-
-  function updateWheelHighlight() {
-
-    document
-      .querySelectorAll(
-        ".wheel-item"
-      )
-      .forEach(
-        item => {
-
-          item.classList
-            .toggle(
-
-              "selected",
-
-              Number(
-                item.dataset.value
-              )
-
-              ===
-
-              pendingGoal
-
-            );
-
-        }
-      );
-  }
-
-
-  function closeGoalPicker(
-    save
-  ) {
-
-    if (
-      save
-    ) {
-
-      editorGoal =
-        pendingGoal;
-
-
-      refreshEditorUI();
-    }
-
-
-    document
-      .getElementById(
-        "goalPickerOverlay"
-      )
-      .classList
-      .remove(
-        "open"
-      );
-
-
-    syncBodyLock();
-  }
-
-
-  function goalPickerBackdrop(
-    event
-  ) {
-
-    if (
-      event.target.id
-      === "goalPickerOverlay"
-    ) {
-
-      closeGoalPicker(
-        false
-      );
-    }
-  }
-
-
-
-  /* ========================================
-     オーバーレイ
-  ======================================== */
-
-  function syncBodyLock() {
-
-    const editorOpen =
-
-      document
-        .getElementById(
-          "habitEditorOverlay"
-        )
-        .classList
-        .contains(
-          "open"
+        surface.addEventListener(
+          "pointerdown",
+          startSwipe
         );
 
-
-    const pickerOpen =
-
-      document
-        .getElementById(
-          "goalPickerOverlay"
-        )
-        .classList
-        .contains(
-          "open"
-        );
-
-
-    document.body.style
-      .overflow =
-
-        editorOpen
-        ||
-        pickerOpen
-
-        ?
-
-        "hidden"
-
-        :
-
-        "";
+      });
   }
 
-
-
-  /* ========================================
-     HTML安全化
-  ======================================== */
-
-  function escapeHtml(
-    text
-  ) {
-
-    return String(
-      text
-    )
-
-      .replaceAll(
-        "&",
-        "&amp;"
+  function isSwipeBlockedTarget(target) {
+    return Boolean(
+      target.closest(
+        "button," +
+        ".today-badge," +
+        ".compact-today," +
+        "input," +
+        "textarea," +
+        "select," +
+        "a"
       )
-
-      .replaceAll(
-        "<",
-        "&lt;"
-      )
-
-      .replaceAll(
-        ">",
-        "&gt;"
-      )
-
-      .replaceAll(
-        '"',
-        "&quot;"
-      )
-
-      .replaceAll(
-        "'",
-        "&#039;"
-      );
+    );
   }
 
+  function startSwipe(event) {
+    if (dragState || dragPending) {
+      return;
+    }
 
+    if (isSwipeBlockedTarget(event.target)) {
+      return;
+    }
 
-  /* ========================================
-     中断対策
-  ======================================== */
+    const surface =
+      event.currentTarget;
+
+    const row =
+      surface.closest(".swipe-row");
+
+    if (!row) return;
+
+    if (
+      openSwipeRow &&
+      openSwipeRow !== row
+    ) {
+      closeOpenSwipe();
+    }
+
+    const wasOpen =
+      row === openSwipeRow;
+
+    swipeGesture = {
+      pointerId: event.pointerId,
+      row,
+      surface,
+      startX: event.clientX,
+      startY: event.clientY,
+      startOffset:
+        wasOpen
+          ? -DELETE_REVEAL_WIDTH
+          : 0,
+      currentOffset:
+        wasOpen
+          ? -DELETE_REVEAL_WIDTH
+          : 0,
+      mode: null,
+      moved: false,
+      wasOpen
+    };
+
+    surface.style.transition = "none";
+  }
 
   window.addEventListener(
-    "blur",
-    () => {
+    "pointermove",
+    (event) => {
 
-      closeAllSwipeCards(
-        null,
-        true
-      );
-
-
-      if (
-        dragState
-      ) {
-
-        finishDrag(
-          true
-        );
+      if (!swipeGesture) {
+        return;
       }
 
+      if (
+        event.pointerId !==
+        swipeGesture.pointerId
+      ) {
+        return;
+      }
+
+      const dx =
+        event.clientX -
+        swipeGesture.startX;
+
+      const dy =
+        event.clientY -
+        swipeGesture.startY;
+
+      if (!swipeGesture.mode) {
+        if (
+          Math.abs(dx) < 6 &&
+          Math.abs(dy) < 6
+        ) {
+          return;
+        }
+
+        if (
+          Math.abs(dx) >
+          Math.abs(dy) * 1.16
+        ) {
+          swipeGesture.mode = "horizontal";
+        } else {
+          swipeGesture.mode = "vertical";
+          swipeGesture.surface.style.transition = "";
+          swipeGesture = null;
+          return;
+        }
+      }
+
+      if (
+        swipeGesture.mode !== "horizontal"
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+
+      swipeGesture.moved = true;
+
+      let offset =
+        swipeGesture.startOffset + dx;
+
+      if (offset > 0) {
+        offset *= .22;
+      }
+
+      if (
+        offset <
+        -DELETE_REVEAL_WIDTH
+      ) {
+        const overflow =
+          offset +
+          DELETE_REVEAL_WIDTH;
+
+        offset =
+          -DELETE_REVEAL_WIDTH +
+          overflow * .22;
+      }
+
+      swipeGesture.currentOffset = offset;
+
+      swipeGesture.surface.style.transform =
+        `translateX(${offset}px)`;
+    },
+    { passive: false }
+  );
+
+  window.addEventListener(
+    "pointerup",
+    finishSwipe
+  );
+
+  window.addEventListener(
+    "pointercancel",
+    finishSwipe
+  );
+
+  function finishSwipe(event) {
+    if (!swipeGesture) {
+      return;
+    }
+
+    if (
+      event.pointerId !==
+      swipeGesture.pointerId
+    ) {
+      return;
+    }
+
+    const gesture =
+      swipeGesture;
+
+    swipeGesture = null;
+
+    gesture.surface.style.transition = "";
+
+    if (!gesture.moved) {
+      if (gesture.wasOpen) {
+        closeSwipeRow(gesture.row);
+        suppressClickUntil =
+          Date.now() + 220;
+      }
+
+      return;
+    }
+
+    suppressClickUntil =
+      Date.now() + 220;
+
+    const shouldOpen =
+      gesture.currentOffset <
+      -SWIPE_OPEN_THRESHOLD;
+
+    if (shouldOpen) {
+      openSwipe(gesture.row);
+    } else {
+      closeSwipeRow(gesture.row);
+    }
+  }
+
+  function openSwipe(row) {
+    if (
+      openSwipeRow &&
+      openSwipeRow !== row
+    ) {
+      closeSwipeRow(openSwipeRow);
+    }
+
+    const surface =
+      row.querySelector(".swipe-surface");
+
+    if (!surface) return;
+
+    surface.style.transform =
+      `translateX(-${DELETE_REVEAL_WIDTH}px)`;
+
+    openSwipeRow = row;
+  }
+
+  function closeSwipeRow(row) {
+    if (!row) return;
+
+    const surface =
+      row.querySelector(".swipe-surface");
+
+    if (surface) {
+      surface.style.transform =
+        "translateX(0px)";
+    }
+
+    if (openSwipeRow === row) {
+      openSwipeRow = null;
+    }
+  }
+
+  function closeOpenSwipe() {
+    if (!openSwipeRow) {
+      return;
+    }
+
+    closeSwipeRow(openSwipeRow);
+  }
+
+  document.addEventListener("pointerdown", (event) => {
+    if (!openSwipeRow) return;
+
+    if (
+      !event.target.closest(".swipe-row")
+    ) {
+      closeOpenSwipe();
+    }
+  });
+
+
+  /* =========================================================
+     TODAY LONG PRESS
+  ========================================================= */
+
+  habitList.addEventListener(
+    "pointerdown",
+    (event) => {
+
+      const badge =
+        event.target.closest(
+          '[data-action="today-badge"]'
+        );
+
+      if (!badge) return;
+
+      event.preventDefault();
+
+      const id =
+        badge.dataset.id;
+
+      todayPress = {
+        pointerId: event.pointerId,
+        id,
+        startX: event.clientX,
+        startY: event.clientY,
+        fired: false,
+        timer: setTimeout(() => {
+
+          if (!todayPress) return;
+
+          const habit =
+            data.habits.find(
+              (item) =>
+                item.id === todayPress.id
+            );
+
+          if (!habit) {
+            todayPress = null;
+            return;
+          }
+
+          habit.lastDoneAt = null;
+
+          todayPress.fired = true;
+
+          saveData();
+          renderHabits();
+          updateAppBadge();
+
+          todayPress = null;
+
+        }, 550)
+      };
     }
   );
 
+  window.addEventListener(
+    "pointermove",
+    (event) => {
+
+      if (!todayPress) return;
+
+      if (
+        event.pointerId !==
+        todayPress.pointerId
+      ) {
+        return;
+      }
+
+      const dx =
+        event.clientX -
+        todayPress.startX;
+
+      const dy =
+        event.clientY -
+        todayPress.startY;
+
+      if (
+        Math.hypot(dx, dy) > 10
+      ) {
+        clearTimeout(todayPress.timer);
+        todayPress = null;
+      }
+    }
+  );
+
+  function cancelTodayPress(event) {
+    if (!todayPress) return;
+
+    if (
+      event.pointerId !==
+      todayPress.pointerId
+    ) {
+      return;
+    }
+
+    clearTimeout(todayPress.timer);
+    todayPress = null;
+  }
+
+  window.addEventListener(
+    "pointerup",
+    cancelTodayPress
+  );
+
+  window.addEventListener(
+    "pointercancel",
+    cancelTodayPress
+  );
+
+  habitList.addEventListener(
+    "contextmenu",
+    (event) => {
+      if (
+        event.target.closest(
+          ".today-badge,.compact-today,.drag-handle"
+        )
+      ) {
+        event.preventDefault();
+      }
+    }
+  );
+
+
+  /* =========================================================
+     HABIT DRAG REORDER
+  ========================================================= */
+
+  habitList.addEventListener(
+    "pointerdown",
+    (event) => {
+
+      const handle =
+        event.target.closest(".drag-handle");
+
+      if (!handle) return;
+
+      const row =
+        handle.closest(".habit-row");
+
+      if (!row) return;
+
+      closeOpenSwipe();
+
+      dragPending = {
+        pointerId: event.pointerId,
+        row,
+        id: row.dataset.id,
+        startX: event.clientX,
+        startY: event.clientY,
+        currentY: event.clientY,
+        timer: null
+      };
+
+      dragPending.timer =
+        setTimeout(() => {
+
+          if (!dragPending) {
+            return;
+          }
+
+          beginDrag(
+            dragPending.row,
+            dragPending.id,
+            dragPending.currentY,
+            dragPending.pointerId
+          );
+
+          dragPending = null;
+
+        }, 380);
+    }
+  );
+
+  window.addEventListener(
+    "pointermove",
+    (event) => {
+
+      if (
+        dragPending &&
+        event.pointerId ===
+        dragPending.pointerId
+      ) {
+        dragPending.currentY =
+          event.clientY;
+
+        const moved =
+          Math.hypot(
+            event.clientX -
+              dragPending.startX,
+            event.clientY -
+              dragPending.startY
+          );
+
+        if (moved > 9) {
+          clearTimeout(
+            dragPending.timer
+          );
+
+          dragPending = null;
+        }
+      }
+
+      if (
+        dragState &&
+        event.pointerId ===
+        dragState.pointerId
+      ) {
+        event.preventDefault();
+        updateDrag(event.clientY);
+      }
+
+    },
+    { passive: false }
+  );
+
+  window.addEventListener(
+    "pointerup",
+    (event) => {
+
+      if (
+        dragPending &&
+        event.pointerId ===
+        dragPending.pointerId
+      ) {
+        clearTimeout(
+          dragPending.timer
+        );
+
+        dragPending = null;
+      }
+
+      if (
+        dragState &&
+        event.pointerId ===
+        dragState.pointerId
+      ) {
+        finishDrag();
+      }
+    }
+  );
+
+  window.addEventListener(
+    "pointercancel",
+    (event) => {
+
+      if (
+        dragPending &&
+        event.pointerId ===
+        dragPending.pointerId
+      ) {
+        clearTimeout(
+          dragPending.timer
+        );
+
+        dragPending = null;
+      }
+
+      if (
+        dragState &&
+        event.pointerId ===
+        dragState.pointerId
+      ) {
+        finishDrag();
+      }
+    }
+  );
+
+  function beginDrag(
+    row,
+    id,
+    pointerY,
+    pointerId
+  ) {
+    const rect =
+      row.getBoundingClientRect();
+
+    const placeholder =
+      document.createElement("div");
+
+    placeholder.className =
+      "drag-placeholder";
+
+    placeholder.style.height =
+      `${rect.height}px`;
+
+    row.parentNode.insertBefore(
+      placeholder,
+      row
+    );
+
+    const offsetY =
+      pointerY - rect.top;
+
+    document.body.appendChild(row);
+
+    row.classList.add("drag-floating");
+
+    Object.assign(
+      row.style,
+      {
+        left: `${rect.left}px`,
+        top: `${rect.top}px`,
+        width: `${rect.width}px`,
+        height: `${rect.height}px`
+      }
+    );
+
+    dragState = {
+      pointerId,
+      row,
+      id,
+      placeholder,
+      offsetY,
+      pointerY,
+      lastPointerY: pointerY,
+      lastSwapDirection: null,
+      lastSwapPointerY: null
+    };
+
+    navigator.vibrate?.(18);
+  }
+
+  function updateDrag(pointerY) {
+    if (!dragState) return;
+
+    const state =
+      dragState;
+
+    const previousY =
+      state.pointerY;
+
+    state.lastPointerY = previousY;
+    state.pointerY = pointerY;
+
+    const top =
+      pointerY -
+      state.offsetY;
+
+    state.row.style.top =
+      `${top}px`;
+
+    const direction =
+      pointerY > previousY
+        ? "down"
+        : pointerY < previousY
+          ? "up"
+          : null;
+
+    if (!direction) {
+      return;
+    }
+
+    if (
+      state.lastSwapDirection &&
+      direction !== state.lastSwapDirection &&
+      state.lastSwapPointerY !== null &&
+      Math.abs(
+        pointerY -
+        state.lastSwapPointerY
+      ) < REVERSE_UNLOCK_DISTANCE
+    ) {
+      autoScroll(pointerY);
+      return;
+    }
+
+    if (direction === "down") {
+      const next =
+        findAdjacentHabitRow(
+          state.placeholder,
+          "next"
+        );
+
+      if (next) {
+        const nextRect =
+          next.getBoundingClientRect();
+
+        const movingRect =
+          state.row.getBoundingClientRect();
+
+        const overlap =
+          movingRect.bottom -
+          nextRect.top;
+
+        if (
+          overlap >=
+          nextRect.height *
+          SWAP_OVERLAP_RATIO
+        ) {
+          const before =
+            next.getBoundingClientRect();
+
+          next.parentNode.insertBefore(
+            state.placeholder,
+            next.nextSibling
+          );
+
+          swapHabitPositions(
+            state.id,
+            next.dataset.id
+          );
+
+          animateFlip(
+            next,
+            before
+          );
+
+          state.lastSwapDirection =
+            "down";
+
+          state.lastSwapPointerY =
+            pointerY;
+        }
+      }
+
+    } else {
+
+      const previous =
+        findAdjacentHabitRow(
+          state.placeholder,
+          "previous"
+        );
+
+      if (previous) {
+        const previousRect =
+          previous.getBoundingClientRect();
+
+        const movingRect =
+          state.row.getBoundingClientRect();
+
+        const overlap =
+          previousRect.bottom -
+          movingRect.top;
+
+        if (
+          overlap >=
+          previousRect.height *
+          SWAP_OVERLAP_RATIO
+        ) {
+          const before =
+            previous.getBoundingClientRect();
+
+          previous.parentNode.insertBefore(
+            state.placeholder,
+            previous
+          );
+
+          swapHabitPositions(
+            state.id,
+            previous.dataset.id
+          );
+
+          animateFlip(
+            previous,
+            before
+          );
+
+          state.lastSwapDirection =
+            "up";
+
+          state.lastSwapPointerY =
+            pointerY;
+        }
+      }
+    }
+
+    autoScroll(pointerY);
+  }
+
+  function findAdjacentHabitRow(
+    placeholder,
+    direction
+  ) {
+    let node =
+      direction === "next"
+        ? placeholder.nextElementSibling
+        : placeholder.previousElementSibling;
+
+    while (node) {
+      if (
+        node.classList &&
+        node.classList.contains(
+          "habit-row"
+        )
+      ) {
+        return node;
+      }
+
+      node =
+        direction === "next"
+          ? node.nextElementSibling
+          : node.previousElementSibling;
+    }
+
+    return null;
+  }
+
+  function swapHabitPositions(
+    idA,
+    idB
+  ) {
+    const indexA =
+      data.habits.findIndex(
+        (habit) => habit.id === idA
+      );
+
+    const indexB =
+      data.habits.findIndex(
+        (habit) => habit.id === idB
+      );
+
+    if (
+      indexA < 0 ||
+      indexB < 0
+    ) {
+      return;
+    }
+
+    [
+      data.habits[indexA],
+      data.habits[indexB]
+    ] = [
+      data.habits[indexB],
+      data.habits[indexA]
+    ];
+  }
+
+  function animateFlip(
+    element,
+    before
+  ) {
+    const after =
+      element.getBoundingClientRect();
+
+    const dy =
+      before.top -
+      after.top;
+
+    if (!dy) return;
+
+    element.style.transition = "none";
+    element.style.transform =
+      `translateY(${dy}px)`;
+
+    requestAnimationFrame(() => {
+      element.style.transition =
+        "transform .28s cubic-bezier(.22,.8,.28,1)";
+
+      element.style.transform =
+        "translateY(0)";
+    });
+
+    setTimeout(() => {
+      element.style.transition = "";
+      element.style.transform = "";
+    }, 310);
+  }
+
+  function autoScroll(pointerY) {
+    const edge = 92;
+
+    if (pointerY < edge) {
+      window.scrollBy(
+        0,
+        -Math.max(
+          5,
+          (edge - pointerY) * .13
+        )
+      );
+
+      return;
+    }
+
+    if (
+      pointerY >
+      window.innerHeight - edge
+    ) {
+      window.scrollBy(
+        0,
+        Math.max(
+          5,
+          (
+            pointerY -
+            (window.innerHeight - edge)
+          ) * .13
+        )
+      );
+    }
+  }
+
+  function finishDrag() {
+    if (!dragState) return;
+
+    const state =
+      dragState;
+
+    const parent =
+      state.placeholder.parentNode;
+
+    parent.insertBefore(
+      state.row,
+      state.placeholder
+    );
+
+    state.placeholder.remove();
+
+    state.row.classList.remove(
+      "drag-floating"
+    );
+
+    Object.assign(
+      state.row.style,
+      {
+        left: "",
+        top: "",
+        width: "",
+        height: ""
+      }
+    );
+
+    const card =
+      state.row.querySelector(
+        ".habit-card"
+      );
+
+    if (card) {
+      card.classList.add("land-pop");
+    }
+
+    saveData();
+
+    dragState = null;
+
+    setTimeout(() => {
+      renderHabits();
+    }, 280);
+  }
+
+  function forceFinishDrag() {
+    if (dragPending) {
+      clearTimeout(
+        dragPending.timer
+      );
+
+      dragPending = null;
+    }
+
+    if (dragState) {
+      finishDrag();
+    }
+  }
+
+  window.addEventListener(
+    "blur",
+    forceFinishDrag
+  );
 
   document.addEventListener(
     "visibilitychange",
     () => {
+      if (document.hidden) {
+        forceFinishDrag();
+      }
+    }
+  );
 
-      if (
-        document.hidden
-      ) {
 
-        closeAllSwipeCards(
-          null,
-          true
+  /* =========================================================
+     APP BADGE
+  ========================================================= */
+
+  function getRemainingTodayCount() {
+    return data.habits.filter(
+      (habit) =>
+        !isDoneToday(habit)
+    ).length;
+  }
+
+  async function updateAppBadge() {
+    if (!("setAppBadge" in navigator)) {
+      return;
+    }
+
+    const remaining =
+      getRemainingTodayCount();
+
+    try {
+      if (remaining > 0) {
+        await navigator.setAppBadge(
+          remaining
         );
+      } else {
+        await navigator.clearAppBadge();
+      }
+    } catch (error) {
+      console.warn(
+        "Badge update failed:",
+        error
+      );
+    }
+  }
 
+  function renderBadgePanel() {
+    if (currentTab !== "habits") {
+      badgePanel.hidden = true;
+      return;
+    }
 
-        if (
-          dragState
-        ) {
+    if (!("Notification" in window)) {
+      badgePanel.hidden = true;
+      return;
+    }
 
-          finishDrag(
-            true
-          );
+    if (
+      Notification.permission ===
+      "granted"
+    ) {
+      badgePanel.hidden = true;
+      return;
+    }
+
+    badgePanel.hidden = false;
+
+    if (
+      Notification.permission ===
+      "denied"
+    ) {
+      badgeMessage.textContent =
+        "通知がオフになっています。iPhoneの設定からこのWebアプリの通知を許可すると、ホーム画面バッジを使えます。";
+
+      badgeEnableButton.hidden = true;
+    } else {
+      badgeMessage.textContent =
+        "ホーム画面アイコンに、まだTODAYになっていないハビット数を表示できます。";
+
+      badgeEnableButton.hidden = false;
+    }
+  }
+
+  badgeEnableButton.addEventListener(
+    "click",
+    async () => {
+
+      if (!("Notification" in window)) {
+        return;
+      }
+
+      try {
+        const permission =
+          await Notification.requestPermission();
+
+        renderBadgePanel();
+
+        if (permission === "granted") {
+          updateAppBadge();
         }
+
+      } catch (error) {
+        console.warn(
+          "Notification permission failed:",
+          error
+        );
       }
 
     }
   );
 
 
+  /* =========================================================
+     PERIODIC REFRESH
+  ========================================================= */
 
-  /* ========================================
-     Service Worker
-  ======================================== */
+  setInterval(() => {
+    if (
+      dragState ||
+      dragPending ||
+      swipeGesture
+    ) {
+      return;
+    }
 
-  if (
-    "serviceWorker"
-    in navigator
-  ) {
+    const resetChanged =
+      applyHabitResets();
 
+    /*
+      TODAYの日付境界も変化するので
+      30秒おきに軽く再描画。
+    */
+    renderDate();
+    renderHabits();
+
+    if (resetChanged) {
+      saveData();
+    }
+
+    updateAppBadge();
+
+  }, 30000);
+
+
+  /* =========================================================
+     SERVICE WORKER
+  ========================================================= */
+
+  if ("serviceWorker" in navigator) {
     window.addEventListener(
       "load",
       () => {
-
-        navigator
-          .serviceWorker
+        navigator.serviceWorker
           .register(
             "./service-worker.js"
           )
-          .catch(
-            error => {
-
-              console.log(
-                "Service Worker:",
-                error
-              );
-
-            }
-          );
-
+          .catch((error) => {
+            console.warn(
+              "Service Worker error:",
+              error
+            );
+          });
       }
     );
   }
 
 
+  /* =========================================================
+     INIT
+  ========================================================= */
 
-  /* ========================================
-     起動
-  ======================================== */
+  buildWheel();
+  renderAll();
 
-  initGoalPicker();
-
-  checkBarResets();
-
-  saveData();
-
-  render();
-
-
-  setInterval(
-    () => {
-
-      if (
-        !dragState
-        &&
-        !swipeGestureActive
-      ) {
-
-        checkBarResets();
-
-        render();
-      }
-
-    },
-    30000
-  );
-
+})();
 </script>
 
 </body>
-
 </html>
