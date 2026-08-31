@@ -144,6 +144,25 @@
     }
 
     /* ------------------------------
+       画面左上のバージョン表示
+       新しい版を出す時は、下のHTMLにある v10 と
+       service-worker.js のキャッシュ番号を一緒に更新すると分かりやすいです。
+    ------------------------------ */
+
+    .app-version {
+      position: fixed;
+      top: calc(5px + env(safe-area-inset-top));
+      left: 7px;
+      z-index: 120;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 9px;
+      font-weight: 800;
+      line-height: 1;
+      color: rgba(115, 83, 96, .48);
+      pointer-events: none;
+    }
+
+    /* ------------------------------
        ヘッダー
     ------------------------------ */
 
@@ -1002,6 +1021,111 @@
       color: var(--delete);
     }
 
+    .todo-group {
+      margin-bottom: 10px;
+    }
+
+    .todo-group > .todo-row {
+      margin-bottom: 0;
+    }
+
+    /* 子タスクを持つ親Todoでは、左のボタンを
+       「完了チェック」ではなく「展開 / 折りたたみ」に使います。 */
+    .todo-parent-toggle {
+      cursor: pointer;
+    }
+
+    .todo-parent-toggle .todo-heart-image {
+      width: 27px;
+      height: 27px;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      animation: childHeartPop .34s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    @keyframes childHeartPop {
+      0% { opacity: 0; transform: scale(.55); }
+      65% { opacity: 1; transform: scale(1.12); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* 親の下へ展開される子タスク群。
+       margin-left: 14px が「親より左端を少し内側へずらす」量です。 */
+    .todo-children {
+      margin-top: 7px;
+      margin-left: 14px;
+      width: calc(100% - 14px);
+      display: grid;
+      gap: 7px;
+      animation: todoChildrenOpen .24s ease both;
+    }
+
+    @keyframes todoChildrenOpen {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .todo-child-row {
+      position: relative;
+    }
+
+    .todo-card.child-card {
+      min-height: 62px;
+      padding: 10px 13px;
+      border-radius: 18px;
+    }
+
+    .todo-card.child-card .todo-title {
+      font-size: 14px;
+    }
+
+    /* 子タスク編集欄 */
+    .todo-child-add-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 64px;
+      gap: 7px;
+    }
+
+    .todo-child-add-button {
+      border-radius: 13px;
+      background: var(--pink-soft);
+      color: var(--pink-dark);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .todo-child-editor-list {
+      display: grid;
+      gap: 7px;
+      margin-top: 9px;
+    }
+
+    .todo-child-editor-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 58px;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .todo-child-remove-button {
+      min-height: 44px;
+      border-radius: 12px;
+      background: #fff0f1;
+      color: var(--delete);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .todo-child-empty {
+      padding: 9px 3px 1px;
+      font-size: 10px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
     /* ------------------------------
        メモ
     ------------------------------ */
@@ -1792,6 +1916,9 @@
 </head>
 
 <body>
+  <!-- アプリの見た目上のバージョン。新しい版を出すたび v10 → v11 のように更新します。 -->
+  <div class="app-version">v10</div>
+
   <div class="app">
 
     <header class="header">
@@ -2057,6 +2184,26 @@
         <div class="field-hint">補足がなければ空欄のままで大丈夫。</div>
       </div>
 
+      <div class="field">
+        <div class="field-label">子タスク</div>
+
+        <!--
+          親Todoの下へ展開する子タスクをここで登録します。
+          子タスクが1件以上あるTodoは、一覧の左アイコンがハートになります。
+        -->
+        <div class="todo-child-add-row">
+          <input class="text-input"
+                 id="todoChildInput"
+                 type="text"
+                 maxlength="70"
+                 placeholder="例：資料を3ページ読む" />
+          <button class="todo-child-add-button" id="todoChildAddButton" type="button">追加</button>
+        </div>
+
+        <div class="todo-child-editor-list" id="todoChildEditorList"></div>
+        <div class="field-hint">子タスクをすべて完了すると、親Todoも自動で完了します。</div>
+      </div>
+
       <div class="sheet-actions">
         <button class="primary-button" id="saveTodoButton">保存</button>
         <button class="danger-button" id="deleteTodoFromEditor" hidden>
@@ -2166,6 +2313,10 @@
   const TIMER_MIN_SETS = 1;
   const TIMER_MAX_SETS = 20;
 
+  /* 1つの親Todoに登録できる子タスク数。
+     必要なら30を増やせます。 */
+  const TODO_MAX_CHILDREN = 30;
+
   const ICONS = [
     "🌷","💗","💧","🎨","✏️","📖","🧹","🛁",
     "💊","🌱","⭐","🐰","🎮","🕹️","🎧","☕"
@@ -2193,6 +2344,14 @@
 
   /* Todo編集画面で現在選択している「重要」設定。 */
   let selectedTodoImportant = false;
+
+  /* Todo編集画面で一時的に編集している子タスク。
+     保存ボタンを押すまでは本体データへ反映しません。 */
+  let editingTodoChildren = [];
+
+  /* 一覧で子タスクを展開中の親Todo ID。
+     画面を閉じるまでの一時状態なのでlocalStorageには保存しません。 */
+  const expandedTodoIds = new Set();
 
   let selectedHabitIcon = ICONS[0];
   let selectedGoal = 1;
@@ -2305,6 +2464,15 @@
 
   const todoImportanceButtons =
     document.getElementById("todoImportanceButtons");
+
+  const todoChildInput =
+    document.getElementById("todoChildInput");
+
+  const todoChildAddButton =
+    document.getElementById("todoChildAddButton");
+
+  const todoChildEditorList =
+    document.getElementById("todoChildEditorList");
 
   const saveTodoButton =
     document.getElementById("saveTodoButton");
@@ -2525,12 +2693,29 @@
             : "",
         important: Boolean(todo.important),
 
+        /* 子タスク。旧版Todoには存在しないため空配列を補います。 */
+        children: Array.isArray(todo.children)
+          ? todo.children
+              .map((child) => ({
+                id: child.id || createId(),
+                title: String(child.title || "").trim(),
+                done: Boolean(child.done),
+                createdAt: Number(child.createdAt) || Date.now(),
+                completedAt: Number(child.completedAt) || null
+              }))
+              .filter((child) => child.title)
+              .slice(0, TODO_MAX_CHILDREN)
+          : [],
+
         done: Boolean(todo.done),
         createdAt:
           Number(todo.createdAt) || Date.now(),
         completedAt:
           Number(todo.completedAt) || null
       }));
+
+      /* 子タスクを持つ親Todoは、親の完了状態を子タスクから再計算します。 */
+      parsed.todos.forEach(syncTodoParentCompletion);
 
       parsed.memos = parsed.memos.map((memo) => ({
         id: memo.id || createId(),
@@ -3186,6 +3371,70 @@
   }
 
 
+  /* 子タスクを持つTodoか。 */
+  function hasTodoChildren(todo) {
+    return Array.isArray(todo.children) && todo.children.length > 0;
+  }
+
+  /* 子タスクがある場合、親の完了状態は子タスクだけから決めます。
+     全部完了 = 親も完了 / 1件でも未完了 = 親も未完了。 */
+  function syncTodoParentCompletion(todo) {
+    if (!hasTodoChildren(todo)) return;
+
+    const allDone =
+      todo.children.every((child) => child.done);
+
+    if (allDone && !todo.done) {
+      todo.done = true;
+      todo.completedAt = Date.now();
+    } else if (!allDone && todo.done) {
+      todo.done = false;
+      todo.completedAt = null;
+    }
+  }
+
+  function todoParentIconHTML(todo) {
+    if (!hasTodoChildren(todo)) {
+      return todo.done
+        ? `<img src="./hanamaru.png" alt="完了">`
+        : "";
+    }
+
+    return todo.done
+      ? `<img src="./hanamaru.png" alt="子タスク完了">`
+      : `<img class="todo-heart-image" src="./memo_heart.png" alt="子タスクを開く">`;
+  }
+
+  function todoChildrenHTML(todo) {
+    if (!hasTodoChildren(todo) || !expandedTodoIds.has(todo.id)) {
+      return "";
+    }
+
+    return `
+      <div class="todo-children">
+        ${todo.children.map((child) => `
+          <div class="todo-child-row" data-child-id="${child.id}">
+            <div class="todo-card child-card ${child.done ? "done" : ""}">
+              <button class="todo-check ${child.done ? "checked" : ""}"
+                      data-action="toggle-child-todo"
+                      data-id="${todo.id}"
+                      data-child-id="${child.id}"
+                      aria-label="子タスクの完了切り替え">
+                ${child.done ? `<img src="./hanamaru.png" alt="完了">` : ""}
+              </button>
+
+              <div class="todo-copy"
+                   data-action="edit-todo"
+                   data-id="${todo.id}">
+                <div class="todo-title">${escapeHTML(child.title)}</div>
+              </div>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+  }
+
   /* =========================================================
      Todoの描画
   ========================================================= */
@@ -3221,63 +3470,65 @@
             ? " new-row"
             : "";
 
+        const hasChildren = hasTodoChildren(todo);
+        const expanded = expandedTodoIds.has(todo.id);
+
         return `
-          <div class="todo-row swipe-row${newClass}"
-               data-id="${todo.id}">
+          <div class="todo-group">
+            <div class="todo-row swipe-row${newClass}"
+                 data-id="${todo.id}">
 
-            <button class="swipe-delete-button"
-                    data-action="delete-todo"
-                    data-id="${todo.id}">
-              削除
-            </button>
-
-            <div class="todo-card swipe-surface ${todo.done ? "done" : ""}">
-
-              <button class="todo-check ${todo.done ? "checked" : ""}"
-                      data-action="toggle-todo"
-                      data-id="${todo.id}"
-                      aria-label="完了切り替え">
-
-                ${
-                  todo.done
-                    ? `<img src="./hanamaru.png" alt="完了">`
-                    : ""
-                }
-
+              <button class="swipe-delete-button"
+                      data-action="delete-todo"
+                      data-id="${todo.id}">
+                削除
               </button>
 
-              <div class="todo-copy"
-                   data-action="edit-todo"
-                   data-id="${todo.id}">
+              <div class="todo-card swipe-surface ${todo.done ? "done" : ""}">
 
-                <div class="todo-title">
-                  ${escapeHTML(todo.title)}
+                <button class="todo-check ${todo.done ? "checked" : ""} ${hasChildren ? "todo-parent-toggle" : ""}"
+                        data-action="${hasChildren ? "toggle-todo-children" : "toggle-todo"}"
+                        data-id="${todo.id}"
+                        aria-expanded="${hasChildren ? String(expanded) : "false"}"
+                        aria-label="${hasChildren ? "子タスクの展開切り替え" : "完了切り替え"}">
+                  ${todoParentIconHTML(todo)}
+                </button>
+
+                <div class="todo-copy"
+                     data-action="edit-todo"
+                     data-id="${todo.id}">
+
+                  <div class="todo-title">
+                    ${escapeHTML(todo.title)}
+                  </div>
+
+                  ${
+                    todo.important || todo.note
+                      ? `
+                        <div class="todo-subline">
+                          ${
+                            todo.important
+                              ? `<span class="todo-important-badge">重要</span>`
+                              : ""
+                          }
+                          ${
+                            todo.note
+                              ? `<div class="todo-note">${escapeHTML(todo.note)}</div>`
+                              : ""
+                          }
+                        </div>
+                      `
+                      : ""
+                  }
+
                 </div>
 
-                ${
-                  todo.important || todo.note
-                    ? `
-                      <div class="todo-subline">
-                        ${
-                          todo.important
-                            ? `<span class="todo-important-badge">重要</span>`
-                            : ""
-                        }
-                        ${
-                          todo.note
-                            ? `<div class="todo-note">${escapeHTML(todo.note)}</div>`
-                            : ""
-                        }
-                      </div>
-                    `
-                    : ""
-                }
+                ${todoDeadlineHTML(todo)}
 
               </div>
-
-              ${todoDeadlineHTML(todo)}
-
             </div>
+
+            ${todoChildrenHTML(todo)}
           </div>
         `;
       }).join("");
@@ -4268,6 +4519,92 @@
   });
 
 
+  /* =========================================================
+     Todo編集画面：子タスクの追加・編集・削除
+  ========================================================= */
+
+  function renderTodoChildEditor() {
+    if (!editingTodoChildren.length) {
+      todoChildEditorList.innerHTML = `
+        <div class="todo-child-empty">
+          子タスクはまだありません。必要なTodoだけ追加できます。
+        </div>
+      `;
+      return;
+    }
+
+    todoChildEditorList.innerHTML =
+      editingTodoChildren.map((child) => `
+        <div class="todo-child-editor-row" data-child-editor-id="${child.id}">
+          <input class="text-input"
+                 type="text"
+                 maxlength="70"
+                 value="${escapeHTML(child.title)}"
+                 data-action="edit-child-title"
+                 data-child-id="${child.id}"
+                 aria-label="子タスク名" />
+          <button class="todo-child-remove-button"
+                  type="button"
+                  data-action="remove-child-editor"
+                  data-child-id="${child.id}">
+            削除
+          </button>
+        </div>
+      `).join("");
+  }
+
+  function addTodoChildFromInput() {
+    const title = todoChildInput.value.trim();
+    if (!title) {
+      todoChildInput.focus();
+      return;
+    }
+
+    if (editingTodoChildren.length >= TODO_MAX_CHILDREN) {
+      alert(`子タスクは最大${TODO_MAX_CHILDREN}件までです。`);
+      return;
+    }
+
+    editingTodoChildren.push({
+      id: createId(),
+      title,
+      done: false,
+      createdAt: Date.now(),
+      completedAt: null
+    });
+
+    todoChildInput.value = "";
+    renderTodoChildEditor();
+    todoChildInput.focus();
+  }
+
+  todoChildAddButton.addEventListener("click", addTodoChildFromInput);
+
+  todoChildInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addTodoChildFromInput();
+    }
+  });
+
+  todoChildEditorList.addEventListener("input", (event) => {
+    const input = event.target.closest('[data-action="edit-child-title"]');
+    if (!input) return;
+
+    const child = editingTodoChildren.find((item) => item.id === input.dataset.childId);
+    if (child) child.title = input.value;
+  });
+
+  todoChildEditorList.addEventListener("click", (event) => {
+    const button = event.target.closest('[data-action="remove-child-editor"]');
+    if (!button) return;
+
+    editingTodoChildren = editingTodoChildren.filter(
+      (child) => child.id !== button.dataset.childId
+    );
+    renderTodoChildEditor();
+  });
+
   /* Todo編集画面：通常 / 重要 の切り替え。 */
   todoImportanceButtons.addEventListener("click", (event) => {
     const button =
@@ -4319,6 +4656,16 @@
       return;
     }
 
+    if (action === "toggle-todo-children") {
+      toggleTodoChildren(id);
+      return;
+    }
+
+    if (action === "toggle-child-todo") {
+      toggleChildTodo(id, target.dataset.childId);
+      return;
+    }
+
     if (action === "edit-todo") {
       openTodoEditor(id);
       return;
@@ -4329,6 +4676,32 @@
     }
   });
 
+  function toggleTodoChildren(id) {
+    if (expandedTodoIds.has(id)) {
+      expandedTodoIds.delete(id);
+    } else {
+      expandedTodoIds.add(id);
+    }
+
+    renderTodos();
+  }
+
+  function toggleChildTodo(parentId, childId) {
+    const todo = data.todos.find((item) => item.id === parentId);
+    if (!todo || !hasTodoChildren(todo)) return;
+
+    const child = todo.children.find((item) => item.id === childId);
+    if (!child) return;
+
+    child.done = !child.done;
+    child.completedAt = child.done ? Date.now() : null;
+
+    syncTodoParentCompletion(todo);
+
+    saveData();
+    renderTodos();
+  }
+
   function toggleTodo(id) {
     const todo =
       data.todos.find(
@@ -4336,6 +4709,12 @@
       );
 
     if (!todo) return;
+
+    /* 子タスクを持つ親Todoは手動完了にせず、子タスクの完了状態から自動判定します。 */
+    if (hasTodoChildren(todo)) {
+      toggleTodoChildren(id);
+      return;
+    }
 
     todo.done = !todo.done;
 
@@ -4374,7 +4753,11 @@
       selectedTodoImportant =
         Boolean(todo.important);
 
+      editingTodoChildren =
+        (todo.children || []).map((child) => ({ ...child }));
+
       updateTodoImportanceButtons();
+      renderTodoChildEditor();
 
       deleteTodoFromEditor.hidden = false;
 
@@ -4386,7 +4769,9 @@
       todoNoteInput.value = "";
       todoDeadlineInput.value = "";
       selectedTodoImportant = false;
+      editingTodoChildren = [];
       updateTodoImportanceButtons();
+      renderTodoChildEditor();
 
       deleteTodoFromEditor.hidden = true;
     }
@@ -4411,6 +4796,20 @@
     const important =
       selectedTodoImportant;
 
+    /* 子タスク欄へ文字を入れたまま「追加」を押さず保存しても、
+       入力中の1件を取りこぼさないよう自動で追加します。 */
+    const pendingChildTitle = todoChildInput.value.trim();
+    if (pendingChildTitle && editingTodoChildren.length < TODO_MAX_CHILDREN) {
+      editingTodoChildren.push({
+        id: createId(),
+        title: pendingChildTitle,
+        done: false,
+        createdAt: Date.now(),
+        completedAt: null
+      });
+      todoChildInput.value = "";
+    }
+
     if (!title) {
       todoTitleInput.focus();
       return;
@@ -4429,6 +4828,15 @@
       todo.note = note;
       todo.deadline = deadline;
       todo.important = important;
+      todo.children = editingTodoChildren
+        .map((child) => ({
+          ...child,
+          title: String(child.title || "").trim()
+        }))
+        .filter((child) => child.title)
+        .slice(0, TODO_MAX_CHILDREN);
+
+      syncTodoParentCompletion(todo);
 
     } else {
 
@@ -4438,11 +4846,19 @@
         note,
         deadline,
         important,
+        children: editingTodoChildren
+          .map((child) => ({
+            ...child,
+            title: String(child.title || "").trim()
+          }))
+          .filter((child) => child.title)
+          .slice(0, TODO_MAX_CHILDREN),
         done: false,
         createdAt: Date.now(),
         completedAt: null
       };
 
+      syncTodoParentCompletion(todo);
       data.todos.push(todo);
       newTodoId = todo.id;
     }
