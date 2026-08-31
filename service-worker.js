@@ -1,11 +1,12 @@
-const CACHE_NAME = "habits-cache-v7";
+const CACHE_NAME = "habits-cache-v8";
 
 const APP_FILES = [
   "./",
   "./index.html",
   "./manifest.json",
   "./icon.png",
-  "./hanamaru.png"
+  "./hanamaru.png",
+  "./memo_heart.png"
 ];
 
 self.addEventListener("install", (event) => {

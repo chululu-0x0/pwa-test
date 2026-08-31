@@ -54,26 +54,26 @@
     }
 
     /* =========================================================
-   スクロールバーを非表示
-   ※ スクロール操作そのものはそのまま使える
+       スクロールバーを非表示
+       ※ スクロール操作そのものはそのまま使える
     ========================================================= */
 
-/* Firefox */
-* {
-  scrollbar-width: none;
-}
+    /* Firefox */
+    * {
+      scrollbar-width: none;
+    }
 
-/* 古いMicrosoft系ブラウザ */
-* {
-  -ms-overflow-style: none;
-}
+    /* 古いMicrosoft系ブラウザ */
+    * {
+      -ms-overflow-style: none;
+    }
 
-/* Chrome / Safari / Edge / iPhone */
-*::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
-}
+    /* Chrome / Safari / Edge / iPhone */
+    *::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
 
     html {
       background: var(--pink-bg);
@@ -120,15 +120,15 @@
     }
 
     /* =========================================================
-   iPhoneの入力時自動ズーム防止
-   入力欄が16px未満だとSafariが画面を拡大することがあります
-========================================================= */
+       iPhoneの入力時自動ズーム防止
+       入力欄が16px未満だとSafariが画面を拡大することがあります
+    ========================================================= */
 
-input,
-textarea,
-select {
-  font-size: 16px;
-}
+    input,
+    textarea,
+    select {
+      font-size: 16px;
+    }
 
     /* ------------------------------
        ヘッダー
@@ -901,16 +901,92 @@ select {
       overflow-wrap: anywhere;
     }
 
+    /* タイトル直下の補足行。
+       「重要」バッジを設定した場合は、この行のいちばん左に表示します。 */
+    .todo-subline {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-width: 0;
+      margin-top: 4px;
+    }
+
+    .todo-important-badge {
+      flex: 0 0 auto;
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: var(--delete);
+      color: white;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 9px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: .02em;
+    }
+
     .todo-note {
-      margin-top: 3px;
+      flex: 1;
+      min-width: 0;
       font-size: 11px;
       line-height: 1.4;
       color: var(--muted);
       overflow-wrap: anywhere;
     }
 
-    .todo-note:empty {
-      display: none;
+    /* Todo右側の締切表示。
+       72px が締切欄のおおよその横幅です。
+       狭くしたい場合は min-width を小さくしてください。 */
+    .todo-deadline {
+      flex: 0 0 auto;
+      min-width: 72px;
+      padding-left: 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 2px;
+      text-align: right;
+    }
+
+    /* 設定した締切日。
+       一言メモと同じ11pxで表示します。 */
+    .todo-deadline-date {
+      color: var(--muted);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.2;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .todo-countdown {
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-end;
+      gap: 1px;
+      color: var(--muted);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* 「あと◯日」の数字部分だけ大きく強調。
+       20px を変えると数字の大きさを調整できます。 */
+    .todo-countdown-number {
+      color: var(--pink-dark);
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 締切日を過ぎたTodoだけ赤で分かりやすくします。 */
+    .todo-countdown.overdue,
+    .todo-countdown.overdue .todo-countdown-number {
+      color: var(--delete);
     }
 
     /* ------------------------------
@@ -1449,9 +1525,7 @@ select {
       background: white;
       color: var(--text);
       padding: 12px 13px;
-    /* iPhoneで入力時に画面が勝手にズームされるのを防ぐため、
-     入力欄は16px以上にしておく */
-      font-size: 16px;
+      font-size: 15px;
       transition: border-color .15s ease;
     }
 
@@ -1500,6 +1574,11 @@ select {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 6px;
+    }
+
+    /* Todoの「通常 / 重要」のような二択で使用。 */
+    .choice-button-group.two-column {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .choice-button {
@@ -1926,6 +2005,31 @@ select {
       </div>
 
       <div class="field">
+        <label class="field-label" for="todoDeadlineInput">締切日</label>
+        <input class="text-input"
+               id="todoDeadlineInput"
+               type="date" />
+        <div class="field-hint">設定しない場合は空欄のままで大丈夫。</div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">重要アイコン</div>
+
+        <!--
+          「重要」を選ぶとTodo一覧のタイトル下に赤い重要バッジを表示します。
+          data-important の true / false はJSが使う値なので変更しないでください。
+        -->
+        <div class="choice-button-group two-column" id="todoImportanceButtons">
+          <button class="choice-button selected" data-important="false">
+            通常
+          </button>
+          <button class="choice-button" data-important="true">
+            重要
+          </button>
+        </div>
+      </div>
+
+      <div class="field">
         <label class="field-label" for="todoNoteInput">
           一言メモ
         </label>
@@ -2071,6 +2175,9 @@ select {
   let editingTodoId = null;
   let editingMemoId = null;
 
+  /* Todo編集画面で現在選択している「重要」設定。 */
+  let selectedTodoImportant = false;
+
   let selectedHabitIcon = ICONS[0];
   let selectedGoal = 1;
 
@@ -2176,6 +2283,12 @@ select {
 
   const todoNoteInput =
     document.getElementById("todoNoteInput");
+
+  const todoDeadlineInput =
+    document.getElementById("todoDeadlineInput");
+
+  const todoImportanceButtons =
+    document.getElementById("todoImportanceButtons");
 
   const saveTodoButton =
     document.getElementById("saveTodoButton");
@@ -2387,6 +2500,15 @@ select {
         id: todo.id || createId(),
         title: String(todo.title || ""),
         note: String(todo.note || ""),
+
+        /* 旧版Todoにはこの2項目がないため、
+           締切なし / 重要なし を自動で補います。 */
+        deadline:
+          /^\d{4}-\d{2}-\d{2}$/.test(String(todo.deadline || ""))
+            ? String(todo.deadline)
+            : "",
+        important: Boolean(todo.important),
+
         done: Boolean(todo.done),
         createdAt:
           Number(todo.createdAt) || Date.now(),
@@ -2976,6 +3098,79 @@ select {
 
 
   /* =========================================================
+     Todo：締切日の表示用補助関数
+  ========================================================= */
+
+  /* YYYY-MM-DD → YYYY/MM/DD に変換。 */
+  function formatTodoDeadline(dateString) {
+    if (!dateString) return "";
+    return dateString.replaceAll("-", "/");
+  }
+
+  /* 締切までの日数を「カレンダー上の日付差」で計算します。
+     今日が締切なら0、明日なら1です。 */
+  function getTodoDeadlineDaysLeft(dateString) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString || "")) {
+      return null;
+    }
+
+    const [year, month, day] =
+      dateString.split("-").map(Number);
+
+    const now = new Date();
+
+    const todayUTC =
+      Date.UTC(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
+      );
+
+    const deadlineUTC =
+      Date.UTC(year, month - 1, day);
+
+    return Math.round(
+      (deadlineUTC - todayUTC) /
+      (24 * 60 * 60 * 1000)
+    );
+  }
+
+  function todoDeadlineHTML(todo) {
+    if (!todo.deadline) return "";
+
+    const daysLeft =
+      getTodoDeadlineDaysLeft(todo.deadline);
+
+    if (daysLeft === null) return "";
+
+    const countdown =
+      daysLeft >= 0
+        ? `
+          <div class="todo-countdown">
+            <span>あと</span>
+            <span class="todo-countdown-number">${daysLeft}</span>
+            <span>日</span>
+          </div>
+        `
+        : `
+          <div class="todo-countdown overdue">
+            <span class="todo-countdown-number">${Math.abs(daysLeft)}</span>
+            <span>日超過</span>
+          </div>
+        `;
+
+    return `
+      <div class="todo-deadline" aria-label="締切 ${formatTodoDeadline(todo.deadline)}">
+        <div class="todo-deadline-date">
+          ${formatTodoDeadline(todo.deadline)}
+        </div>
+        ${countdown}
+      </div>
+    `;
+  }
+
+
+  /* =========================================================
      Todoの描画
   ========================================================= */
 
@@ -3043,11 +3238,28 @@ select {
                   ${escapeHTML(todo.title)}
                 </div>
 
-                <div class="todo-note">
-                  ${escapeHTML(todo.note)}
-                </div>
+                ${
+                  todo.important || todo.note
+                    ? `
+                      <div class="todo-subline">
+                        ${
+                          todo.important
+                            ? `<span class="todo-important-badge">重要</span>`
+                            : ""
+                        }
+                        ${
+                          todo.note
+                            ? `<div class="todo-note">${escapeHTML(todo.note)}</div>`
+                            : ""
+                        }
+                      </div>
+                    `
+                    : ""
+                }
 
               </div>
+
+              ${todoDeadlineHTML(todo)}
 
             </div>
           </div>
@@ -4040,6 +4252,32 @@ select {
   });
 
 
+  /* Todo編集画面：通常 / 重要 の切り替え。 */
+  todoImportanceButtons.addEventListener("click", (event) => {
+    const button =
+      event.target.closest("[data-important]");
+
+    if (!button) return;
+
+    selectedTodoImportant =
+      button.dataset.important === "true";
+
+    updateTodoImportanceButtons();
+  });
+
+  function updateTodoImportanceButtons() {
+    todoImportanceButtons
+      .querySelectorAll("[data-important]")
+      .forEach((button) => {
+        button.classList.toggle(
+          "selected",
+          (button.dataset.important === "true") ===
+            selectedTodoImportant
+        );
+      });
+  }
+
+
   /* =========================================================
      Todoの完了・編集・削除
   ========================================================= */
@@ -4114,6 +4352,14 @@ select {
       todoNoteInput.value =
         todo.note;
 
+      todoDeadlineInput.value =
+        todo.deadline || "";
+
+      selectedTodoImportant =
+        Boolean(todo.important);
+
+      updateTodoImportanceButtons();
+
       deleteTodoFromEditor.hidden = false;
 
     } else {
@@ -4122,6 +4368,9 @@ select {
 
       todoTitleInput.value = "";
       todoNoteInput.value = "";
+      todoDeadlineInput.value = "";
+      selectedTodoImportant = false;
+      updateTodoImportanceButtons();
 
       deleteTodoFromEditor.hidden = true;
     }
@@ -4140,6 +4389,12 @@ select {
     const note =
       todoNoteInput.value.trim();
 
+    const deadline =
+      todoDeadlineInput.value;
+
+    const important =
+      selectedTodoImportant;
+
     if (!title) {
       todoTitleInput.focus();
       return;
@@ -4156,6 +4411,8 @@ select {
 
       todo.title = title;
       todo.note = note;
+      todo.deadline = deadline;
+      todo.important = important;
 
     } else {
 
@@ -4163,6 +4420,8 @@ select {
         id: createId(),
         title,
         note,
+        deadline,
+        important,
         done: false,
         createdAt: Date.now(),
         completedAt: null
