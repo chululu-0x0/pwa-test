@@ -124,10 +124,23 @@
        入力欄が16px未満だとSafariが画面を拡大することがあります
     ========================================================= */
 
+    /* iPhone Safari / PWA では入力欄が16px未満だと、
+       フォーカス時にページを自動拡大することがあります。
+       !important は、後から個別クラスへ15px等を指定してしまっても
+       入力欄だけは16px未満にならないようにする保険です。 */
     input,
     textarea,
     select {
-      font-size: 16px;
+      font-size: 16px !important;
+      touch-action: manipulation;
+    }
+
+    /* iPhoneで画面回転や表示切り替えをした際の
+       Safari独自の文字サイズ自動補正を抑えます。
+       ピンチズームそのものは使用可能なままです。 */
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     /* ------------------------------
@@ -1525,7 +1538,10 @@
       background: white;
       color: var(--text);
       padding: 12px 13px;
-      font-size: 15px;
+      /* iPhoneの入力時自動ズーム防止のため16pxを維持。
+         ここを15px以下にすると、編集後に画面が拡大したままに
+         見える現象が再発する可能性があります。 */
+      font-size: 16px;
       transition: border-color .15s ease;
     }
 
