@@ -145,7 +145,7 @@
 
     /* ------------------------------
        画面左上のバージョン表示
-       新しい版を出す時は、下のHTMLにある v10 と
+       新しい版を出す時は、下のHTMLにある v11 と
        service-worker.js のキャッシュ番号を一緒に更新すると分かりやすいです。
     ------------------------------ */
 
@@ -849,6 +849,42 @@
     /* ------------------------------
        Todo
     ------------------------------ */
+
+    /* Todo内の「やること / やりたいこと」切り替え。
+       メインタブを増やさず、Todoページの中だけを2種類に分けます。 */
+    .todo-list-switcher {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 5px;
+      margin: 5px 2px 12px;
+      padding: 4px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, .46);
+    }
+
+    .todo-list-switch-button {
+      min-height: 36px;
+      border-radius: 11px;
+      background: transparent;
+      color: var(--muted);
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      transition:
+        transform .18s cubic-bezier(.34,1.56,.64,1),
+        background .18s ease,
+        color .18s ease;
+    }
+
+    .todo-list-switch-button.active {
+      background: white;
+      color: var(--pink-dark);
+      box-shadow: 0 2px 8px rgba(140, 82, 105, .08);
+    }
+
+    .todo-list-switch-button:active {
+      transform: scale(.92);
+    }
 
     .todo-card {
       min-height: 62px;
@@ -1916,8 +1952,8 @@
 </head>
 
 <body>
-  <!-- アプリの見た目上のバージョン。新しい版を出すたび v10 → v11 のように更新します。 -->
-  <div class="app-version">v10</div>
+  <!-- アプリの見た目上のバージョン。新しい版を出すたび v11 → v12 のように更新します。 -->
+  <div class="app-version">v11</div>
 
   <div class="app">
 
@@ -1975,6 +2011,22 @@
 
       <!-- Todo -->
       <section class="section" id="todosSection">
+
+        <!--
+          Todoは「やること」と「やりたいこと」の2リストに分けます。
+          data-todo-list の task / want はJSが使う値なので変更しないでください。
+        -->
+        <div class="todo-list-switcher" id="todoListSwitcher">
+          <button class="todo-list-switch-button active"
+                  data-todo-list="task">
+            やること
+          </button>
+          <button class="todo-list-switch-button"
+                  data-todo-list="want">
+            やりたいこと
+          </button>
+        </div>
+
         <div id="todoList"></div>
       </section>
 
@@ -2145,6 +2197,23 @@
                type="text"
                maxlength="70"
                placeholder="例：牛乳を買う" />
+      </div>
+
+      <div class="field">
+        <div class="field-label">リスト</div>
+
+        <!--
+          task = 実際にやる必要がある「やること」
+          want = いつかやりたい・候補として残す「やりたいこと」
+        -->
+        <div class="choice-button-group two-column" id="todoListTypeButtons">
+          <button class="choice-button selected" data-todo-list-type="task">
+            やること
+          </button>
+          <button class="choice-button" data-todo-list-type="want">
+            やりたいこと
+          </button>
+        </div>
       </div>
 
       <div class="field">
@@ -2335,12 +2404,20 @@
 
   let data = loadData();
 
-  let currentTab = "habits";
+  /* アプリ起動時はTodoを最初に表示します。 */
+  let currentTab = "todos";
   let currentHabitFilter = "all";
+
+  /* Todoページ内で現在表示しているリスト。
+     task = やること / want = やりたいこと */
+  let currentTodoListType = "task";
 
   let editingHabitId = null;
   let editingTodoId = null;
   let editingMemoId = null;
+
+  /* Todo編集画面で現在選択しているリスト種別。 */
+  let selectedTodoListType = "task";
 
   /* Todo編集画面で現在選択している「重要」設定。 */
   let selectedTodoImportant = false;
@@ -2447,6 +2524,9 @@
     document.getElementById("deleteHabitFromEditor");
 
 
+  const todoListSwitcher =
+    document.getElementById("todoListSwitcher");
+
   const todoSheetBackdrop =
     document.getElementById("todoSheetBackdrop");
 
@@ -2461,6 +2541,9 @@
 
   const todoDeadlineInput =
     document.getElementById("todoDeadlineInput");
+
+  const todoListTypeButtons =
+    document.getElementById("todoListTypeButtons");
 
   const todoImportanceButtons =
     document.getElementById("todoImportanceButtons");
@@ -2692,6 +2775,13 @@
             ? String(todo.deadline)
             : "",
         important: Boolean(todo.important),
+
+        /* v10以前のTodoにはリスト種別がないため、
+           既存Todoは「やること」へ自動で入れます。 */
+        listType:
+          ["task", "want"].includes(todo.listType)
+            ? todo.listType
+            : "task",
 
         /* 子タスク。旧版Todoには存在しないため空配列を補います。 */
         children: Array.isArray(todo.children)
@@ -3439,22 +3529,76 @@
      Todoの描画
   ========================================================= */
 
+  /* Todoの優先順位。
+     1. 完了済みは下へ
+     2. 重要を上へ
+     3. 締切ありが上
+     4. 締切が近いものほど上（期限超過も最上位側）
+     5. 条件が同じなら新しく作ったものを上へ */
+  function compareTodos(a, b) {
+    if (a.done !== b.done) {
+      return Number(a.done) - Number(b.done);
+    }
+
+    if (a.important !== b.important) {
+      return Number(b.important) - Number(a.important);
+    }
+
+    const aHasDeadline = Boolean(a.deadline);
+    const bHasDeadline = Boolean(b.deadline);
+
+    if (aHasDeadline !== bHasDeadline) {
+      return Number(bHasDeadline) - Number(aHasDeadline);
+    }
+
+    if (aHasDeadline && bHasDeadline) {
+      const aDays = getTodoDeadlineDaysLeft(a.deadline);
+      const bDays = getTodoDeadlineDaysLeft(b.deadline);
+
+      if (aDays !== null && bDays !== null && aDays !== bDays) {
+        return aDays - bDays;
+      }
+    }
+
+    /* 完了済み同士なら、最近完了したものを上にしておく。 */
+    if (a.done && b.done) {
+      const completedDiff =
+        Number(b.completedAt || 0) - Number(a.completedAt || 0);
+
+      if (completedDiff) {
+        return completedDiff;
+      }
+    }
+
+    return b.createdAt - a.createdAt;
+  }
+
+  function updateTodoListSwitcher() {
+    todoListSwitcher
+      .querySelectorAll("[data-todo-list]")
+      .forEach((button) => {
+        button.classList.toggle(
+          "active",
+          button.dataset.todoList === currentTodoListType
+        );
+      });
+  }
+
   function renderTodos() {
-    const sorted =
-      [...data.todos]
-        .sort((a, b) => {
-          if (a.done !== b.done) {
-            return Number(a.done) - Number(b.done);
-          }
+    updateTodoListSwitcher();
 
-          return b.createdAt - a.createdAt;
-        });
+    const visible =
+      data.todos
+        .filter((todo) => todo.listType === currentTodoListType)
+        .sort(compareTodos);
 
-    if (sorted.length === 0) {
+    if (visible.length === 0) {
+      const isWantList = currentTodoListType === "want";
+
       todoList.innerHTML = `
         <div class="empty">
-          <span class="empty-symbol">□</span>
-          Todoはまだありません。<br>
+          <span class="empty-symbol">${isWantList ? "♡" : "□"}</span>
+          ${isWantList ? "やりたいこと" : "やること"}はまだありません。<br>
           ＋から追加できます。
         </div>
       `;
@@ -3463,7 +3607,7 @@
     }
 
     todoList.innerHTML =
-      sorted.map((todo) => {
+      visible.map((todo) => {
 
         const newClass =
           todo.id === newTodoId
@@ -4605,6 +4749,36 @@
     renderTodoChildEditor();
   });
 
+  /* Todo一覧：やること / やりたいこと の切り替え。 */
+  todoListSwitcher.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-todo-list]");
+    if (!button) return;
+
+    closeOpenSwipe();
+    currentTodoListType = button.dataset.todoList;
+    renderTodos();
+  });
+
+  /* Todo編集画面：やること / やりたいこと の切り替え。 */
+  todoListTypeButtons.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-todo-list-type]");
+    if (!button) return;
+
+    selectedTodoListType = button.dataset.todoListType;
+    updateTodoListTypeButtons();
+  });
+
+  function updateTodoListTypeButtons() {
+    todoListTypeButtons
+      .querySelectorAll("[data-todo-list-type]")
+      .forEach((button) => {
+        button.classList.toggle(
+          "selected",
+          button.dataset.todoListType === selectedTodoListType
+        );
+      });
+  }
+
   /* Todo編集画面：通常 / 重要 の切り替え。 */
   todoImportanceButtons.addEventListener("click", (event) => {
     const button =
@@ -4750,12 +4924,18 @@
       todoDeadlineInput.value =
         todo.deadline || "";
 
+      selectedTodoListType =
+        ["task", "want"].includes(todo.listType)
+          ? todo.listType
+          : "task";
+
       selectedTodoImportant =
         Boolean(todo.important);
 
       editingTodoChildren =
         (todo.children || []).map((child) => ({ ...child }));
 
+      updateTodoListTypeButtons();
       updateTodoImportanceButtons();
       renderTodoChildEditor();
 
@@ -4768,8 +4948,10 @@
       todoTitleInput.value = "";
       todoNoteInput.value = "";
       todoDeadlineInput.value = "";
+      selectedTodoListType = currentTodoListType;
       selectedTodoImportant = false;
       editingTodoChildren = [];
+      updateTodoListTypeButtons();
       updateTodoImportanceButtons();
       renderTodoChildEditor();
 
@@ -4792,6 +4974,9 @@
 
     const deadline =
       todoDeadlineInput.value;
+
+    const listType =
+      selectedTodoListType;
 
     const important =
       selectedTodoImportant;
@@ -4827,6 +5012,7 @@
       todo.title = title;
       todo.note = note;
       todo.deadline = deadline;
+      todo.listType = listType;
       todo.important = important;
       todo.children = editingTodoChildren
         .map((child) => ({
@@ -4845,6 +5031,7 @@
         title,
         note,
         deadline,
+        listType,
         important,
         children: editingTodoChildren
           .map((child) => ({
@@ -4862,6 +5049,10 @@
       data.todos.push(todo);
       newTodoId = todo.id;
     }
+
+    /* リスト種別を変更したTodoも、保存直後に見失わないよう
+       保存した側のリストへ自動で表示を切り替えます。 */
+    currentTodoListType = listType;
 
     saveData();
     todoSheetBackdrop.classList.remove("open");

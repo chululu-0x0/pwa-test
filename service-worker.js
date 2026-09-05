@@ -1,4 +1,4 @@
-const CACHE_NAME = "habits-cache-v10";
+const CACHE_NAME = "habits-cache-v11";
 
 const APP_FILES = [
   "./",
